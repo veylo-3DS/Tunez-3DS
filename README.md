@@ -2,18 +2,6 @@
 
 A homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support, and embedded album art.
 
-## Previews
-
-| Nothing Playing | Now Playing |
-|----------------|-------------|
-| ![Nothing Playing](previews/nothingplaying.png) | ![Playing](previews/playing.png) |
-
-## Downloads
-
-| CIA | 3DSX |
-|-----|------|
-| [Download .cia](https://github.com/veylo-3DS/Tunez-3DS/releases/download/v0.1.0/Tunez3DS.cia) | [Download .3dsx](https://github.com/veylo-3DS/Tunez-3DS/releases/download/v0.1.0/Tunez3DS.3dsx) |
-
 ## Features
 
 - **File browser** on the bottom screen — navigate folders and select tracks
@@ -61,3 +49,5 @@ Place your MP3 files on your SD card under `sdmc:/Music`. Subfolders are support
 ```bash
 make cia NO_SMDH=1
 ```
+### bugs
+yes there will be bugs just please make a 

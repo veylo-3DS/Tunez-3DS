@@ -8,6 +8,7 @@
 #include <id3tag.h>
 #include <jpeglib.h>
 #include <png.h>
+#include <sys/stat.h>
 
 #define TOP_WIDTH    400
 #define BOT_WIDTH    320
@@ -17,17 +18,103 @@
 #define PAGE_SIZE    13
 #define ART_SIZE     128
 
-#define CLR_BG      C2D_Color32(0x1a, 0x1a, 0x2e, 0xFF)
-#define CLR_PANEL   C2D_Color32(0x16, 0x21, 0x3e, 0xFF)
-#define CLR_ACCENT  C2D_Color32(0x0f, 0x3c, 0x78, 0xFF)
-#define CLR_HILIGHT C2D_Color32(0xe9, 0x4f, 0x37, 0xFF)
-#define CLR_TEXT    C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF)
-#define CLR_SUBTEXT C2D_Color32(0xaa, 0xaa, 0xcc, 0xFF)
-#define CLR_DIR     C2D_Color32(0x64, 0xb5, 0xf6, 0xFF)
-#define CLR_BAR_BG  C2D_Color32(0x33, 0x33, 0x55, 0xFF)
-#define CLR_BAR_FG  C2D_Color32(0xe9, 0x4f, 0x37, 0xFF)
+// ---- Theme system ----
+// C2D_Color32 is not usable in static initializers, so we pack RGBA manually.
+// Layout matches C2D_Color32: R | G<<8 | B<<16 | A<<24
+#define MKCOL(r,g,b,a) ((u32)(r) | ((u32)(g)<<8) | ((u32)(b)<<16) | ((u32)(a)<<24))
+
+typedef struct {
+    const char *name;
+    u32 bg, panel, accent, hilight, text, subtext, dir, barBg, barFg;
+} Theme;
+
+static const Theme themes[] = {
+    {
+        "Dark Blue (Default)",
+        MKCOL(0x1a,0x1a,0x2e,0xFF), MKCOL(0x16,0x21,0x3e,0xFF),
+        MKCOL(0x0f,0x3c,0x78,0xFF), MKCOL(0xe9,0x4f,0x37,0xFF),
+        MKCOL(0xFF,0xFF,0xFF,0xFF), MKCOL(0xaa,0xaa,0xcc,0xFF),
+        MKCOL(0x64,0xb5,0xf6,0xFF), MKCOL(0x33,0x33,0x55,0xFF),
+        MKCOL(0xe9,0x4f,0x37,0xFF)
+    },
+    {
+        "Forest Green",
+        MKCOL(0x0d,0x1f,0x12,0xFF), MKCOL(0x10,0x2a,0x18,0xFF),
+        MKCOL(0x1a,0x5c,0x2a,0xFF), MKCOL(0x76,0xc4,0x42,0xFF),
+        MKCOL(0xFF,0xFF,0xFF,0xFF), MKCOL(0x88,0xbb,0x88,0xFF),
+        MKCOL(0x76,0xc4,0x42,0xFF), MKCOL(0x1a,0x3a,0x1a,0xFF),
+        MKCOL(0x76,0xc4,0x42,0xFF)
+    },
+    {
+        "Rose Pink",
+        MKCOL(0x2e,0x1a,0x1a,0xFF), MKCOL(0x3e,0x1e,0x2a,0xFF),
+        MKCOL(0x78,0x1e,0x4a,0xFF), MKCOL(0xff,0x69,0x9a,0xFF),
+        MKCOL(0xFF,0xFF,0xFF,0xFF), MKCOL(0xcc,0xaa,0xbb,0xFF),
+        MKCOL(0xff,0x99,0xcc,0xFF), MKCOL(0x55,0x22,0x33,0xFF),
+        MKCOL(0xff,0x69,0x9a,0xFF)
+    },
+    {
+        "Midnight Purple",
+        MKCOL(0x12,0x0d,0x1f,0xFF), MKCOL(0x1c,0x14,0x30,0xFF),
+        MKCOL(0x40,0x1a,0x6e,0xFF), MKCOL(0xb3,0x6f,0xff,0xFF),
+        MKCOL(0xFF,0xFF,0xFF,0xFF), MKCOL(0xaa,0x99,0xcc,0xFF),
+        MKCOL(0xb3,0x6f,0xff,0xFF), MKCOL(0x28,0x18,0x44,0xFF),
+        MKCOL(0xb3,0x6f,0xff,0xFF)
+    },
+    {
+        "Classic Light",
+        MKCOL(0xf0,0xf0,0xf0,0xFF), MKCOL(0xdd,0xdd,0xdd,0xFF),
+        MKCOL(0x88,0xbb,0xff,0xFF), MKCOL(0x22,0x66,0xcc,0xFF),
+        MKCOL(0x11,0x11,0x11,0xFF), MKCOL(0x55,0x55,0x77,0xFF),
+        MKCOL(0x22,0x66,0xcc,0xFF), MKCOL(0xcc,0xcc,0xdd,0xFF),
+        MKCOL(0x22,0x66,0xcc,0xFF)
+    },
+    {
+        "Blood Red",
+        MKCOL(0x08,0x08,0x08,0xFF), MKCOL(0x12,0x00,0x00,0xFF),
+        MKCOL(0x3a,0x00,0x00,0xFF), MKCOL(0xcc,0x00,0x00,0xFF),
+        MKCOL(0xFF,0xFF,0xFF,0xFF), MKCOL(0x99,0x66,0x66,0xFF),
+        MKCOL(0xff,0x44,0x44,0xFF), MKCOL(0x22,0x00,0x00,0xFF),
+        MKCOL(0xcc,0x00,0x00,0xFF)
+    },
+};
+
+#define THEME_COUNT ((int)(sizeof(themes)/sizeof(themes[0])))
+static int currentTheme = 0;
+
+#define SETTINGS_PATH "sdmc:/Tunez3DS/settings.bin"
+
+static void saveTheme(void) {
+    // Make sure the directory exists
+    mkdir("sdmc:/Tunez3DS", 0777);
+    FILE *f = fopen(SETTINGS_PATH, "wb");
+    if (!f) return;
+    fwrite(&currentTheme, sizeof(int), 1, f);
+    fclose(f);
+}
+
+static void loadTheme(void) {
+    FILE *f = fopen(SETTINGS_PATH, "rb");
+    if (!f) return;
+    int t = 0;
+    if (fread(&t, sizeof(int), 1, f) == 1)
+        if (t >= 0 && t < THEME_COUNT) currentTheme = t;
+    fclose(f);
+}
+
+// Convenience macros that read from the active theme
+#define CLR_BG      themes[currentTheme].bg
+#define CLR_PANEL   themes[currentTheme].panel
+#define CLR_ACCENT  themes[currentTheme].accent
+#define CLR_HILIGHT themes[currentTheme].hilight
+#define CLR_TEXT    themes[currentTheme].text
+#define CLR_SUBTEXT themes[currentTheme].subtext
+#define CLR_DIR     themes[currentTheme].dir
+#define CLR_BAR_BG  themes[currentTheme].barBg
+#define CLR_BAR_FG  themes[currentTheme].barFg
 
 typedef enum { ENTRY_DIR, ENTRY_MP3 } EntryType;
+typedef enum { SCREEN_BROWSER, SCREEN_SETTINGS } AppScreen;
 typedef struct {
     char      name[256];
     char      fullPath[MAX_PATH];
@@ -50,6 +137,7 @@ static off_t          trackLen = 0;
 
 static int  scrollTick   = 0;  // [3] filename ticker
 static int  lastSelected = -1; // [3] detect selection change
+static AppScreen currentScreen = SCREEN_BROWSER;
 
 #define CHANNEL     0
 #define BUF_SAMPLES 4096
@@ -407,6 +495,80 @@ static void drawText(const char *str, float x, float y, float z, float scale, u3
     C2D_DrawText(&txt, C2D_WithColor, x, y, z, scale, scale, color);
 }
 
+// -----------------------------------------------------------------------
+static void drawSettingsScreen(void) {
+    // Top screen: title
+    C2D_TargetClear(topTarget, CLR_BG);
+    C2D_SceneBegin(topTarget);
+    C2D_DrawRectSolid(0, 0, 0, TOP_WIDTH, 32, CLR_PANEL);
+    C2D_DrawRectSolid(0, 30, 0, TOP_WIDTH, 2, CLR_HILIGHT);
+    {
+        C2D_Text txt;
+        C2D_TextBufClear(dynBuf);
+        C2D_TextParse(&txt, dynBuf, "Tunez3DS - Settings");
+        C2D_TextOptimize(&txt);
+        float tw, th;
+        C2D_TextGetDimensions(&txt, 0.65f, 0.65f, &tw, &th);
+        C2D_DrawText(&txt, C2D_WithColor, (TOP_WIDTH - tw) / 2.0f, (32 - th) / 2.0f, 0, 0.65f, 0.65f, CLR_TEXT);
+    }
+
+    drawText("Color Theme", 12, 44, 0, 0.55f, CLR_SUBTEXT);
+    for (int i = 0; i < THEME_COUNT; i++) {
+        int y = 66 + i * 22;
+        if (i == currentTheme) {
+            C2D_DrawRectSolid(8, y - 2, 0, TOP_WIDTH - 16, 20, CLR_ACCENT);
+            C2D_DrawRectSolid(8, y - 2, 0, 3, 20, CLR_HILIGHT);
+        }
+        drawText(themes[i].name, 18, y, 0, 0.48f,
+                 i == currentTheme ? CLR_TEXT : CLR_SUBTEXT);
+    }
+
+    C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 28, CLR_PANEL);
+    C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 2, CLR_ACCENT);
+    drawText("Up/Down Select   A Apply   B Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+
+    // Bottom screen: color preview
+    C2D_TargetClear(botTarget, CLR_BG);
+    C2D_SceneBegin(botTarget);
+    C2D_DrawRectSolid(0, 0, 0, BOT_WIDTH, 28, CLR_PANEL);
+    C2D_DrawRectSolid(0, 26, 0, BOT_WIDTH, 2, CLR_ACCENT);
+    drawText("Preview", 8, 6, 0, 0.50f, CLR_TEXT);
+
+    // Swatch row
+    int swY = 40, swSize = 28, swGap = 8;
+    int totalW = THEME_COUNT * (swSize + swGap) - swGap;
+    int swStartX = (BOT_WIDTH - totalW) / 2;
+    for (int i = 0; i < THEME_COUNT; i++) {
+        int x = swStartX + i * (swSize + swGap);
+        C2D_DrawRectSolid(x, swY, 0, swSize, swSize, themes[i].bg);
+        C2D_DrawRectSolid(x, swY, 0, swSize, 2, themes[i].hilight);
+        C2D_DrawRectSolid(x, swY + swSize - 2, 0, swSize, 2, themes[i].hilight);
+        C2D_DrawRectSolid(x, swY, 0, 2, swSize, themes[i].hilight);
+        C2D_DrawRectSolid(x + swSize - 2, swY, 0, 2, swSize, themes[i].hilight);
+        // Accent dot in center
+        C2D_DrawRectSolid(x + swSize/2 - 4, swY + swSize/2 - 4, 0, 8, 8, themes[i].accent);
+        if (i == currentTheme) {
+            // Underline selected swatch
+            C2D_DrawRectSolid(x, swY + swSize + 3, 0, swSize, 4, themes[i].hilight);
+        }
+    }
+
+    // Mini fake player preview
+    int pY = 90;
+    C2D_DrawRectSolid(8, pY, 0, BOT_WIDTH - 16, 80, CLR_PANEL);
+    C2D_DrawRectSolid(8, pY, 0, BOT_WIDTH - 16, 2, CLR_ACCENT);
+    C2D_DrawRectSolid(8, pY + 78, 0, BOT_WIDTH - 16, 2, CLR_ACCENT);
+    drawText("Sample Track", 16, pY + 8, 0, 0.45f, CLR_TEXT);
+    drawText("Sample Artist", 16, pY + 24, 0, 0.40f, CLR_SUBTEXT);
+    C2D_DrawRectSolid(16, pY + 44, 0, BOT_WIDTH - 32, 6, CLR_BAR_BG);
+    C2D_DrawRectSolid(16, pY + 44, 0, (BOT_WIDTH - 32) / 2, 6, CLR_BAR_FG);
+    drawText("> PLAYING", 16, pY + 58, 0, 0.42f, CLR_HILIGHT);
+
+    C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 28, CLR_PANEL);
+    C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 2, CLR_ACCENT);
+    drawText("Theme preview", 8, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+}
+
 static void drawTopScreen(void) {
     C2D_TargetClear(topTarget, CLR_BG);
     C2D_SceneBegin(topTarget);
@@ -414,24 +576,24 @@ static void drawTopScreen(void) {
     // Header
     C2D_DrawRectSolid(0, 0, 0, TOP_WIDTH, 32, CLR_PANEL);
     C2D_DrawRectSolid(0, 30, 0, TOP_WIDTH, 2, CLR_HILIGHT);
-    drawText("Tunez3DS - Developed by Veylo :p", 12, 6, 0, 0.65f, CLR_TEXT);
+
+    // Centered title
+    {
+        C2D_Text txt;
+        C2D_TextBufClear(dynBuf);
+        C2D_TextParse(&txt, dynBuf, "Tunez3DS");
+        C2D_TextOptimize(&txt);
+        float tw, th;
+        C2D_TextGetDimensions(&txt, 0.65f, 0.65f, &tw, &th);
+        C2D_DrawText(&txt, C2D_WithColor, (TOP_WIDTH - tw) / 2.0f, (32 - th) / 2.0f, 0, 0.65f, 0.65f, CLR_TEXT);
+    }
 
     if (playing || paused) {
         int artX = 12, artY = 44;
-        if (hasArt) {
-            C2D_DrawImageAt(artImage, artX, artY, 0, NULL, 1.0f, 1.0f);
-        } else {
-            C2D_DrawRectSolid(artX, artY, 0, ART_SIZE, ART_SIZE, CLR_PANEL);
-            C2D_DrawRectSolid(artX, artY, 0, ART_SIZE, 2, CLR_ACCENT);
-            C2D_DrawRectSolid(artX, artY + ART_SIZE - 2, 0, ART_SIZE, 2, CLR_ACCENT);
-            C2D_DrawRectSolid(artX, artY, 0, 2, ART_SIZE, CLR_ACCENT);
-            C2D_DrawRectSolid(artX + ART_SIZE - 2, artY, 0, 2, ART_SIZE, CLR_ACCENT);
-            drawText("No Art", artX + 36, artY + 56, 0, 0.45f, CLR_SUBTEXT);
-        }
-
         int infoX = artX + ART_SIZE + 14;
         int infoW = TOP_WIDTH - infoX - 8;
 
+        // Draw info panel first (background elements)
         drawText("NOW PLAYING", infoX, 48, 0, 0.40f, CLR_SUBTEXT);
 
         // [2] Prefer ID3 title, fall back to filename
@@ -474,6 +636,18 @@ static void drawTopScreen(void) {
 
         drawText(paused ? "|| PAUSED" : "> PLAYING", infoX, 128, 0, 0.44f,
                  paused ? CLR_SUBTEXT : CLR_HILIGHT);
+
+        // Draw art last so nothing renders on top of it
+        if (hasArt) {
+            C2D_DrawImageAt(artImage, artX, artY, 0, NULL, 1.0f, 1.0f);
+        } else {
+            C2D_DrawRectSolid(artX, artY, 0, ART_SIZE, ART_SIZE, CLR_PANEL);
+            C2D_DrawRectSolid(artX, artY, 0, ART_SIZE, 2, CLR_ACCENT);
+            C2D_DrawRectSolid(artX, artY + ART_SIZE - 2, 0, ART_SIZE, 2, CLR_ACCENT);
+            C2D_DrawRectSolid(artX, artY, 0, 2, ART_SIZE, CLR_ACCENT);
+            C2D_DrawRectSolid(artX + ART_SIZE - 2, artY, 0, 2, ART_SIZE, CLR_ACCENT);
+            drawText("No Art", artX + 36, artY + 56, 0, 0.45f, CLR_SUBTEXT);
+        }
     } else {
         drawText("No track playing", 12, 100, 0, 0.55f, CLR_SUBTEXT);
         drawText("Select a song from the browser", 12, 125, 0, 0.45f, CLR_SUBTEXT);
@@ -539,7 +713,7 @@ static void drawBotScreen(void) {
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 28, CLR_PANEL);
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 2, CLR_ACCENT);
-    drawText("A Open/Play   B Back", 8, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+    drawText("A Open/Play   B Back   SELECT Settings", 8, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
 }
 
 // -----------------------------------------------------------------------
@@ -560,6 +734,7 @@ int main(void) {
 
     aptSetSleepAllowed(false);
 
+    loadTheme();
     scanDir(currentDir);
 
     while (aptMainLoop()) {
@@ -567,6 +742,28 @@ int main(void) {
         u32 down = hidKeysDown();
 
         if (down & KEY_START) break;
+
+        if (currentScreen == SCREEN_SETTINGS) {
+            if (down & KEY_DOWN) {
+                if (currentTheme < THEME_COUNT - 1) currentTheme++;
+            }
+            if (down & KEY_UP) {
+                if (currentTheme > 0) currentTheme--;
+            }
+            if (down & KEY_B || down & KEY_SELECT) {
+                saveTheme();
+                currentScreen = SCREEN_BROWSER;
+            }
+            // A just confirms (theme already live via preview)
+            if (down & KEY_A) {
+                saveTheme();
+                currentScreen = SCREEN_BROWSER;
+            }
+        } else {
+            // Open settings with SELECT
+            if (down & KEY_SELECT) {
+                currentScreen = SCREEN_SETTINGS;
+            }
 
         if (down & KEY_DOWN) {
             if (selected < entryCount - 1) {
@@ -625,12 +822,17 @@ int main(void) {
         } else {
             scrollTick++;
         }
+        } // end SCREEN_BROWSER
 
         fillAudio();
 
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-        drawTopScreen();
-        drawBotScreen();
+        if (currentScreen == SCREEN_SETTINGS) {
+            drawSettingsScreen();
+        } else {
+            drawTopScreen();
+            drawBotScreen();
+        }
         C3D_FrameEnd(0);
     }
 
