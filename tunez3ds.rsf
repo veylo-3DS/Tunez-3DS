@@ -1,0 +1,10 @@
+BasicInfo:
+  Title: Tunes3DS
+  CompanyCode: "VY"
+  ProductCode: CTR-P-TUNE
+  ContentType: Application
+  Logo: Nintendo
+
+TitleInfo:
+  UniqueId: 0xF1234
+  Category: Application
