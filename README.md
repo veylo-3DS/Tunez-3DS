@@ -8,6 +8,11 @@ A homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support,
 |----------------|-------------|
 | ![Nothing Playing](previews/nothingplaying.png) | ![Playing](previews/playing.png) |
 
+## Downloads
+
+| CIA | 3DSX |
+|-----|------|
+| [Download .cia](https://github.com/veylo-3DS/Tunez-3DS/releases/download/v0.1.0/Tunez3DS.cia) | [Download .3dsx](https://github.com/veylo-3DS/Tunez-3DS/releases/download/v0.1.0/Tunez3DS.3dsx) |
 
 ## Features
 
