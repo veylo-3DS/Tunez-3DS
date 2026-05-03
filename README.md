@@ -2,6 +2,13 @@
 
 A homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support, and embedded album art.
 
+## Previews
+
+| Nothing Playing | Now Playing |
+|----------------|-------------|
+| ![Nothing Playing](previews/nothingplay.png) | ![Now Playing](previews/playing.png) |
+
+
 ## Features
 
 - **File browser** on the bottom screen — navigate folders and select tracks
