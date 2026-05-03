@@ -6,7 +6,7 @@ A homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support,
 
 | Nothing Playing | Now Playing |
 |----------------|-------------|
-| ![Nothing Playing](previews/nothingplaying.png) | ![Now Playing](previews/playing.png) |
+| ![Nothing Playing](previews/nothingplaying.png) | ![Playing](previews/playing.png) |
 
 
 ## Features
