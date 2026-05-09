@@ -10,7 +10,8 @@ A feature-rich homebrew MP3 player for the Nintendo 3DS with a file browser, ID3
 
 ## Installation
 
-1. Scan the QR code below using [FBI](https://github.com/Steveice10/FBI) to install the latest `.cia` file:
+1. For a seamless experience, install via [Universal Updater](https://github.com/Universal-Team/Universal-Updater) on your 3DS.
+2. Alternatively, scan the QR code below using [FBI](https://github.com/Steveice10/FBI) to install the latest `.cia` file:
 
 ![Install via QR code](Tunez3DS_qr.png)
 
