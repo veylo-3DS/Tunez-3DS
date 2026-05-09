@@ -409,6 +409,7 @@ void drawTopScreen(void) {
         if (hasArt) {
             C2D_DrawImageAt(artImage, artX, artY, 0, NULL, 1.0f, 1.0f);
         } else {
+            // Placeholder for art
             drawRoundedRect(artX, artY, ART_SIZE, ART_SIZE, 8, CLR_PANEL);
             drawText("No Art", artX + 36, artY + 56, 0, 0.45f, CLR_SUBTEXT);
         }
