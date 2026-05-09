@@ -14,6 +14,7 @@ APP_DESCRIPTION := Music Player
 APP_AUTHOR      := Veylo
 APP_UNIQUE_ID   := 0xF1234
 APP_RSF         := $(TOPDIR)/tunez3ds.rsf
+APP_ICON    := $(TOPDIR)/icon.png
 
 TARGET      := $(notdir $(CURDIR))
 BUILD       := build
@@ -64,7 +65,8 @@ export OFILES_BIN     := $(addsuffix .o,$(BINFILES))
 export OFILES         := $(OFILES_BIN) $(OFILES_SOURCES)
 export HFILES         := $(addsuffix .h,$(subst .,_,$(BINFILES)))
 
-export INCLUDE  := $(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
+export INCLUDE  := -I$(CURDIR)/include \
+                   $(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
                    $(foreach dir,$(LIBDIRS),-I$(dir)/include) \
                    -I$(CURDIR)/$(BUILD)
 
@@ -85,7 +87,7 @@ ifeq ($(strip $(NO_SMDH)),)
     export _3DSXFLAGS += --smdh=$(CURDIR)/$(TARGET).smdh
 endif
 
-.PHONY: all clean cia
+.PHONY: all clean cia run
 
 all: $(BUILD) $(DEPSDIR)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
@@ -99,8 +101,12 @@ clean:
 
 cia: all
 	bannertool makebanner -i $(TOPDIR)/banner.png -a $(TOPDIR)/silent.wav -o $(TOPDIR)/banner.bnr
-	bannertool makesmdh -s "$(APP_TITLE)" -l "$(APP_DESCRIPTION)" -p "$(APP_AUTHOR)" -i $(TOPDIR)/icon.png -o $(TOPDIR)/icon.icn
+	bannertool makesmdh -s "$(APP_TITLE)" -l "$(APP_DESCRIPTION)" -p "$(APP_AUTHOR)" -i $(TOPDIR)/icon.png -o $(TOPDIR)/icon.icn -banner $(TOPDIR)/banner.bnr
 	makerom -f cia -desc app:4 -o $(TOPDIR)/$(TARGET).cia -target t -exefslogo -elf $(OUTPUT).elf -rsf $(APP_RSF) -icon $(TOPDIR)/icon.icn -banner $(TOPDIR)/banner.bnr
+
+run: all
+	@/home/bryon/Documents/Apps/azahar.AppImage $(TARGET).3dsx
+
 
 #---------------------------------------------------------------------------------
 else

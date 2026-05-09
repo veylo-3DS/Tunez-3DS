@@ -1,4 +1,5 @@
 main.o: /home/bryon/Tunez3DS/source/main.c \
+ /home/bryon/Tunez3DS/include/common.h \
  /opt/devkitpro/libctru/include/3ds.h \
  /opt/devkitpro/libctru/include/3ds/types.h \
  /opt/devkitpro/libctru/include/3ds/result.h \
@@ -111,14 +112,8 @@ main.o: /home/bryon/Tunez3DS/source/main.c \
  /opt/devkitpro/libctru/include/c2d/text.h \
  /opt/devkitpro/libctru/include/c2d/font.h \
  /opt/devkitpro/portlibs/3ds/include/mpg123.h \
- /opt/devkitpro/portlibs/3ds/include/fmt123.h \
- /opt/devkitpro/portlibs/3ds/include/id3tag.h \
- /opt/devkitpro/portlibs/3ds/include/jpeglib.h \
- /opt/devkitpro/portlibs/3ds/include/jconfig.h \
- /opt/devkitpro/portlibs/3ds/include/jmorecfg.h \
- /opt/devkitpro/portlibs/3ds/include/png.h \
- /opt/devkitpro/portlibs/3ds/include/pnglibconf.h \
- /opt/devkitpro/portlibs/3ds/include/pngconf.h
+ /opt/devkitpro/portlibs/3ds/include/fmt123.h
+/home/bryon/Tunez3DS/include/common.h:
 /opt/devkitpro/libctru/include/3ds.h:
 /opt/devkitpro/libctru/include/3ds/types.h:
 /opt/devkitpro/libctru/include/3ds/result.h:
@@ -232,10 +227,3 @@ main.o: /home/bryon/Tunez3DS/source/main.c \
 /opt/devkitpro/libctru/include/c2d/font.h:
 /opt/devkitpro/portlibs/3ds/include/mpg123.h:
 /opt/devkitpro/portlibs/3ds/include/fmt123.h:
-/opt/devkitpro/portlibs/3ds/include/id3tag.h:
-/opt/devkitpro/portlibs/3ds/include/jpeglib.h:
-/opt/devkitpro/portlibs/3ds/include/jconfig.h:
-/opt/devkitpro/portlibs/3ds/include/jmorecfg.h:
-/opt/devkitpro/portlibs/3ds/include/png.h:
-/opt/devkitpro/portlibs/3ds/include/pnglibconf.h:
-/opt/devkitpro/portlibs/3ds/include/pngconf.h:
