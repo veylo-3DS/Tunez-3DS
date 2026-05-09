@@ -1,6 +1,20 @@
 # Tunez3DS
 
-A homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support, and embedded album art.
+A feature-rich homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support, and embedded album art.
+
+## v2.0 Features
+- **UI Modernization ("Glass & Geometry")**: Card-based browser layout with depth effects and a refined "Now Playing" interface.
+- **Playback Modes**: Normal, Repeat All, Repeat One, and Shuffle modes.
+- **Enhanced Controls**: L/R shoulder buttons skip tracks; D-Pad L/R cycles playback modes.
+- **Visual Identity**: Modernized icon, banner, and a custom startup jingle.
+
+## Installation
+
+1. Scan the QR code below using [FBI](https://github.com/Steveice10/FBI) to install the latest `.cia` file:
+
+![Install via QR code](Tunez3DS_qr.png)
+
+Or download the latest release directly from [GitHub](https://github.com/veylo-3DS/Tunez-3DS/releases/latest).
 
 ## Features
 
@@ -16,6 +30,8 @@ A homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support,
 | Button | Action |
 |--------|--------|
 | D-Pad Up / Down | Navigate file list |
+| D-Pad L / R | Cycle playback modes |
+| L / R Shoulder | Skip tracks |
 | A | Open folder / Play track |
 | X | Pause / Resume |
 | Y | Stop playback |
@@ -30,12 +46,6 @@ Place your MP3 files on your SD card under `sdmc:/Music`. Subfolders are support
 
 - MP3 (`.mp3`)
 
-## Installation
-
-1. Build or download the `.cia` file
-2. Install it using a title manager such as [FBI](https://github.com/Steveice10/FBI)
-3. Launch Tunez3DS from the home menu
-
 ## Building from Source
 
 ### Requirements
@@ -49,5 +59,4 @@ Place your MP3 files on your SD card under `sdmc:/Music`. Subfolders are support
 ```bash
 make cia NO_SMDH=1
 ```
-### bugs
-yes there will be bugs just please make a 
+ 
