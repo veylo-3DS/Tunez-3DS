@@ -13,6 +13,7 @@ char nowPlayingArtist[256] = "";
 char nowPlayingTitle[256] = "";
 char nowPlayingAlbum[256] = "";
 off_t trackLen = 0;
+PlaybackMode playbackMode = MODE_NORMAL;
 
 #define CHANNEL 0
 #define BUF_SAMPLES 4096
@@ -135,9 +136,23 @@ void startPlayback(const char *path) {
     loadCoverArt(path);
 }
 
-void autoAdvance(void) {
-    if (playlistCount == 0) { stopPlayback(); return; }
-    
+void playNext(void) {
+    if (playlistCount == 0) return;
+
+    if (playbackMode == MODE_REPEAT_ONE) {
+        char pathCopy[MAX_PATH];
+        strncpy(pathCopy, nowPlayingPath, MAX_PATH - 1);
+        pathCopy[MAX_PATH - 1] = '\0';
+        startPlayback(pathCopy);
+        return;
+    }
+
+    if (playbackMode == MODE_SHUFFLE) {
+        int next = rand() % playlistCount;
+        startPlayback(playlist[next].fullPath);
+        return;
+    }
+
     int currentIndex = -1;
     for (int i = 0; i < playlistCount; i++) {
         if (strcmp(playlist[i].fullPath, nowPlayingPath) == 0) {
@@ -146,11 +161,55 @@ void autoAdvance(void) {
         }
     }
 
-    if (currentIndex != -1 && currentIndex < playlistCount - 1) {
-        startPlayback(playlist[currentIndex + 1].fullPath);
-    } else {
-        stopPlayback();
+    if (currentIndex != -1) {
+        if (currentIndex < playlistCount - 1) {
+            startPlayback(playlist[currentIndex + 1].fullPath);
+        } else if (playbackMode == MODE_REPEAT_ALL) {
+            startPlayback(playlist[0].fullPath);
+        } else {
+            stopPlayback();
+        }
     }
+}
+
+void playPrevious(void) {
+    if (playlistCount == 0) return;
+
+    if (playbackMode == MODE_REPEAT_ONE) {
+        char pathCopy[MAX_PATH];
+        strncpy(pathCopy, nowPlayingPath, MAX_PATH - 1);
+        pathCopy[MAX_PATH - 1] = '\0';
+        startPlayback(pathCopy);
+        return;
+    }
+
+    if (playbackMode == MODE_SHUFFLE) {
+        int next = rand() % playlistCount;
+        startPlayback(playlist[next].fullPath);
+        return;
+    }
+
+    int currentIndex = -1;
+    for (int i = 0; i < playlistCount; i++) {
+        if (strcmp(playlist[i].fullPath, nowPlayingPath) == 0) {
+            currentIndex = i;
+            break;
+        }
+    }
+
+    if (currentIndex != -1) {
+        if (currentIndex > 0) {
+            startPlayback(playlist[currentIndex - 1].fullPath);
+        } else if (playbackMode == MODE_REPEAT_ALL) {
+            startPlayback(playlist[playlistCount - 1].fullPath);
+        } else {
+            startPlayback(playlist[0].fullPath);
+        }
+    }
+}
+
+void autoAdvance(void) {
+    playNext();
 }
 
 void fillAudio(void) {

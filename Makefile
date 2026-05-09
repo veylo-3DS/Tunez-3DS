@@ -100,7 +100,7 @@ clean:
 	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf $(TARGET).cia
 
 cia: all
-	bannertool makebanner -i $(TOPDIR)/banner.png -a $(TOPDIR)/silent.wav -o $(TOPDIR)/banner.bnr
+	bannertool makebanner -i $(TOPDIR)/banner.png -a $(TOPDIR)/startup.wav -o $(TOPDIR)/banner.bnr
 	bannertool makesmdh -s "$(APP_TITLE)" -l "$(APP_DESCRIPTION)" -p "$(APP_AUTHOR)" -i $(TOPDIR)/icon.png -o $(TOPDIR)/icon.icn -banner $(TOPDIR)/banner.bnr
 	makerom -f cia -desc app:4 -o $(TOPDIR)/$(TARGET).cia -target t -exefslogo -elf $(OUTPUT).elf -rsf $(APP_RSF) -icon $(TOPDIR)/icon.icn -banner $(TOPDIR)/banner.bnr
 

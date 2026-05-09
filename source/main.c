@@ -32,6 +32,8 @@ int main(void) {
     int touchStartY = 0;
     int scrollOffsetAtTouchStart = 0;
 
+    srand(osGetTime());
+
     while (aptMainLoop()) {
         hidScanInput();
         u32 down = hidKeysDown();
@@ -78,7 +80,7 @@ int main(void) {
                 // Touch release - handle selection if didn't move much
                 touching = false;
                 if (abs(touch.py - touchStartY) < 10) {
-                    int listY = 32, rowH = 15;
+                    int listY = 40, rowH = 16;
                     if (touch.py >= listY && touch.py < listY + PAGE_SIZE * rowH) {
                         int idx = scrollOffset + (touch.py - listY) / rowH;
                         if (idx < entryCount) {
@@ -98,6 +100,15 @@ int main(void) {
             if (down & KEY_SELECT) {
                 currentScreen = SCREEN_SETTINGS;
             }
+
+            if (down & KEY_DRIGHT) {
+                playbackMode = (playbackMode + 1) % 4;
+            }
+            if (down & KEY_DLEFT) {
+                playbackMode = (playbackMode + 3) % 4;
+            }
+            if (down & KEY_R) playNext();
+            if (down & KEY_L) playPrevious();
 
             if (down & KEY_DOWN) {
                 if (selected < entryCount - 1) {

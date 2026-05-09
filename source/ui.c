@@ -71,6 +71,15 @@ C3D_Tex artTex;
 C2D_Image artImage;
 bool hasArt = false;
 
+static void drawRoundedRect(float x, float y, float w, float h, float r, u32 color) {
+    C2D_DrawRectSolid(x + r, y, 0, w - 2 * r, h, color);
+    C2D_DrawRectSolid(x, y + r, 0, w, h - 2 * r, color);
+    C2D_DrawCircleSolid(x + r, y + r, 0, r, color);
+    C2D_DrawCircleSolid(x + w - r, y + r, 0, r, color);
+    C2D_DrawCircleSolid(x + r, y + h - r, 0, r, color);
+    C2D_DrawCircleSolid(x + w - r, y + h - r, 0, r, color);
+}
+
 void saveTheme(void) {
     mkdir("sdmc:/Tunez3DS", 0777);
     FILE *f = fopen(SETTINGS_PATH, "wb");
@@ -114,10 +123,11 @@ static bool loadTexFromRGB(u8 *rgb, int w, int h) {
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
             int src = (x * w + (h - 1 - y)) * 3;
-            u32 pixel = (u32)rgb[src]
-                      | ((u32)rgb[src+1] << 8)
-                      | ((u32)rgb[src+2] << 16)
-                      | (0xFFu << 24);
+            // Packing for 3DS GPU_RGBA8 (A8 B8 G8 R8 in memory)
+            u32 pixel = (0xFFu)                 // Byte 0: Alpha
+                      | ((u32)rgb[src+2] << 8)  // Byte 1: Blue
+                      | ((u32)rgb[src+1] << 16) // Byte 2: Green
+                      | ((u32)rgb[src] << 24);  // Byte 3: Red
 
             int mx = x & 7, my = y & 7;
             int morton = 0;
@@ -364,22 +374,12 @@ void drawSettingsScreen(void) {
     drawText("Theme preview", 8, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
 }
 
-static void drawVisualizer(float x, float y, float w, float h) {
-    int bars = 16;
-    float barW = w / bars;
-    for (int i = 0; i < bars; i++) {
-        float barH = visualizerAmplitude[i] * h;
-        if (barH < 2) barH = 2;
-        C2D_DrawRectSolid(x + i * barW + 1, y + h - barH, 0, barW - 2, barH, CLR_HILIGHT);
-    }
-}
-
 void drawTopScreen(void) {
     C2D_TargetClear(topTarget, CLR_BG);
     C2D_SceneBegin(topTarget);
 
-    // Header
-    C2D_DrawRectSolid(0, 0, 0, TOP_WIDTH, 32, CLR_PANEL);
+    // Modern Header
+    drawRoundedRect(0, -10, TOP_WIDTH, 42, 12, CLR_PANEL);
     C2D_DrawRectSolid(0, 30, 0, TOP_WIDTH, 2, CLR_HILIGHT);
 
     {
@@ -393,34 +393,45 @@ void drawTopScreen(void) {
     }
 
     if (playing || paused) {
-        int artX = 20, artY = 44;
-        int infoX = artX + ART_SIZE + 20;
-        int infoW = TOP_WIDTH - infoX - 20;
+        int artX = 24, artY = 52;
+        int infoX = artX + ART_SIZE + 24;
+        int infoW = TOP_WIDTH - infoX - 24;
+
+        // Main Now Playing Card
+        drawRoundedRect(12, 44, TOP_WIDTH - 24, 150, 8, CLR_PANEL);
+        C2D_DrawRectSolid(12, 44, 0, TOP_WIDTH - 24, 2, CLR_HILIGHT);
 
         // Visualizer background
-        C2D_DrawRectSolid(infoX, 48, 0, infoW, 30, MKCOL(0,0,0,100));
-        drawVisualizer(infoX, 48, infoW, 30);
+        drawRoundedRect(infoX, 52, infoW, 36, 4, MKCOL(0,0,0,100));
+        
+        // Refined visualizer
+        int bars = 16;
+        float barW = (float)infoW / bars;
+        for (int i = 0; i < bars; i++) {
+            float barH = visualizerAmplitude[i] * 30;
+            if (barH < 4) barH = 4;
+            // Glow
+            C2D_DrawRectSolid(infoX + i * barW + 1, 52 + 36 - barH, 0, barW - 2, barH, MKCOL(red(CLR_HILIGHT), green(CLR_HILIGHT), blue(CLR_HILIGHT), 50));
+            // Actual Bar with rounded top
+            drawRoundedRect(infoX + i * barW + 2, 52 + 36 - barH, barW - 4, barH, 2, CLR_HILIGHT);
+        }
 
-        drawText("NOW PLAYING", infoX, 82, 0, 0.35f, CLR_SUBTEXT);
+        drawText("NOW PLAYING", infoX, 96, 0, 0.35f, CLR_SUBTEXT);
 
         char titleBuf[48];
         strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 47);
         titleBuf[47] = '\0';
-        drawText(titleBuf, infoX, 94, 0, 0.50f, CLR_TEXT);
+        drawText(titleBuf, infoX, 108, 0, 0.55f, CLR_TEXT);
 
-        if (nowPlayingArtist[0]) {
-            char artistBuf[48];
-            strncpy(artistBuf, nowPlayingArtist, 47);
-            artistBuf[47] = '\0';
-            drawText(artistBuf, infoX, 112, 0, 0.42f, CLR_SUBTEXT);
-        }
-
-        if (nowPlayingAlbum[0]) {
-            char albumBuf[48];
-            strncpy(albumBuf, nowPlayingAlbum, 47);
-            albumBuf[47] = '\0';
-            drawText(albumBuf, infoX, 126, 0, 0.35f, CLR_SUBTEXT);
-        }
+        char metaBuf[96];
+        if (nowPlayingArtist[0] && nowPlayingAlbum[0])
+            snprintf(metaBuf, sizeof(metaBuf), "%.40s • %.40s", nowPlayingArtist, nowPlayingAlbum);
+        else if (nowPlayingArtist[0])
+            strncpy(metaBuf, nowPlayingArtist, 95);
+        else
+            strncpy(metaBuf, "Unknown Artist", 95);
+        
+        drawText(metaBuf, infoX, 128, 0, 0.40f, CLR_SUBTEXT);
 
         float progress = 0.0f;
         if (trackLen > 0 && mh) {
@@ -430,9 +441,9 @@ void drawTopScreen(void) {
             if (progress > 1) progress = 1;
         }
 
-        int barY = 144;
-        C2D_DrawRectSolid(infoX, barY, 0, infoW, 6, CLR_BAR_BG);
-        C2D_DrawRectSolid(infoX, barY, 0, (int)(infoW * progress), 6, CLR_BAR_FG);
+        int barY = 154;
+        drawRoundedRect(infoX, barY, infoW, 6, 3, CLR_BAR_BG);
+        drawRoundedRect(infoX, barY, (int)(infoW * progress), 6, 3, CLR_BAR_FG);
 
         if (trackLen > 0 && mh) {
             long rate = 44100;
@@ -440,44 +451,44 @@ void drawTopScreen(void) {
             int totalSec = (int)(trackLen / rate);
             off_t pos    = mpg123_tell(mh);
             int curSec   = (pos >= 0) ? (int)(pos / rate) : 0;
-            char timeBuf[20];
+            char timeBuf[32];
             snprintf(timeBuf, sizeof(timeBuf), "%d:%02d / %d:%02d",
                      curSec / 60, curSec % 60, totalSec / 60, totalSec % 60);
-            drawText(timeBuf, infoX, 154, 0, 0.38f, CLR_SUBTEXT);
+            drawText(timeBuf, infoX, 166, 0, 0.38f, CLR_SUBTEXT);
         }
 
-        drawText(paused ? "|| PAUSED" : "> PLAYING", infoX, 170, 0, 0.44f,
+        drawText(paused ? "|| PAUSED" : "> PLAYING", infoX, 178, 0, 0.42f,
                  paused ? CLR_SUBTEXT : CLR_HILIGHT);
 
         if (hasArt) {
+            // Card for art
+            drawRoundedRect(artX - 2, artY - 2, ART_SIZE + 4, ART_SIZE + 4, 4, CLR_HILIGHT);
             C2D_DrawImageAt(artImage, artX, artY, 0, NULL, 1.0f, 1.0f);
         } else {
-            C2D_DrawRectSolid(artX, artY, 0, ART_SIZE, ART_SIZE, CLR_PANEL);
-            C2D_DrawRectSolid(artX, artY, 0, ART_SIZE, 2, CLR_ACCENT);
-            C2D_DrawRectSolid(artX, artY + ART_SIZE - 2, 0, ART_SIZE, 2, CLR_ACCENT);
-            C2D_DrawRectSolid(artX, artY, 0, 2, ART_SIZE, CLR_ACCENT);
-            C2D_DrawRectSolid(artX + ART_SIZE - 2, artY, 0, 2, ART_SIZE, CLR_ACCENT);
+            drawRoundedRect(artX, artY, ART_SIZE, ART_SIZE, 8, CLR_PANEL);
+            drawRoundedRect(artX, artY, ART_SIZE, 4, 2, CLR_ACCENT);
             drawText("No Art", artX + 36, artY + 56, 0, 0.45f, CLR_SUBTEXT);
         }
     } else {
-        drawText("No track playing", 12, 100, 0, 0.55f, CLR_SUBTEXT);
-        drawText("Select a song from the browser", 12, 125, 0, 0.45f, CLR_SUBTEXT);
+        drawRoundedRect(12, 80, TOP_WIDTH - 24, 80, 8, CLR_PANEL);
+        drawText("No track playing", 24, 100, 0, 0.55f, CLR_SUBTEXT);
+        drawText("Select a song from the browser", 24, 125, 0, 0.45f, CLR_SUBTEXT);
     }
 
-    C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 28, CLR_PANEL);
-    C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 2, CLR_ACCENT);
-    drawText("A Play  X Pause  Y Stop  B Back  START Quit", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+    drawRoundedRect(4, SCR_HEIGHT - 26, TOP_WIDTH - 8, 22, 11, CLR_PANEL);
+    C2D_DrawRectSolid(15, SCR_HEIGHT - 26, 0, TOP_WIDTH - 30, 1, MKCOL(255,255,255,30));
+    drawText("A Play/Open  L/R Skip  D-Pad L/R Mode", 16, SCR_HEIGHT - 20, 0, 0.35f, CLR_SUBTEXT);
 }
 
 static void drawFolderIcon(float x, float y, u32 color) {
-    C2D_DrawRectSolid(x, y + 2, 0, 10, 8, color);
-    C2D_DrawRectSolid(x, y, 0, 4, 2, color);
+    drawRoundedRect(x, y + 2, 12, 9, 2, color);
+    C2D_DrawRectSolid(x, y, 0, 5, 3, color);
 }
 
 static void drawNoteIcon(float x, float y, u32 color) {
-    C2D_DrawRectSolid(x + 6, y, 0, 2, 10, color);
-    C2D_DrawCircleSolid(x + 4, y + 10, 0, 3, color);
-    C2D_DrawRectSolid(x + 6, y, 0, 4, 2, color);
+    C2D_DrawRectSolid(x + 7, y, 0, 2, 10, color);
+    C2D_DrawCircleSolid(x + 5, y + 10, 0, 3, color);
+    drawRoundedRect(x + 7, y, 5, 2, 1, color);
 }
 
 void drawBotScreen(void) {
@@ -492,7 +503,7 @@ void drawBotScreen(void) {
     snprintf(dirLabel, sizeof(dirLabel) - 1, "/%.*s", 44, rel);
     drawText(dirLabel, 8, 6, 0, 0.42f, CLR_SUBTEXT);
 
-    int listY = 32, rowH = 15;
+    int listY = 40, rowH = 16;
     if (entryCount == 0)
         drawText("(empty folder)", 8, listY + 20, 0, 0.45f, CLR_SUBTEXT);
 
@@ -500,40 +511,54 @@ void drawBotScreen(void) {
         int idx = i + scrollOffset;
         Entry *e = &entries[idx];
         int y = listY + i * rowH;
+        
         if (idx == selected) {
-            C2D_DrawRectSolid(0, y - 1, 0, BOT_WIDTH, rowH, CLR_ACCENT);
-            C2D_DrawRectSolid(0, y - 1, 0, 3, rowH, CLR_HILIGHT);
+            // Shadow
+            drawRoundedRect(6, y - 1, BOT_WIDTH - 12, rowH, 4, MKCOL(0,0,0,80));
+            // Card
+            drawRoundedRect(6, y - 2, BOT_WIDTH - 12, rowH, 4, CLR_PANEL);
+            // Accent
+            C2D_DrawRectSolid(6, y - 2, 0, 3, rowH, CLR_HILIGHT);
         }
+        
         u32 color = (idx == selected) ? CLR_TEXT :
                     (e->type == ENTRY_DIR) ? CLR_DIR : CLR_SUBTEXT;
 
-        if (e->type == ENTRY_DIR) drawFolderIcon(8, y + 2, color);
-        else drawNoteIcon(8, y + 2, color);
+        if (e->type == ENTRY_DIR) drawFolderIcon(16, y + 2, color);
+        else drawNoteIcon(16, y + 2, color);
 
         const char *namePtr = e->name;
         if (idx == selected) {
             int nameLen = (int)strlen(e->name);
-            if (nameLen > 36 && scrollTick > 60) {
+            if (nameLen > 34 && scrollTick > 60) {
                 int off = (scrollTick - 60) / 10;
-                if (off > nameLen - 36) off = nameLen - 36;
+                if (off > nameLen - 34) off = nameLen - 34;
                 namePtr = e->name + off;
             }
         }
 
         char label[48];
-        snprintf(label, sizeof(label) - 1, "   %.44s", namePtr);
-        drawText(label, 22, y, 0, 0.42f, color);
+        snprintf(label, sizeof(label) - 1, "   %.42s", namePtr);
+        drawText(label, 30, y, 0, 0.42f, color);
     }
 
     if (entryCount > PAGE_SIZE) {
-        int listH = SCR_HEIGHT - 28 - 28;
+        int listH = 160;
         float sbH = (float)PAGE_SIZE / entryCount * listH;
-        float sbY = 28 + (float)scrollOffset / entryCount * listH;
-        C2D_DrawRectSolid(BOT_WIDTH - 4, 28, 0, 4, listH, CLR_PANEL);
-        C2D_DrawRectSolid(BOT_WIDTH - 4, (int)sbY, 0, 4, (int)sbH, CLR_HILIGHT);
+        float sbY = listY + (float)scrollOffset / entryCount * listH;
+        // Modern Pill Scrollbar
+        drawRoundedRect(BOT_WIDTH - 6, listY, 4, listH, 2, CLR_PANEL);
+        drawRoundedRect(BOT_WIDTH - 6, (int)sbY, 4, (int)sbH, 2, CLR_HILIGHT);
     }
 
-    C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 28, CLR_PANEL);
-    C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 2, CLR_ACCENT);
-    drawText("A Open/Play   B Back   SELECT Settings", 8, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+    // Modern compact status bar
+    drawRoundedRect(4, SCR_HEIGHT - 26, BOT_WIDTH - 8, 22, 11, CLR_PANEL);
+    C2D_DrawRectSolid(15, SCR_HEIGHT - 26, 0, BOT_WIDTH - 30, 1, MKCOL(255,255,255,30));
+    
+    const char *modeNames[] = {"Normal", "Repeat All", "Repeat One", "Shuffle"};
+    char modeBuf[32];
+    snprintf(modeBuf, sizeof(modeBuf), "Mode: %s", modeNames[playbackMode]);
+    drawText(modeBuf, BOT_WIDTH - 110, SCR_HEIGHT - 20, 0, 0.35f, CLR_HILIGHT);
+
+    drawText("A Play/Open  L/R Skip  D-Pad L/R Mode", 16, SCR_HEIGHT - 20, 0, 0.35f, CLR_SUBTEXT);
 }

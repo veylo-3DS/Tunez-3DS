@@ -10,10 +10,14 @@
 #define SCR_HEIGHT   240
 #define MAX_FILES    1024
 #define MAX_PATH     512
-#define PAGE_SIZE    13
+#define PAGE_SIZE    10
 #define ART_SIZE     128
 
 #define MKCOL(r,g,b,a) ((u32)(r) | ((u32)(g)<<8) | ((u32)(b)<<16) | ((u32)(a)<<24))
+#define red(c)   ((u8)((c) >> 0))
+#define green(c) ((u8)((c) >> 8))
+#define blue(c)  ((u8)((c) >> 16))
+#define alpha(c) ((u8)((c) >> 24))
 
 typedef enum { ENTRY_DIR, ENTRY_MP3 } EntryType;
 typedef enum { SCREEN_BROWSER, SCREEN_SETTINGS } AppScreen;
@@ -28,6 +32,9 @@ typedef struct {
     const char *name;
     u32 bg, panel, accent, hilight, text, subtext, dir, barBg, barFg;
 } Theme;
+
+typedef enum { MODE_NORMAL, MODE_REPEAT_ALL, MODE_REPEAT_ONE, MODE_SHUFFLE } PlaybackMode;
+extern PlaybackMode playbackMode;
 
 // Global state declarations
 extern Theme themes[];
@@ -75,6 +82,8 @@ bool goUp(void);
 
 void startPlayback(const char *path);
 void stopPlayback(void);
+void playNext(void);
+void playPrevious(void);
 void fillAudio(void);
 void autoAdvance(void);
 
