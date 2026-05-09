@@ -44,6 +44,34 @@ void stopPlayback(void) {
     trackLen = 0;
 }
 
+float visualizerAmplitude[16] = {0};
+
+void updateVisualizer(void) {
+    if (!playing || paused || !audioBuf) {
+        for (int i = 0; i < 16; i++) visualizerAmplitude[i] *= 0.9f;
+        return;
+    }
+
+    // Read from the active buffer
+    u8 *buf = audioBuf; // Simple approximation, read from start of linear buffer
+    // In a real implementation, we'd find which half is playing, but for a visualizer,
+    // reading recent data is often "good enough" for a 3DS homebrew.
+    
+    s16 *samples = (s16*)buf;
+    int samplesPerBar = BUF_SAMPLES / 16;
+
+    for (int i = 0; i < 16; i++) {
+        float max = 0;
+        for (int j = 0; j < samplesPerBar; j++) {
+            s16 sample = samples[i * samplesPerBar + j];
+            float amp = abs(sample) / 32768.0f;
+            if (amp > max) max = amp;
+        }
+        // Smooth transition
+        visualizerAmplitude[i] = visualizerAmplitude[i] * 0.6f + max * 0.4f;
+    }
+}
+
 void startPlayback(const char *path) {
     // If we're starting a new folder, update the playlist queue
     // This is part of the auto-advance fix

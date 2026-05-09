@@ -27,13 +27,22 @@ int main(void) {
     loadTheme();
     scanDir(currentDir);
 
+    touchPosition touch;
+    bool touching = false;
+    int touchStartY = 0;
+    int scrollOffsetAtTouchStart = 0;
+
     while (aptMainLoop()) {
         hidScanInput();
         u32 down = hidKeysDown();
+        u32 held = hidKeysHeld();
 
         if (down & KEY_START) break;
 
+        hidTouchRead(&touch);
+
         if (currentScreen == SCREEN_SETTINGS) {
+            // ... (keep settings input as is or add touch later)
             if (down & KEY_DOWN) {
                 if (currentTheme < THEME_COUNT - 1) currentTheme++;
             }
@@ -49,6 +58,43 @@ int main(void) {
                 currentScreen = SCREEN_BROWSER;
             }
         } else {
+            // Browser touch logic
+            if (down & KEY_TOUCH) {
+                touching = true;
+                touchStartY = touch.py;
+                scrollOffsetAtTouchStart = scrollOffset;
+            }
+            
+            if (held & KEY_TOUCH) {
+                int diffY = touchStartY - touch.py;
+                int rowH = 15;
+                int scrollDiff = diffY / rowH;
+                int newOffset = scrollOffsetAtTouchStart + scrollDiff;
+                if (newOffset < 0) newOffset = 0;
+                if (newOffset > entryCount - PAGE_SIZE) newOffset = entryCount - PAGE_SIZE;
+                if (entryCount <= PAGE_SIZE) newOffset = 0;
+                scrollOffset = newOffset;
+            } else if (touching) {
+                // Touch release - handle selection if didn't move much
+                touching = false;
+                if (abs(touch.py - touchStartY) < 10) {
+                    int listY = 32, rowH = 15;
+                    if (touch.py >= listY && touch.py < listY + PAGE_SIZE * rowH) {
+                        int idx = scrollOffset + (touch.py - listY) / rowH;
+                        if (idx < entryCount) {
+                            selected = idx;
+                            Entry *e = &entries[selected];
+                            if (e->type == ENTRY_DIR) {
+                                strncpy(currentDir, e->fullPath, MAX_PATH - 1);
+                                scanDir(currentDir);
+                            } else {
+                                startPlayback(e->fullPath);
+                            }
+                        }
+                    }
+                }
+            }
+
             if (down & KEY_SELECT) {
                 currentScreen = SCREEN_SETTINGS;
             }
@@ -111,6 +157,7 @@ int main(void) {
         }
 
         fillAudio();
+        updateVisualizer();
 
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
         if (currentScreen == SCREEN_SETTINGS) {

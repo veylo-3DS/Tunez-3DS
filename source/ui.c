@@ -364,10 +364,21 @@ void drawSettingsScreen(void) {
     drawText("Theme preview", 8, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
 }
 
+static void drawVisualizer(float x, float y, float w, float h) {
+    int bars = 16;
+    float barW = w / bars;
+    for (int i = 0; i < bars; i++) {
+        float barH = visualizerAmplitude[i] * h;
+        if (barH < 2) barH = 2;
+        C2D_DrawRectSolid(x + i * barW + 1, y + h - barH, 0, barW - 2, barH, CLR_HILIGHT);
+    }
+}
+
 void drawTopScreen(void) {
     C2D_TargetClear(topTarget, CLR_BG);
     C2D_SceneBegin(topTarget);
 
+    // Header
     C2D_DrawRectSolid(0, 0, 0, TOP_WIDTH, 32, CLR_PANEL);
     C2D_DrawRectSolid(0, 30, 0, TOP_WIDTH, 2, CLR_HILIGHT);
 
@@ -382,29 +393,33 @@ void drawTopScreen(void) {
     }
 
     if (playing || paused) {
-        int artX = 12, artY = 44;
-        int infoX = artX + ART_SIZE + 14;
-        int infoW = TOP_WIDTH - infoX - 8;
+        int artX = 20, artY = 44;
+        int infoX = artX + ART_SIZE + 20;
+        int infoW = TOP_WIDTH - infoX - 20;
 
-        drawText("NOW PLAYING", infoX, 48, 0, 0.40f, CLR_SUBTEXT);
+        // Visualizer background
+        C2D_DrawRectSolid(infoX, 48, 0, infoW, 30, MKCOL(0,0,0,100));
+        drawVisualizer(infoX, 48, infoW, 30);
+
+        drawText("NOW PLAYING", infoX, 82, 0, 0.35f, CLR_SUBTEXT);
 
         char titleBuf[48];
         strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 47);
         titleBuf[47] = '\0';
-        drawText(titleBuf, infoX, 64, 0, 0.48f, CLR_TEXT);
+        drawText(titleBuf, infoX, 94, 0, 0.50f, CLR_TEXT);
 
         if (nowPlayingArtist[0]) {
             char artistBuf[48];
             strncpy(artistBuf, nowPlayingArtist, 47);
             artistBuf[47] = '\0';
-            drawText(artistBuf, infoX, 80, 0, 0.42f, CLR_SUBTEXT);
+            drawText(artistBuf, infoX, 112, 0, 0.42f, CLR_SUBTEXT);
         }
 
         if (nowPlayingAlbum[0]) {
             char albumBuf[48];
             strncpy(albumBuf, nowPlayingAlbum, 47);
             albumBuf[47] = '\0';
-            drawText(albumBuf, infoX, 92, 0, 0.35f, CLR_SUBTEXT);
+            drawText(albumBuf, infoX, 126, 0, 0.35f, CLR_SUBTEXT);
         }
 
         float progress = 0.0f;
@@ -415,7 +430,7 @@ void drawTopScreen(void) {
             if (progress > 1) progress = 1;
         }
 
-        int barY = 108;
+        int barY = 144;
         C2D_DrawRectSolid(infoX, barY, 0, infoW, 6, CLR_BAR_BG);
         C2D_DrawRectSolid(infoX, barY, 0, (int)(infoW * progress), 6, CLR_BAR_FG);
 
@@ -428,10 +443,10 @@ void drawTopScreen(void) {
             char timeBuf[20];
             snprintf(timeBuf, sizeof(timeBuf), "%d:%02d / %d:%02d",
                      curSec / 60, curSec % 60, totalSec / 60, totalSec % 60);
-            drawText(timeBuf, infoX, 120, 0, 0.38f, CLR_SUBTEXT);
+            drawText(timeBuf, infoX, 154, 0, 0.38f, CLR_SUBTEXT);
         }
 
-        drawText(paused ? "|| PAUSED" : "> PLAYING", infoX, 134, 0, 0.44f,
+        drawText(paused ? "|| PAUSED" : "> PLAYING", infoX, 170, 0, 0.44f,
                  paused ? CLR_SUBTEXT : CLR_HILIGHT);
 
         if (hasArt) {
@@ -452,6 +467,17 @@ void drawTopScreen(void) {
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 28, CLR_PANEL);
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 2, CLR_ACCENT);
     drawText("A Play  X Pause  Y Stop  B Back  START Quit", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+}
+
+static void drawFolderIcon(float x, float y, u32 color) {
+    C2D_DrawRectSolid(x, y + 2, 0, 10, 8, color);
+    C2D_DrawRectSolid(x, y, 0, 4, 2, color);
+}
+
+static void drawNoteIcon(float x, float y, u32 color) {
+    C2D_DrawRectSolid(x + 6, y, 0, 2, 10, color);
+    C2D_DrawCircleSolid(x + 4, y + 10, 0, 3, color);
+    C2D_DrawRectSolid(x + 6, y, 0, 4, 2, color);
 }
 
 void drawBotScreen(void) {
@@ -481,20 +507,22 @@ void drawBotScreen(void) {
         u32 color = (idx == selected) ? CLR_TEXT :
                     (e->type == ENTRY_DIR) ? CLR_DIR : CLR_SUBTEXT;
 
+        if (e->type == ENTRY_DIR) drawFolderIcon(8, y + 2, color);
+        else drawNoteIcon(8, y + 2, color);
+
         const char *namePtr = e->name;
         if (idx == selected) {
             int nameLen = (int)strlen(e->name);
-            if (nameLen > 38 && scrollTick > 60) {
+            if (nameLen > 36 && scrollTick > 60) {
                 int off = (scrollTick - 60) / 10;
-                if (off > nameLen - 38) off = nameLen - 38;
+                if (off > nameLen - 36) off = nameLen - 36;
                 namePtr = e->name + off;
             }
         }
 
         char label[48];
-        snprintf(label, sizeof(label) - 1,
-                 e->type == ENTRY_DIR ? "[D] %s" : " %s", namePtr);
-        drawText(label, 8, y, 0, 0.42f, color);
+        snprintf(label, sizeof(label) - 1, "   %.44s", namePtr);
+        drawText(label, 22, y, 0, 0.42f, color);
     }
 
     if (entryCount > PAGE_SIZE) {

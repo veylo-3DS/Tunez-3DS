@@ -84,7 +84,8 @@ void loadCoverArt(const char *mp3path);
 void drawTopScreen(void);
 void drawBotScreen(void);
 void drawSettingsScreen(void);
-void drawText(const char *str, float x, float y, float z, float scale, u32 color);
+extern float visualizerAmplitude[16];
+extern void updateVisualizer(void);
 
 // Theme macros
 #define CLR_BG      themes[currentTheme].bg
