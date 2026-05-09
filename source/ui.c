@@ -401,33 +401,33 @@ void drawTopScreen(void) {
     }
 
     if (playing || paused) {
-        int artX = 24, artY = 52;
-        int infoX = artX + ART_SIZE + 12;
-        int infoW = TOP_WIDTH - infoX - 12;
+        int artX = 16, artY = 52;
+        int infoX = artX + ART_SIZE + 16;
+        int infoW = TOP_WIDTH - infoX - 16;
 
-        // Main Now Playing Card - Expanded
-        drawRoundedRect(4, 44, TOP_WIDTH - 8, 150, 8, CLR_PANEL);
-        C2D_DrawRectSolid(4, 44, 0, TOP_WIDTH - 8, 2, CLR_HILIGHT);
-
-        // Refined visualizer
-        int bars = 16;
-        float barW = (float)infoW / bars;
-        for (int i = 0; i < bars; i++) {
-            float barH = visualizerAmplitude[i] * 30;
-            if (barH < 4) barH = 4;
-            // Glow
-            C2D_DrawRectSolid(infoX + i * barW + 1, 52 + 36 - barH, 0, barW - 2, barH, MKCOL(red(CLR_HILIGHT), green(CLR_HILIGHT), blue(CLR_HILIGHT), 50));
-            // Actual Bar with rounded top
-            drawRoundedRect(infoX + i * barW + 2, 52 + 36 - barH, barW - 4, barH, 2, CLR_HILIGHT);
+        // Album Art
+        if (hasArt) {
+            C2D_DrawImageAt(artImage, artX, artY, 0, NULL, 1.0f, 1.0f);
+        } else {
+            drawRoundedRect(artX, artY, ART_SIZE, ART_SIZE, 8, CLR_PANEL);
+            drawText("No Art", artX + 36, artY + 56, 0, 0.45f, CLR_SUBTEXT);
         }
 
-        drawText("NOW PLAYING", infoX, 96, 0, 0.35f, CLR_SUBTEXT);
+        // Refined visualizer
+        int bars = 24;
+        float barW = (float)infoW / bars;
+        for (int i = 0; i < bars; i++) {
+            float barH = visualizerAmplitude[i] * 40;
+            if (barH < 4) barH = 4;
+            drawRoundedRect(infoX + i * barW + 2, 60 - barH/2 + 18, barW - 4, barH, 2, CLR_HILIGHT);
+        }
+
+        drawText("NOW PLAYING", infoX, 90, 0, 0.35f, CLR_SUBTEXT);
 
         char titleBuf[256];
         strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 255);
         int titleLen = (int)strlen(titleBuf);
         const char *displayTitle = titleBuf;
-        // Continuous scrolling logic (infinite wrap)
         if (titleLen > 22) {
             int cycle = (scrollTick / 6) % (titleLen + 5); 
             if (cycle < titleLen) {
@@ -436,7 +436,7 @@ void drawTopScreen(void) {
                 displayTitle = wrappedTitle + cycle;
             }
         }
-        drawText(displayTitle, infoX, 108, 0, 0.55f, CLR_TEXT);
+        drawText(displayTitle, infoX, 105, 0, 0.60f, CLR_TEXT);
 
         char metaBuf[256];
         if (nowPlayingArtist[0] && nowPlayingAlbum[0])
@@ -448,7 +448,6 @@ void drawTopScreen(void) {
         
         int metaLen = (int)strlen(metaBuf);
         const char *displayMeta = metaBuf;
-        // Continuous scrolling logic
         if (metaLen > 30) {
             int cycle = (scrollTick / 8) % (metaLen + 5);
             if (cycle < metaLen) {
@@ -457,7 +456,7 @@ void drawTopScreen(void) {
                 displayMeta = wrappedMeta + cycle;
             }
         }
-        drawText(displayMeta, infoX, 128, 0, 0.40f, CLR_SUBTEXT);
+        drawText(displayMeta, infoX, 130, 0, 0.45f, CLR_SUBTEXT);
 
         float progress = 0.0f;
         if (trackLen > 0 && mh) {
@@ -467,34 +466,8 @@ void drawTopScreen(void) {
             if (progress > 1) progress = 1;
         }
 
-        int barY = 154;
-        drawRoundedRect(infoX, barY, infoW, 6, 3, CLR_BAR_BG);
-        drawRoundedRect(infoX, barY, (int)(infoW * progress), 6, 3, CLR_BAR_FG);
-
-        if (trackLen > 0 && mh) {
-            long rate = 44100;
-            mpg123_getformat(mh, &rate, NULL, NULL);
-            int totalSec = (int)(trackLen / rate);
-            off_t pos    = mpg123_tell(mh);
-            int curSec   = (pos >= 0) ? (int)(pos / rate) : 0;
-            char timeBuf[32];
-            snprintf(timeBuf, sizeof(timeBuf), "%d:%02d / %d:%02d",
-                     curSec / 60, curSec % 60, totalSec / 60, totalSec % 60);
-            drawText(timeBuf, infoX, 166, 0, 0.38f, CLR_SUBTEXT);
-        }
-
-        drawText(paused ? "|| PAUSED" : "> PLAYING", infoX, 178, 0, 0.42f,
-                 paused ? CLR_SUBTEXT : CLR_HILIGHT);
-
-        if (hasArt) {
-            // Card for art
-            drawRoundedRect(artX - 2, artY - 2, ART_SIZE + 4, ART_SIZE + 4, 4, CLR_HILIGHT);
-            C2D_DrawImageAt(artImage, artX, artY, 0, NULL, 1.0f, 1.0f);
-        } else {
-            drawRoundedRect(artX, artY, ART_SIZE, ART_SIZE, 8, CLR_PANEL);
-            drawRoundedRect(artX, artY, ART_SIZE, 4, 2, CLR_ACCENT);
-            drawText("No Art", artX + 36, artY + 56, 0, 0.45f, CLR_SUBTEXT);
-        }
+        drawRoundedRect(16, 190, TOP_WIDTH - 32, 8, 4, CLR_BAR_BG);
+        drawRoundedRect(16, 190, (int)((TOP_WIDTH - 32) * progress), 8, 4, CLR_BAR_FG);
     } else {
         drawRoundedRect(12, 80, TOP_WIDTH - 24, 80, 8, CLR_PANEL);
         drawText("No track playing", 24, 100, 0, 0.55f, CLR_SUBTEXT);
