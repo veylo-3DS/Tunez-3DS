@@ -3,41 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tunez3DS | Modern MP3 Player for 3DS</title>
+    <title>Tunez3DS | Premium Music Experience</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Tunez3DS</h1>
-            <p>A feature-rich, open-source MP3 player for your Nintendo 3DS.</p>
-            <a href="https://github.com/veylo-3DS/Tunez-3DS/releases/latest" class="btn">Download Latest Release</a>
-        </div>
+    <div class="gradient-bg"></div>
+    <header class="container">
+        <h1 class="hero-title">Tunez3DS</h1>
+        <p class="hero-desc">The modern, glass-inspired MP3 player for your Nintendo 3DS.</p>
+        <a href="https://github.com/veylo-3DS/Tunez-3DS/releases/latest" class="btn">Download Latest Release</a>
     </header>
 
     <main class="container">
-        <section id="features">
+        <section class="card glass">
             <h2>Features</h2>
-            <ul>
-                <li><strong>Glass & Geometry UI</strong>: Card-based, depth-enhanced layout.</li>
-                <li><strong>Full ID3 Support</strong>: Album art, titles, and artists.</li>
-                <li><strong>Playback Modes</strong>: Shuffle, Repeat All, Repeat One.</li>
-                <li><strong>Customizable</strong>: 7 beautiful system-inspired themes.</li>
-            </ul>
+            <div class="grid">
+                <div class="feature-item">
+                    <h3>Geometry UI</h3>
+                    <p>Fluid, depth-enhanced interface designed for the 3DS.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Smart ID3</h3>
+                    <p>Rich metadata support with embedded album artwork.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Playback Modes</h3>
+                    <p>Shuffle, Repeat All, and Repeat One at your command.</p>
+                </div>
+            </div>
         </section>
 
-        <section id="install">
-            <h2>Quick Install</h2>
-            <p>Scan the QR code below using FBI to install the latest version directly:</p>
-            <img src="qr.png" alt="QR Code" class="qr-code">
+        <section class="card glass install-section">
+            <h2>Get Started</h2>
+            <p>Scan to install via FBI:</p>
+            <img src="qr.png" alt="Tunez3DS QR Code" class="qr-code">
         </section>
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Tunez3DS. Built for the homebrew community.</p>
-            <a href="https://github.com/veylo-3DS/Tunez-3DS">View Source on GitHub</a>
-        </div>
+        <p>&copy; 2026 Tunez3DS. Built for the homebrew community.</p>
     </footer>
 </body>
 </html>
