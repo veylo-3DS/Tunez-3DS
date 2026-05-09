@@ -402,12 +402,12 @@ void drawTopScreen(void) {
 
     if (playing || paused) {
         int artX = 24, artY = 52;
-        int infoX = artX + ART_SIZE + 24;
-        int infoW = TOP_WIDTH - infoX - 24;
+        int infoX = artX + ART_SIZE + 12;
+        int infoW = TOP_WIDTH - infoX - 12;
 
-        // Main Now Playing Card
-        drawRoundedRect(12, 44, TOP_WIDTH - 24, 150, 8, CLR_PANEL);
-        C2D_DrawRectSolid(12, 44, 0, TOP_WIDTH - 24, 2, CLR_HILIGHT);
+        // Main Now Playing Card - Expanded
+        drawRoundedRect(8, 44, TOP_WIDTH - 16, 150, 8, CLR_PANEL);
+        C2D_DrawRectSolid(8, 44, 0, TOP_WIDTH - 16, 2, CLR_HILIGHT);
 
         // Refined visualizer
         int bars = 16;
@@ -427,9 +427,10 @@ void drawTopScreen(void) {
         strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 255);
         int titleLen = (int)strlen(titleBuf);
         const char *displayTitle = titleBuf;
-        if (titleLen > 24 && scrollTick > 60) {
+        // Scroll width adjusted for wider panel (30 chars approx)
+        if (titleLen > 30 && scrollTick > 60) {
             int off = (scrollTick - 60) / 10;
-            if (off > titleLen - 24) off = titleLen - 24;
+            if (off > titleLen - 30) off = titleLen - 30;
             displayTitle = titleBuf + off;
         }
         drawText(displayTitle, infoX, 108, 0, 0.55f, CLR_TEXT);
@@ -444,9 +445,10 @@ void drawTopScreen(void) {
         
         int metaLen = (int)strlen(metaBuf);
         const char *displayMeta = metaBuf;
-        if (metaLen > 30 && scrollTick > 60) {
+        // Scroll width adjusted for wider panel (40 chars approx)
+        if (metaLen > 40 && scrollTick > 60) {
             int off = (scrollTick - 60) / 10;
-            if (off > metaLen - 30) off = metaLen - 30;
+            if (off > metaLen - 40) off = metaLen - 40;
             displayMeta = metaBuf + off;
         }
         drawText(displayMeta, infoX, 128, 0, 0.40f, CLR_SUBTEXT);
