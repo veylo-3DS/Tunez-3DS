@@ -15,7 +15,11 @@ Tunez3DS is a feature-rich homebrew MP3 player for the Nintendo 3DS. It is writt
 - **`source/ui.c`**: Modern rendering logic using `C2D` for rounded cards, visualizer, and custom iconography.
 - **`include/common.h`**: Shared structures, global configuration, and `MKCOL` macros.
 
-## Building and Running
+## Release Workflow
+When making a new release:
+1. Update `README.md` with a summary of new features.
+2. Ensure the QR code points to the newest release binary.
+3. Tag the repository and create the GitHub release.
 
 ### Build Commands
 - **Build 3DSX**: `make NO_SMDH=1`
