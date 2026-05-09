@@ -1,18 +1,19 @@
-name: Build Tunez3DS
+name: Build and Release
 
 on:
   push:
     branches: [ "main" ]
+    tags: [ "v*" ]
   pull_request:
     branches: [ "main" ]
-  release:
-    types: [created]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     container:
       image: devkitpro/devkitarm:latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout repository
@@ -21,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y libmpg123-dev libid3tag0-dev libjpeg-dev libpng-dev
+          apt-get install -y libmpg123-dev libid3tag0-dev libjpeg-dev libpng-dev qrencode
           dkp-pacman -Syyu --noconfirm 3ds-dev 3ds-libctru 3ds-citro3d 3ds-citro2d 3ds-libpng 3ds-libjpeg 3ds-libmpg123 3ds-libid3tag
 
       - name: Build
@@ -29,14 +30,26 @@ jobs:
           make cia NO_SMDH=1
           make NO_SMDH=1
 
-      - name: Sync QR code to docs
-        run: cp Tunez3DS_qr.png docs/qr.png
+      - name: Generate QR Code
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          URL="https://github.com/veylo-3DS/Tunez-3DS/releases/download/${TAG_NAME}/Tunez3DS.cia"
+          qrencode -o docs/qr.png "$URL"
+          qrencode -o Tunez3DS_qr.png "$URL"
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Tunez3DS-artifacts
-          path: |
-            Tunez3DS.cia
-            Tunez3DS.3dsx
-            docs/qr.png
+      - name: Commit QR Code
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/qr.png Tunez3DS_qr.png
+          git commit -m "chore: update QR code for release ${{ github.ref_name }}" || echo "No changes to commit"
+          git push
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ github.ref_name }} --title "Tunez3DS ${{ github.ref_name }}" --notes "Automated release ${{ github.ref_name }}" Tunez3DS.cia Tunez3DS.3dsx
