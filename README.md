@@ -1,68 +1,61 @@
 # Tunez3DS
 
-A feature-rich homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support, and embedded album art.
+A feature-rich, open-source MP3 player for the Nintendo 3DS, designed for a modern and intuitive music listening experience.
 
-## v2.6.1 Features
-- **Bug Fixes**: Addressed minor stability issues in the UI rendering and audio buffer handling.
+![Tunez3DS Logo](icon.png)
 
-## v2.2.0 Features
-- **New Theme: Everforest**: Added a system-inspired color palette based on your Everforest configuration.
-- **Custom Themes**: Select between 7 unique color palettes in the Settings menu (accessed via SELECT in the browser). Themes are persisted automatically.
-- **UI Modernization ("Glass & Geometry")**: Card-based browser layout with depth effects and a refined "Now Playing" interface.
-- **Playback Modes**: Normal, Repeat All, Repeat One, and Shuffle modes.
-- **Enhanced Controls**: L/R shoulder buttons skip tracks; D-Pad L/R cycles playback modes.
-- **Visual Identity**: Modernized icon, banner, and a custom startup jingle.
+## Overview
 
-## Installation
-
-1. For a seamless experience, install via [Universal Updater](https://github.com/Universal-Team/Universal-Updater) on your 3DS.
-2. Alternatively, scan the QR code below using [FBI](https://github.com/Steveice10/FBI) to install the latest `.cia` file:
-
-![Install via QR code](Tunez3DS_qr.png)
-
-Or download the latest release directly from [GitHub](https://github.com/veylo-3DS/Tunez-3DS/releases/latest).
+Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music library. Built with `citro2d` and `citro3d` for hardware-accelerated graphics and `ndsp` for high-quality audio, it offers a smooth, responsive browsing and playback experience.
 
 ## Features
 
-- **File browser** on the bottom screen — navigate folders and select tracks
-- **Now Playing** screen on the top screen with title, artist, and a live progress bar with timestamp
-- **ID3 tag support** — reads title and artist from MP3 metadata, falls back to filename if tags are absent
-- **Album art** — displays embedded JPEG or PNG cover art from ID3 tags
-- **Scrolling filenames** — long filenames scroll automatically when selected
-- **Smart back navigation** — pressing B to leave a folder re-selects that folder in the parent directory
+- **Intuitive Browser**: Card-based interface with depth effects and smooth scrolling.
+- **ID3 Tag Support**: Automatically displays song titles, artists, and embedded album art.
+- **Playback Versatility**: Supports Normal, Repeat All, Repeat One, and Shuffle modes.
+- **Customization**: 7 unique system-inspired color themes.
+- **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
+
+## Latest Release (v2.6.1)
+
+- **Bug Fixes**: Stability improvements for UI rendering and audio buffer handling.
+
+## Installation
+
+### Method 1: Universal Updater (Recommended)
+Install directly via the [Universal Updater](https://github.com/Universal-Team/Universal-Updater) app on your 3DS.
+
+### Method 2: Manual Installation
+1. Download the latest `.cia` file from our [Releases page](https://github.com/veylo-3DS/Tunez-3DS/releases/latest).
+2. Scan the QR code below using [FBI](https://github.com/Steveice10/FBI) to install:
+
+![Install via QR code](Tunez3DS_qr.png)
 
 ## Controls
 
 | Button | Action |
-|--------|--------|
-| D-Pad Up / Down | Navigate file list |
-| D-Pad L / R | Cycle playback modes |
-| L / R Shoulder | Skip tracks |
-| A | Open folder / Play track |
-| X | Pause / Resume |
-| Y | Stop playback |
-| B | Go up one folder |
-| START | Quit |
+| :--- | :--- |
+| **D-Pad Up/Down** | Navigate file list |
+| **D-Pad L/R** | Cycle playback modes |
+| **L / R Shoulder** | Skip tracks |
+| **A** | Open folder / Play track |
+| **X** | Pause / Resume |
+| **Y** | Stop playback |
+| **B** | Go up one folder |
+| **START** | Quit application |
 
 ## Setup
 
-Place your MP3 files on your SD card under `sdmc:/Music`. Subfolders are supported — you can navigate into them from the file browser.
-
-## Supported Formats
-
-- MP3 (`.mp3`)
+Place your MP3 files on your SD card under `sdmc:/Music`. Subfolders are fully supported and can be navigated via the in-app file browser.
 
 ## Building from Source
 
 ### Requirements
-
-- [devkitPro](https://devkitpro.org/) with 3DS support (`devkitARM`)
-- `libmpg123`, `libid3tag`, `libjpeg`, `libpng` (via devkitPro's pacman)
+- [devkitPro](https://devkitpro.org/) with `devkitARM`
+- `libmpg123`, `libid3tag`, `libjpeg`, `libpng`
 - `citro2d` / `citro3d`
 
-### Build
-
-```bash
-make cia NO_SMDH=1
-```
- 
+### Build Commands
+- **Build 3DSX**: `make`
+- **Build CIA**: `make cia NO_SMDH=1`
+- **Clean**: `make clean`
