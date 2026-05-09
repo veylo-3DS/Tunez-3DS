@@ -410,7 +410,7 @@ void drawTopScreen(void) {
         C2D_DrawRectSolid(12, 44, 0, TOP_WIDTH - 24, 2, CLR_HILIGHT);
 
         // Visualizer background
-        drawRoundedRect(infoX, 52, infoW, 36, 4, MKCOL(0,0,0,100));
+        drawRoundedRect(infoX, 52, infoW, 36, 4, MKCOL(red(CLR_PANEL), green(CLR_PANEL), blue(CLR_PANEL), 150));
         
         // Refined visualizer
         int bars = 16;
