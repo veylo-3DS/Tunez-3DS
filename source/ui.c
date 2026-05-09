@@ -415,7 +415,7 @@ void drawTopScreen(void) {
         }
 
         // Refined visualizer - Positioned at lower baseline
-        int bars = 24;
+        int bars = 16;
         float barW = (float)infoW / bars;
         float barBaselineY = 180; // Baseline at the bottom
         for (int i = 0; i < bars; i++) {
