@@ -414,16 +414,17 @@ void drawTopScreen(void) {
             drawText("No Art", artX + 36, artY + 56, 0, 0.45f, CLR_SUBTEXT);
         }
 
-        // Refined visualizer - Pushed to the top-right
+        // Refined visualizer - Positioned at original height, bars grow only upwards
         int bars = 24;
         float barW = (float)infoW / bars;
+        float barBaselineY = 60; // Fixed baseline
         for (int i = 0; i < bars; i++) {
             float barH = visualizerAmplitude[i] * 40;
             if (barH < 4) barH = 4;
-            drawRoundedRect(infoX + i * barW + 2, 45 - barH/2, barW - 4, barH, 2, CLR_HILIGHT);
+            drawRoundedRect(infoX + i * barW + 2, barBaselineY - barH, barW - 4, barH, 2, CLR_HILIGHT);
         }
 
-        // Metadata shifted down to start below visualizer/art
+        // Metadata positioned below visualizer
         drawText("NOW PLAYING", infoX, 90, 0, 0.35f, CLR_SUBTEXT);
 
         char titleBuf[256];
