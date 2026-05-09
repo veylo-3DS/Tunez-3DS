@@ -29,6 +29,9 @@ jobs:
           make cia NO_SMDH=1
           make NO_SMDH=1
 
+      - name: Sync QR code to docs
+        run: cp Tunez3DS_qr.png docs/qr.png
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -36,3 +39,4 @@ jobs:
           path: |
             Tunez3DS.cia
             Tunez3DS.3dsx
+            docs/qr.png
