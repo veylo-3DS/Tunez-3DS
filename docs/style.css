@@ -22,7 +22,7 @@ body {
 
 .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-header { padding: 120px 20px; text-align: center; }
+header { padding: 120px 20px; text-align: center; margin-bottom: 60px; }
 
 .hero-title { font-size: 5rem; letter-spacing: -2px; margin: 0; }
 
