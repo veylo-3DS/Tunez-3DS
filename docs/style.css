@@ -69,3 +69,30 @@ header { padding: 120px 20px; text-align: center; }
 }
 
 footer { text-align: center; padding: 60px; opacity: 0.5; }
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.logo { font-weight: 800; font-size: 1.5rem; letter-spacing: -1px; }
+
+.links a {
+    color: var(--text);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.links a:hover { opacity: 1; }
+
+.nav-btn {
+    border: 1px solid var(--glass);
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
