@@ -1,0 +1,38 @@
+name: Build Tunez3DS
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkitarm:latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y libmpg123-dev libid3tag0-dev libjpeg-dev libpng-dev
+          dkp-pacman -Syyu --noconfirm 3ds-dev 3ds-libctru 3ds-citro3d 3ds-citro2d 3ds-libpng 3ds-libjpeg 3ds-libmpg123 3ds-libid3tag
+
+      - name: Build
+        run: |
+          make cia NO_SMDH=1
+          make NO_SMDH=1
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tunez3DS-artifacts
+          path: |
+            Tunez3DS.cia
+            Tunez3DS.3dsx
