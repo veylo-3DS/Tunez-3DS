@@ -423,20 +423,33 @@ void drawTopScreen(void) {
 
         drawText("NOW PLAYING", infoX, 96, 0, 0.35f, CLR_SUBTEXT);
 
-        char titleBuf[48];
-        strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 47);
-        titleBuf[47] = '\0';
-        drawText(titleBuf, infoX, 108, 0, 0.55f, CLR_TEXT);
+        char titleBuf[256];
+        strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 255);
+        int titleLen = (int)strlen(titleBuf);
+        const char *displayTitle = titleBuf;
+        if (titleLen > 24 && scrollTick > 60) {
+            int off = (scrollTick - 60) / 10;
+            if (off > titleLen - 24) off = titleLen - 24;
+            displayTitle = titleBuf + off;
+        }
+        drawText(displayTitle, infoX, 108, 0, 0.55f, CLR_TEXT);
 
-        char metaBuf[96];
+        char metaBuf[256];
         if (nowPlayingArtist[0] && nowPlayingAlbum[0])
-            snprintf(metaBuf, sizeof(metaBuf), "%.40s • %.40s", nowPlayingArtist, nowPlayingAlbum);
+            snprintf(metaBuf, 255, "%s • %s", nowPlayingArtist, nowPlayingAlbum);
         else if (nowPlayingArtist[0])
-            strncpy(metaBuf, nowPlayingArtist, 95);
+            strncpy(metaBuf, nowPlayingArtist, 255);
         else
-            strncpy(metaBuf, "Unknown Artist", 95);
+            strncpy(metaBuf, "Unknown Artist", 255);
         
-        drawText(metaBuf, infoX, 128, 0, 0.40f, CLR_SUBTEXT);
+        int metaLen = (int)strlen(metaBuf);
+        const char *displayMeta = metaBuf;
+        if (metaLen > 30 && scrollTick > 60) {
+            int off = (scrollTick - 60) / 10;
+            if (off > metaLen - 30) off = metaLen - 30;
+            displayMeta = metaBuf + off;
+        }
+        drawText(displayMeta, infoX, 128, 0, 0.40f, CLR_SUBTEXT);
 
         float progress = 0.0f;
         if (trackLen > 0 && mh) {
@@ -479,10 +492,6 @@ void drawTopScreen(void) {
         drawText("No track playing", 24, 100, 0, 0.55f, CLR_SUBTEXT);
         drawText("Select a song from the browser", 24, 125, 0, 0.45f, CLR_SUBTEXT);
     }
-
-    drawRoundedRect(4, SCR_HEIGHT - 26, TOP_WIDTH - 8, 22, 11, CLR_PANEL);
-    C2D_DrawRectSolid(15, SCR_HEIGHT - 26, 0, TOP_WIDTH - 30, 1, MKCOL(255,255,255,30));
-    drawText("A Play/Open  L/R Skip  D-Pad L/R Mode", 16, SCR_HEIGHT - 20, 0, 0.35f, CLR_SUBTEXT);
 }
 
 static void drawFolderIcon(float x, float y, u32 color) {
