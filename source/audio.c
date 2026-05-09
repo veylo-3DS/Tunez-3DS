@@ -53,13 +53,9 @@ void updateVisualizer(void) {
         return;
     }
 
-    // Read from the active buffer
-    u8 *buf = audioBuf; // Simple approximation, read from start of linear buffer
-    // In a real implementation, we'd find which half is playing, but for a visualizer,
-    // reading recent data is often "good enough" for a 3DS homebrew.
-    
-    s16 *samples = (s16*)buf;
-    int samplesPerBar = BUF_SAMPLES / 16;
+    int activeBuf = (waveBuf[0].status == NDSP_WBUF_PLAYING) ? 0 : 1;
+    s16 *samples = (s16*)(audioBuf + activeBuf * BUF_SIZE);
+    int samplesPerBar = (BUF_SIZE / sizeof(s16)) / 16; // 512, not 256
 
     for (int i = 0; i < 16; i++) {
         float max = 0;
@@ -68,7 +64,6 @@ void updateVisualizer(void) {
             float amp = abs(sample) / 32768.0f;
             if (amp > max) max = amp;
         }
-        // Smooth transition
         visualizerAmplitude[i] = visualizerAmplitude[i] * 0.6f + max * 0.4f;
     }
 }
