@@ -2,6 +2,9 @@
 
 A feature-rich homebrew MP3 player for the Nintendo 3DS with a file browser, ID3 tag support, and embedded album art.
 
+## v2.6.1 Features
+- **Bug Fixes**: Addressed minor stability issues in the UI rendering and audio buffer handling.
+
 ## v2.2.0 Features
 - **New Theme: Everforest**: Added a system-inspired color palette based on your Everforest configuration.
 - **Custom Themes**: Select between 7 unique color palettes in the Settings menu (accessed via SELECT in the browser). Themes are persisted automatically.
