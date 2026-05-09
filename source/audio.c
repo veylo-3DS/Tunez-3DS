@@ -55,12 +55,12 @@ void updateVisualizer(void) {
 
     int activeBuf = (waveBuf[0].status == NDSP_WBUF_PLAYING) ? 0 : 1;
     s16 *samples = (s16*)(audioBuf + activeBuf * BUF_SIZE);
-    int samplesPerBar = (BUF_SIZE / sizeof(s16)) / 16; // 512, not 256
+    int samplesPerBar = (BUF_SIZE / sizeof(s16)) / 32; // 512, not 256
 
     for (int i = 0; i < 16; i++) {
         float max = 0;
         for (int j = 0; j < samplesPerBar; j++) {
-            s16 sample = samples[i * samplesPerBar + j];
+            s16 sample = samples[(i * samplesPerBar + j) * 2];
             float amp = abs(sample) / 32768.0f;
             if (amp > max) max = amp;
         }
