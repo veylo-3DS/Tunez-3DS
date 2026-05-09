@@ -414,16 +414,17 @@ void drawTopScreen(void) {
             drawText("No Art", artX + 36, artY + 56, 0, 0.45f, CLR_SUBTEXT);
         }
 
-        // Refined visualizer
+        // Refined visualizer - Pushed to the top-right
         int bars = 24;
         float barW = (float)infoW / bars;
         for (int i = 0; i < bars; i++) {
             float barH = visualizerAmplitude[i] * 40;
             if (barH < 4) barH = 4;
-            drawRoundedRect(infoX + i * barW + 2, 60 - barH/2 + 18, barW - 4, barH, 2, CLR_HILIGHT);
+            drawRoundedRect(infoX + i * barW + 2, 45 - barH/2, barW - 4, barH, 2, CLR_HILIGHT);
         }
 
-        drawText("NOW PLAYING", infoX, 130, 0, 0.35f, CLR_SUBTEXT);
+        // Metadata shifted down to start below visualizer/art
+        drawText("NOW PLAYING", infoX, 90, 0, 0.35f, CLR_SUBTEXT);
 
         char titleBuf[256];
         strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 255);
@@ -437,7 +438,7 @@ void drawTopScreen(void) {
                 displayTitle = wrappedTitle + cycle;
             }
         }
-        drawText(displayTitle, infoX, 145, 0, 0.60f, CLR_TEXT);
+        drawText(displayTitle, infoX, 105, 0, 0.60f, CLR_TEXT);
 
         char metaBuf[256];
         if (nowPlayingArtist[0] && nowPlayingAlbum[0])
@@ -457,7 +458,7 @@ void drawTopScreen(void) {
                 displayMeta = wrappedMeta + cycle;
             }
         }
-        drawText(displayMeta, infoX, 170, 0, 0.45f, CLR_SUBTEXT);
+        drawText(displayMeta, infoX, 130, 0, 0.45f, CLR_SUBTEXT);
 
         float progress = 0.0f;
         if (trackLen > 0 && mh) {
