@@ -423,7 +423,7 @@ void drawTopScreen(void) {
             drawRoundedRect(infoX + i * barW + 2, 60 - barH/2 + 18, barW - 4, barH, 2, CLR_HILIGHT);
         }
 
-        drawText("NOW PLAYING", infoX, 85, 0, 0.35f, CLR_SUBTEXT);
+        drawText("NOW PLAYING", infoX, 95, 0, 0.35f, CLR_SUBTEXT);
 
         char titleBuf[256];
         strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 255);
@@ -437,7 +437,7 @@ void drawTopScreen(void) {
                 displayTitle = wrappedTitle + cycle;
             }
         }
-        drawText(displayTitle, infoX, 100, 0, 0.60f, CLR_TEXT);
+        drawText(displayTitle, infoX, 110, 0, 0.60f, CLR_TEXT);
 
         char metaBuf[256];
         if (nowPlayingArtist[0] && nowPlayingAlbum[0])
@@ -457,7 +457,7 @@ void drawTopScreen(void) {
                 displayMeta = wrappedMeta + cycle;
             }
         }
-        drawText(displayMeta, infoX, 125, 0, 0.45f, CLR_SUBTEXT);
+        drawText(displayMeta, infoX, 135, 0, 0.45f, CLR_SUBTEXT);
 
         float progress = 0.0f;
         if (trackLen > 0 && mh) {
