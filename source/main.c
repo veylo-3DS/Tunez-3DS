@@ -159,11 +159,11 @@ int main(void) {
             }
             if (down & KEY_Y) stopPlayback();
 
+            // Always increment scrollTick to allow for smooth text scrolling
+            scrollTick++;
             if (selected != lastSelected) {
                 scrollTick   = 0;
                 lastSelected = selected;
-            } else {
-                scrollTick++;
             }
         }
 
