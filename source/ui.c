@@ -406,8 +406,8 @@ void drawTopScreen(void) {
         int infoW = TOP_WIDTH - infoX - 12;
 
         // Main Now Playing Card - Expanded
-        drawRoundedRect(8, 44, TOP_WIDTH - 16, 150, 8, CLR_PANEL);
-        C2D_DrawRectSolid(8, 44, 0, TOP_WIDTH - 16, 2, CLR_HILIGHT);
+        drawRoundedRect(4, 44, TOP_WIDTH - 8, 150, 8, CLR_PANEL);
+        C2D_DrawRectSolid(4, 44, 0, TOP_WIDTH - 8, 2, CLR_HILIGHT);
 
         // Refined visualizer
         int bars = 16;
@@ -427,11 +427,14 @@ void drawTopScreen(void) {
         strncpy(titleBuf, nowPlayingTitle[0] ? nowPlayingTitle : nowPlayingName, 255);
         int titleLen = (int)strlen(titleBuf);
         const char *displayTitle = titleBuf;
-        // Scroll width adjusted for wider panel (30 chars approx)
-        if (titleLen > 30 && scrollTick > 60) {
-            int off = (scrollTick - 60) / 10;
-            if (off > titleLen - 30) off = titleLen - 30;
-            displayTitle = titleBuf + off;
+        // Continuous scrolling logic (infinite wrap)
+        if (titleLen > 22) {
+            int cycle = (scrollTick / 6) % (titleLen + 5); 
+            if (cycle < titleLen) {
+                static char wrappedTitle[512];
+                snprintf(wrappedTitle, 512, "%s   %s", titleBuf, titleBuf);
+                displayTitle = wrappedTitle + cycle;
+            }
         }
         drawText(displayTitle, infoX, 108, 0, 0.55f, CLR_TEXT);
 
@@ -445,11 +448,14 @@ void drawTopScreen(void) {
         
         int metaLen = (int)strlen(metaBuf);
         const char *displayMeta = metaBuf;
-        // Scroll width adjusted for wider panel (40 chars approx)
-        if (metaLen > 40 && scrollTick > 60) {
-            int off = (scrollTick - 60) / 10;
-            if (off > metaLen - 40) off = metaLen - 40;
-            displayMeta = metaBuf + off;
+        // Continuous scrolling logic
+        if (metaLen > 30) {
+            int cycle = (scrollTick / 8) % (metaLen + 5);
+            if (cycle < metaLen) {
+                static char wrappedMeta[512];
+                snprintf(wrappedMeta, 512, "%s   %s", metaBuf, metaBuf);
+                displayMeta = wrappedMeta + cycle;
+            }
         }
         drawText(displayMeta, infoX, 128, 0, 0.40f, CLR_SUBTEXT);
 
