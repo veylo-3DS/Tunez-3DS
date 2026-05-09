@@ -515,8 +515,8 @@ void drawBotScreen(void) {
             drawRoundedRect(6, y - 1, BOT_WIDTH - 12, rowH, 4, MKCOL(0,0,0,80));
             // Card
             drawRoundedRect(6, y - 2, BOT_WIDTH - 12, rowH, 4, CLR_PANEL);
-            // Accent
-            C2D_DrawRectSolid(6, y - 2, 0, 3, rowH, CLR_HILIGHT);
+            // Rounded Accent
+            drawRoundedRect(6, y - 2, 6, rowH, 3, CLR_HILIGHT);
         }
         
         u32 color = (idx == selected) ? CLR_TEXT :
