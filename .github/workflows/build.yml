@@ -23,7 +23,7 @@ jobs:
         run: |
           apt-get update
           apt-get install -y libmpg123-dev libid3tag0-dev libjpeg-dev libpng-dev qrencode
-          dkp-pacman -Syyu --noconfirm 3ds-dev 3ds-libctru 3ds-citro3d 3ds-citro2d 3ds-libpng 3ds-libjpeg 3ds-libmpg123 3ds-libid3tag
+          dkp-pacman -Syyu --noconfirm devkitARM libctru citro3d citro2d libpng libjpeg libmpg123 libid3tag
 
       - name: Build
         run: |
