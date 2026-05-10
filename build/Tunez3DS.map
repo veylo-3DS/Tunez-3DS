@@ -14644,281 +14644,281 @@ LOAD linker stubs
                 0x000b7070      0x418 /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(pr-support.o)
 
 .debug_rnglists
-                0x00000000    0x100e9
+                0x00000000    0x100df
  .debug_rnglists
                 0x00000000      0x10f audio.o
  .debug_rnglists
                 0x0000010f       0x21 browser.o
  .debug_rnglists
-                0x00000130       0xcb main.o
+                0x00000130       0xc1 main.o
  .debug_rnglists
-                0x000001fb      0x584 ui.o
+                0x000001f1      0x584 ui.o
  .debug_rnglists
-                0x0000077f      0x793 /opt/devkitpro/libctru/lib/libcitro2d.a(base.o)
+                0x00000775      0x793 /opt/devkitpro/libctru/lib/libcitro2d.a(base.o)
  .debug_rnglists
-                0x00000f12      0x424 /opt/devkitpro/libctru/lib/libcitro2d.a(text.o)
+                0x00000f08      0x424 /opt/devkitpro/libctru/lib/libcitro2d.a(text.o)
  .debug_rnglists
-                0x00001336      0x10c /opt/devkitpro/libctru/lib/libcitro2d.a(font.o)
+                0x0000132c      0x10c /opt/devkitpro/libctru/lib/libcitro2d.a(font.o)
  .debug_rnglists
-                0x00001442       0x4b /opt/devkitpro/libctru/lib/libcitro3d.a(attribs.o)
+                0x00001438       0x4b /opt/devkitpro/libctru/lib/libcitro3d.a(attribs.o)
  .debug_rnglists
-                0x0000148d       0xfd /opt/devkitpro/libctru/lib/libcitro3d.a(base.o)
+                0x00001483       0xfd /opt/devkitpro/libctru/lib/libcitro3d.a(base.o)
  .debug_rnglists
-                0x0000158a       0x38 /opt/devkitpro/libctru/lib/libcitro3d.a(buffers.o)
+                0x00001580       0x38 /opt/devkitpro/libctru/lib/libcitro3d.a(buffers.o)
  .debug_rnglists
-                0x000015c2       0x4a /opt/devkitpro/libctru/lib/libcitro3d.a(drawElements.o)
+                0x000015b8       0x4a /opt/devkitpro/libctru/lib/libcitro3d.a(drawElements.o)
  .debug_rnglists
-                0x0000160c      0x170 /opt/devkitpro/libctru/lib/libcitro3d.a(effect.o)
+                0x00001602      0x170 /opt/devkitpro/libctru/lib/libcitro3d.a(effect.o)
  .debug_rnglists
-                0x0000177c       0xd6 /opt/devkitpro/libctru/lib/libcitro3d.a(framebuffer.o)
+                0x00001772       0xd6 /opt/devkitpro/libctru/lib/libcitro3d.a(framebuffer.o)
  .debug_rnglists
-                0x00001852       0x2d /opt/devkitpro/libctru/lib/libcitro3d.a(immediate.o)
+                0x00001848       0x2d /opt/devkitpro/libctru/lib/libcitro3d.a(immediate.o)
  .debug_rnglists
-                0x0000187f      0x113 /opt/devkitpro/libctru/lib/libcitro3d.a(proctex.o)
+                0x00001875      0x113 /opt/devkitpro/libctru/lib/libcitro3d.a(proctex.o)
  .debug_rnglists
-                0x00001992      0x2d9 /opt/devkitpro/libctru/lib/libcitro3d.a(renderqueue.o)
+                0x00001988      0x2d9 /opt/devkitpro/libctru/lib/libcitro3d.a(renderqueue.o)
  .debug_rnglists
-                0x00001c6b       0x32 /opt/devkitpro/libctru/lib/libcitro3d.a(texenv.o)
+                0x00001c61       0x32 /opt/devkitpro/libctru/lib/libcitro3d.a(texenv.o)
  .debug_rnglists
-                0x00001c9d      0x1b8 /opt/devkitpro/libctru/lib/libcitro3d.a(texture.o)
+                0x00001c93      0x1b8 /opt/devkitpro/libctru/lib/libcitro3d.a(texture.o)
  .debug_rnglists
-                0x00001e55       0x84 /opt/devkitpro/libctru/lib/libcitro3d.a(uniforms.o)
+                0x00001e4b       0x84 /opt/devkitpro/libctru/lib/libcitro3d.a(uniforms.o)
  .debug_rnglists
-                0x00001ed9       0x23 /opt/devkitpro/libctru/lib/libcitro3d.a(mtx_ortho.o)
+                0x00001ecf       0x23 /opt/devkitpro/libctru/lib/libcitro3d.a(mtx_ortho.o)
  .debug_rnglists
-                0x00001efc       0x23 /opt/devkitpro/libctru/lib/libcitro3d.a(mtx_orthotilt.o)
+                0x00001ef2       0x23 /opt/devkitpro/libctru/lib/libcitro3d.a(mtx_orthotilt.o)
  .debug_rnglists
-                0x00001f1f       0xca /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdapimin.o)
+                0x00001f15       0xca /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdapimin.o)
  .debug_rnglists
-                0x00001fe9      0x106 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdapistd-8.o)
+                0x00001fdf      0x106 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdapistd-8.o)
  .debug_rnglists
-                0x000020ef       0x40 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdatasrc.o)
+                0x000020e5       0x40 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdatasrc.o)
  .debug_rnglists
-                0x0000212f       0x58 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdinput.o)
+                0x00002125       0x58 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdinput.o)
  .debug_rnglists
-                0x00002187      0x193 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmarker.o)
+                0x0000217d      0x193 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmarker.o)
  .debug_rnglists
-                0x0000231a       0xc0 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmaster.o)
+                0x00002310       0xc0 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmaster.o)
  .debug_rnglists
-                0x000023da       0xf2 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmerge-8.o)
+                0x000023d0       0xf2 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmerge-8.o)
  .debug_rnglists
-                0x000024cc       0xf7 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmerge-12.o)
+                0x000024c2       0xf7 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmerge-12.o)
  .debug_rnglists
-                0x000025c3       0x7e /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdphuff.o)
+                0x000025b9       0x7e /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdphuff.o)
  .debug_rnglists
-                0x00002641       0x30 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdpostct-8.o)
+                0x00002637       0x30 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdpostct-8.o)
  .debug_rnglists
-                0x00002671       0x30 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdpostct-12.o)
+                0x00002667       0x30 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdpostct-12.o)
  .debug_rnglists
-                0x000026a1       0x1a /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdpostct-16.o)
+                0x00002697       0x1a /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdpostct-16.o)
  .debug_rnglists
-                0x000026bb       0x56 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdsample-8.o)
+                0x000026b1       0x56 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdsample-8.o)
  .debug_rnglists
-                0x00002711       0x56 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdsample-12.o)
+                0x00002707       0x56 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdsample-12.o)
  .debug_rnglists
-                0x00002767       0x56 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdsample-16.o)
+                0x0000275d       0x56 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdsample-16.o)
  .debug_rnglists
-                0x000027bd       0x32 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jerror.o)
+                0x000027b3       0x32 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jerror.o)
  .debug_rnglists
-                0x000027ef      0x1ad /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jmemmgr.o)
+                0x000027e5      0x1ad /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jmemmgr.o)
  .debug_rnglists
-                0x0000299c       0x3d /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jmemnobs.o)
+                0x00002992       0x3d /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jmemnobs.o)
  .debug_rnglists
-                0x000029d9      0x10f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jquant1-8.o)
+                0x000029cf      0x10f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jquant1-8.o)
  .debug_rnglists
-                0x00002ae8      0x122 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jquant1-12.o)
+                0x00002ade      0x122 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jquant1-12.o)
  .debug_rnglists
-                0x00002c0a      0x127 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jquant2-8.o)
+                0x00002c00      0x127 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jquant2-8.o)
  .debug_rnglists
-                0x00002d31      0x124 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jquant2-12.o)
+                0x00002d27      0x124 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jquant2-12.o)
  .debug_rnglists
-                0x00002e55       0x2b /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jutils-8.o)
+                0x00002e4b       0x2b /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jutils-8.o)
  .debug_rnglists
-                0x00002e80       0x13 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jutils-12.o)
+                0x00002e76       0x13 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jutils-12.o)
  .debug_rnglists
-                0x00002e93       0x13 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jutils-16.o)
+                0x00002e89       0x13 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jutils-16.o)
  .debug_rnglists
-                0x00002ea6       0x72 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdarith.o)
+                0x00002e9c       0x72 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdarith.o)
  .debug_rnglists
-                0x00002f18      0x1f2 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jsimd.o)
+                0x00002f0e      0x1f2 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jsimd.o)
  .debug_rnglists
-                0x0000310a       0x25 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jcomapi.o)
+                0x00003100       0x25 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jcomapi.o)
  .debug_rnglists
-                0x0000312f       0x8a /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcoefct-8.o)
+                0x00003125       0x8a /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcoefct-8.o)
  .debug_rnglists
-                0x000031b9       0x8a /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcoefct-12.o)
+                0x000031af       0x8a /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcoefct-12.o)
  .debug_rnglists
-                0x00003243       0xc0 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcolor-8.o)
+                0x00003239       0xc0 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcolor-8.o)
  .debug_rnglists
-                0x00003303       0xc1 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcolor-12.o)
+                0x000032f9       0xc1 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcolor-12.o)
  .debug_rnglists
-                0x000033c4       0xb5 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcolor-16.o)
+                0x000033ba       0xb5 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcolor-16.o)
  .debug_rnglists
-                0x00003479       0x3a /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddctmgr-8.o)
+                0x0000346f       0x3a /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddctmgr-8.o)
  .debug_rnglists
-                0x000034b3       0x35 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddctmgr-12.o)
+                0x000034a9       0x35 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddctmgr-12.o)
  .debug_rnglists
-                0x000034e8       0x6c /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddiffct-8.o)
+                0x000034de       0x6c /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddiffct-8.o)
  .debug_rnglists
-                0x00003554       0x6c /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddiffct-12.o)
+                0x0000354a       0x6c /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddiffct-12.o)
  .debug_rnglists
-                0x000035c0       0x6c /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddiffct-16.o)
+                0x000035b6       0x6c /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jddiffct-16.o)
  .debug_rnglists
-                0x0000362c      0x219 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdhuff.o)
+                0x00003622      0x219 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdhuff.o)
  .debug_rnglists
-                0x00003845       0x4e /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdlhuff.o)
+                0x0000383b       0x4e /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdlhuff.o)
  .debug_rnglists
-                0x00003893       0x57 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdlossls-8.o)
+                0x00003889       0x57 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdlossls-8.o)
  .debug_rnglists
-                0x000038ea       0x57 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdlossls-12.o)
+                0x000038e0       0x57 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdlossls-12.o)
  .debug_rnglists
-                0x00003941       0x57 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdlossls-16.o)
+                0x00003937       0x57 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdlossls-16.o)
  .debug_rnglists
-                0x00003998       0x7f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmainct-8.o)
+                0x0000398e       0x7f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmainct-8.o)
  .debug_rnglists
-                0x00003a17       0x7f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmainct-12.o)
+                0x00003a0d       0x7f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmainct-12.o)
  .debug_rnglists
-                0x00003a96       0x7f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmainct-16.o)
+                0x00003a8c       0x7f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmainct-16.o)
  .debug_rnglists
-                0x00003b15       0x31 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctflt-8.o)
+                0x00003b0b       0x31 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctflt-8.o)
  .debug_rnglists
-                0x00003b46       0x31 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctflt-12.o)
+                0x00003b3c       0x31 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctflt-12.o)
  .debug_rnglists
-                0x00003b77       0x2f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctfst-8.o)
+                0x00003b6d       0x2f /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctfst-8.o)
  .debug_rnglists
-                0x00003ba6       0x32 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctfst-12.o)
+                0x00003b9c       0x32 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctfst-12.o)
  .debug_rnglists
-                0x00003bd8       0x86 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctint-8.o)
+                0x00003bce       0x86 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctint-8.o)
  .debug_rnglists
-                0x00003c5e       0x86 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctint-12.o)
+                0x00003c54       0x86 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctint-12.o)
  .debug_rnglists
-                0x00003ce4       0x5c /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctred-8.o)
+                0x00003cda       0x5c /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctred-8.o)
  .debug_rnglists
-                0x00003d40       0x59 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctred-12.o)
+                0x00003d36       0x59 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctred-12.o)
  .debug_rnglists
-                0x00003d99     0x3063 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmerge-neon.o)
+                0x00003d8f     0x3063 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdmerge-neon.o)
  .debug_rnglists
-                0x00006dfc      0x635 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdsample-neon.o)
+                0x00006df2      0x635 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdsample-neon.o)
  .debug_rnglists
-                0x00007431      0x9fd /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctred-neon.o)
+                0x00007427      0x9fd /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctred-neon.o)
  .debug_rnglists
-                0x00007e2e     0x1155 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctint-neon.o)
+                0x00007e24     0x1155 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctint-neon.o)
  .debug_rnglists
-                0x00008f83      0xd3b /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctfst-neon.o)
+                0x00008f79      0xd3b /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jidctfst-neon.o)
  .debug_rnglists
-                0x00009cbe     0x1be9 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcolor-neon.o)
+                0x00009cb4     0x1be9 /opt/devkitpro/portlibs/3ds/lib/libjpeg.a(jdcolor-neon.o)
  .debug_rnglists
-                0x0000b8a7       0x9e /opt/devkitpro/libctru/lib/libctru.a(linear.o)
+                0x0000b89d       0x9e /opt/devkitpro/libctru/lib/libctru.a(linear.o)
  .debug_rnglists
-                0x0000b945      0x12c /opt/devkitpro/libctru/lib/libctru.a(mem_pool.o)
+                0x0000b93b      0x12c /opt/devkitpro/libctru/lib/libctru.a(mem_pool.o)
  .debug_rnglists
-                0x0000ba71      0x102 /opt/devkitpro/libctru/lib/libctru.a(vram.o)
+                0x0000ba67      0x102 /opt/devkitpro/libctru/lib/libctru.a(vram.o)
  .debug_rnglists
-                0x0000bb73       0xa8 /opt/devkitpro/libctru/lib/libctru.a(font.o)
+                0x0000bb69       0xa8 /opt/devkitpro/libctru/lib/libctru.a(font.o)
  .debug_rnglists
-                0x0000bc1b       0xf4 /opt/devkitpro/libctru/lib/libctru.a(gfx.o)
+                0x0000bc11       0xf4 /opt/devkitpro/libctru/lib/libctru.a(gfx.o)
  .debug_rnglists
-                0x0000bd0f       0x7a /opt/devkitpro/libctru/lib/libctru.a(os.o)
+                0x0000bd05       0x7a /opt/devkitpro/libctru/lib/libctru.a(os.o)
  .debug_rnglists
-                0x0000bd89       0x59 /opt/devkitpro/libctru/lib/libctru.a(gpu.o)
+                0x0000bd7f       0x59 /opt/devkitpro/libctru/lib/libctru.a(gpu.o)
  .debug_rnglists
-                0x0000bde2       0xa6 /opt/devkitpro/libctru/lib/libctru.a(gx.o)
+                0x0000bdd8       0xa6 /opt/devkitpro/libctru/lib/libctru.a(gx.o)
  .debug_rnglists
-                0x0000be88       0x56 /opt/devkitpro/libctru/lib/libctru.a(gxqueue.o)
+                0x0000be7e       0x56 /opt/devkitpro/libctru/lib/libctru.a(gxqueue.o)
  .debug_rnglists
-                0x0000bede      0x279 /opt/devkitpro/libctru/lib/libctru.a(shaderProgram.o)
+                0x0000bed4      0x279 /opt/devkitpro/libctru/lib/libctru.a(shaderProgram.o)
  .debug_rnglists
-                0x0000c157       0x58 /opt/devkitpro/libctru/lib/libctru.a(shbin.o)
+                0x0000c14d       0x58 /opt/devkitpro/libctru/lib/libctru.a(shbin.o)
  .debug_rnglists
-                0x0000c1af      0x216 /opt/devkitpro/libctru/lib/libctru.a(ndsp.o)
+                0x0000c1a5      0x216 /opt/devkitpro/libctru/lib/libctru.a(ndsp.o)
  .debug_rnglists
-                0x0000c3c5      0x216 /opt/devkitpro/libctru/lib/libctru.a(ndsp-channel.o)
+                0x0000c3bb      0x216 /opt/devkitpro/libctru/lib/libctru.a(ndsp-channel.o)
  .debug_rnglists
-                0x0000c5db      0x7bf /opt/devkitpro/libctru/lib/libctru.a(apt.o)
+                0x0000c5d1      0x7bf /opt/devkitpro/libctru/lib/libctru.a(apt.o)
  .debug_rnglists
-                0x0000cd9a      0x248 /opt/devkitpro/libctru/lib/libctru.a(cfgu.o)
+                0x0000cd90      0x248 /opt/devkitpro/libctru/lib/libctru.a(cfgu.o)
  .debug_rnglists
-                0x0000cfe2      0x207 /opt/devkitpro/libctru/lib/libctru.a(dsp.o)
+                0x0000cfd8      0x207 /opt/devkitpro/libctru/lib/libctru.a(dsp.o)
  .debug_rnglists
-                0x0000d1e9     0x12a4 /opt/devkitpro/libctru/lib/libctru.a(fs.o)
+                0x0000d1df     0x12a4 /opt/devkitpro/libctru/lib/libctru.a(fs.o)
  .debug_rnglists
-                0x0000e48d      0x57e /opt/devkitpro/libctru/lib/libctru.a(gspgpu.o)
+                0x0000e483      0x57e /opt/devkitpro/libctru/lib/libctru.a(gspgpu.o)
  .debug_rnglists
-                0x0000ea0b      0x10a /opt/devkitpro/libctru/lib/libctru.a(hid.o)
+                0x0000ea01      0x10a /opt/devkitpro/libctru/lib/libctru.a(hid.o)
  .debug_rnglists
-                0x0000eb15       0x88 /opt/devkitpro/libctru/lib/libctru.a(irrst.o)
+                0x0000eb0b       0x88 /opt/devkitpro/libctru/lib/libctru.a(irrst.o)
  .debug_rnglists
-                0x0000eb9d      0x15e /opt/devkitpro/libctru/lib/libctru.a(ptmsysm.o)
+                0x0000eb93      0x15e /opt/devkitpro/libctru/lib/libctru.a(ptmsysm.o)
  .debug_rnglists
-                0x0000ecfb       0xaa /opt/devkitpro/libctru/lib/libctru.a(ptmu.o)
+                0x0000ecf1       0xaa /opt/devkitpro/libctru/lib/libctru.a(ptmu.o)
  .debug_rnglists
-                0x0000eda5       0x22 /opt/devkitpro/libctru/lib/libctru.a(rbtree_find.o)
+                0x0000ed9b       0x22 /opt/devkitpro/libctru/lib/libctru.a(rbtree_find.o)
  .debug_rnglists
-                0x0000edc7       0x13 /opt/devkitpro/libctru/lib/libctru.a(rbtree_init.o)
+                0x0000edbd       0x13 /opt/devkitpro/libctru/lib/libctru.a(rbtree_init.o)
  .debug_rnglists
-                0x0000edda      0x131 /opt/devkitpro/libctru/lib/libctru.a(rbtree_insert.o)
+                0x0000edd0      0x131 /opt/devkitpro/libctru/lib/libctru.a(rbtree_insert.o)
  .debug_rnglists
-                0x0000ef0b      0x13b /opt/devkitpro/libctru/lib/libctru.a(rbtree_remove.o)
+                0x0000ef01      0x13b /opt/devkitpro/libctru/lib/libctru.a(rbtree_remove.o)
  .debug_rnglists
-                0x0000f046       0x47 /opt/devkitpro/libctru/lib/libctru.a(rbtree_rotate.o)
+                0x0000f03c       0x47 /opt/devkitpro/libctru/lib/libctru.a(rbtree_rotate.o)
  .debug_rnglists
-                0x0000f08d       0x14 /opt/devkitpro/libctru/lib/libctru.a(decode_utf8.o)
+                0x0000f083       0x14 /opt/devkitpro/libctru/lib/libctru.a(decode_utf8.o)
  .debug_rnglists
-                0x0000f0a1       0x14 /opt/devkitpro/libctru/lib/libctru.a(utf16_to_utf8.o)
+                0x0000f097       0x14 /opt/devkitpro/libctru/lib/libctru.a(utf16_to_utf8.o)
  .debug_rnglists
-                0x0000f0b5       0x14 /opt/devkitpro/libctru/lib/libctru.a(utf8_to_utf16.o)
+                0x0000f0ab       0x14 /opt/devkitpro/libctru/lib/libctru.a(utf8_to_utf16.o)
  .debug_rnglists
-                0x0000f0c9       0x14 /opt/devkitpro/libctru/lib/libctru.a(allocateHeaps.o)
+                0x0000f0bf       0x14 /opt/devkitpro/libctru/lib/libctru.a(allocateHeaps.o)
  .debug_rnglists
-                0x0000f0dd       0x13 /opt/devkitpro/libctru/lib/libctru.a(ctru_init.o)
+                0x0000f0d3       0x13 /opt/devkitpro/libctru/lib/libctru.a(ctru_init.o)
  .debug_rnglists
-                0x0000f0f0       0x23 /opt/devkitpro/libctru/lib/libctru.a(initArgv.o)
+                0x0000f0e6       0x23 /opt/devkitpro/libctru/lib/libctru.a(initArgv.o)
  .debug_rnglists
-                0x0000f113       0xf9 /opt/devkitpro/libctru/lib/libctru.a(syscalls.o)
+                0x0000f109       0xf9 /opt/devkitpro/libctru/lib/libctru.a(syscalls.o)
  .debug_rnglists
-                0x0000f20c      0x25f /opt/devkitpro/libctru/lib/libctru.a(svc.o)
+                0x0000f202      0x25f /opt/devkitpro/libctru/lib/libctru.a(svc.o)
  .debug_rnglists
-                0x0000f46b       0x19 /opt/devkitpro/libctru/lib/libctru.a(stack_adjust.o)
+                0x0000f461       0x19 /opt/devkitpro/libctru/lib/libctru.a(stack_adjust.o)
  .debug_rnglists
-                0x0000f484       0x14 /opt/devkitpro/libctru/lib/libctru.a(3dslink.o)
+                0x0000f47a       0x14 /opt/devkitpro/libctru/lib/libctru.a(3dslink.o)
  .debug_rnglists
-                0x0000f498       0x1a /opt/devkitpro/libctru/lib/libctru.a(env.o)
+                0x0000f48e       0x1a /opt/devkitpro/libctru/lib/libctru.a(env.o)
  .debug_rnglists
-                0x0000f4b2      0x185 /opt/devkitpro/libctru/lib/libctru.a(srv.o)
+                0x0000f4a8      0x185 /opt/devkitpro/libctru/lib/libctru.a(srv.o)
  .debug_rnglists
-                0x0000f637      0x417 /opt/devkitpro/libctru/lib/libctru.a(synchronization.o)
+                0x0000f62d      0x417 /opt/devkitpro/libctru/lib/libctru.a(synchronization.o)
  .debug_rnglists
-                0x0000fa4e       0xaa /opt/devkitpro/libctru/lib/libctru.a(thread.o)
+                0x0000fa44       0xaa /opt/devkitpro/libctru/lib/libctru.a(thread.o)
  .debug_rnglists
-                0x0000faf8       0x38 /opt/devkitpro/libctru/lib/libctru.a(mappable.o)
+                0x0000faee       0x38 /opt/devkitpro/libctru/lib/libctru.a(mappable.o)
  .debug_rnglists
-                0x0000fb30       0xef /opt/devkitpro/libctru/lib/libctru.a(srvpm.o)
+                0x0000fb26       0xef /opt/devkitpro/libctru/lib/libctru.a(srvpm.o)
  .debug_rnglists
-                0x0000fc1f       0x61 /opt/devkitpro/libctru/lib/libctru.a(rbtree_iterator.o)
+                0x0000fc15       0x61 /opt/devkitpro/libctru/lib/libctru.a(rbtree_iterator.o)
  .debug_rnglists
-                0x0000fc80       0x13 /opt/devkitpro/libctru/lib/libctru.a(decode_utf16.o)
+                0x0000fc76       0x13 /opt/devkitpro/libctru/lib/libctru.a(decode_utf16.o)
  .debug_rnglists
-                0x0000fc93       0x13 /opt/devkitpro/libctru/lib/libctru.a(encode_utf16.o)
+                0x0000fc89       0x13 /opt/devkitpro/libctru/lib/libctru.a(encode_utf16.o)
  .debug_rnglists
-                0x0000fca6       0x14 /opt/devkitpro/libctru/lib/libctru.a(encode_utf8.o)
+                0x0000fc9c       0x14 /opt/devkitpro/libctru/lib/libctru.a(encode_utf8.o)
  .debug_rnglists
-                0x0000fcba       0x13 /opt/devkitpro/libctru/lib/libctru.a(appExit.o)
+                0x0000fcb0       0x13 /opt/devkitpro/libctru/lib/libctru.a(appExit.o)
  .debug_rnglists
-                0x0000fccd       0x13 /opt/devkitpro/libctru/lib/libctru.a(appInit.o)
+                0x0000fcc3       0x13 /opt/devkitpro/libctru/lib/libctru.a(appInit.o)
  .debug_rnglists
-                0x0000fce0       0x14 /opt/devkitpro/libctru/lib/libctru.a(ctru_exit.o)
+                0x0000fcd6       0x14 /opt/devkitpro/libctru/lib/libctru.a(ctru_exit.o)
  .debug_rnglists
-                0x0000fcf4      0x1f2 /opt/devkitpro/libctru/lib/libctru.a(archive_dev.o)
+                0x0000fcea      0x1f2 /opt/devkitpro/libctru/lib/libctru.a(archive_dev.o)
  .debug_rnglists
-                0x0000fee6       0x13 /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(_fixdfdi.o)
+                0x0000fedc       0x13 /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(_fixdfdi.o)
  .debug_rnglists
-                0x0000fef9       0x13 /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(_fixunsdfdi.o)
+                0x0000feef       0x13 /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(_fixunsdfdi.o)
  .debug_rnglists
-                0x0000ff0c       0x14 /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(_udivmoddi4.o)
+                0x0000ff02       0x14 /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(_udivmoddi4.o)
  .debug_rnglists
-                0x0000ff20      0x16a /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(unwind-arm.o)
+                0x0000ff16      0x16a /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(unwind-arm.o)
  .debug_rnglists
-                0x0001008a       0x5f /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(pr-support.o)
+                0x00010080       0x5f /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/armv6k/fpu/libgcc.a(pr-support.o)
 
 .debug_line_str
                 0x00000000      0x22e
