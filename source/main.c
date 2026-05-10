@@ -98,28 +98,16 @@ int main(void) {
                         selected = idx;
                     }
                 }
-            }
-            
-            if (held & KEY_TOUCH) {
-                int diffY = touchStartY - touch.py;
-                if (abs(diffY) > 5) { // Threshold to distinguish scroll from static touch
-                    int rowH = 15;
-                    int scrollDiff = diffY / rowH;
-                    int newOffset = scrollOffsetAtTouchStart + scrollDiff;
-                    if (newOffset < 0) newOffset = 0;
-                    if (newOffset > entryCount - PAGE_SIZE) newOffset = entryCount - PAGE_SIZE;
-                    if (entryCount <= PAGE_SIZE) newOffset = 0;
-                    scrollOffset = newOffset;
-                }
-            } else if (touching) {
+            } else if (touching && !(held & KEY_TOUCH)) {
                 // Touch release - handle action if didn't scroll much
                 touching = false;
+                
+                // Use the last known coordinate or a fresh read
                 touchPosition releaseTouch;
                 hidTouchRead(&releaseTouch);
                 
                 // If it was a tap (little movement), trigger action
                 if (abs(releaseTouch.py - touchStartY) < 20) {
-                    // Action is already set based on 'selected' during touch down
                     if (selected < entryCount) {
                         Entry *e = &entries[selected];
                         if (e->type == ENTRY_DIR) {
@@ -130,6 +118,17 @@ int main(void) {
                             startPlayback(e->fullPath);
                         }
                     }
+                }
+            } else if (held & KEY_TOUCH) {
+                int diffY = touchStartY - touch.py;
+                if (abs(diffY) > 5) { // Threshold to distinguish scroll from static touch
+                    int rowH = 15;
+                    int scrollDiff = diffY / rowH;
+                    int newOffset = scrollOffsetAtTouchStart + scrollDiff;
+                    if (newOffset < 0) newOffset = 0;
+                    if (newOffset > entryCount - PAGE_SIZE) newOffset = entryCount - PAGE_SIZE;
+                    if (entryCount <= PAGE_SIZE) newOffset = 0;
+                    scrollOffset = newOffset;
                 }
             }
 
