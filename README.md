@@ -1,67 +1,58 @@
-# Tunez3DS
+<div align="center">
+  <img src="icon.png" alt="Tunez3DS Logo" width="128"/>
+  <h1>Tunez3DS</h1>
+  <p><strong>A modern, glass-aesthetic MP3 player for the Nintendo 3DS.</strong></p>
+  
+  <a href="https://github.com/veylo-3DS/Tunez-3DS/releases/latest">
+    <img src="https://img.shields.io/github/release/veylo-3DS/Tunez-3DS.svg" alt="Latest Release"/>
+  </a>
+  <img src="https://img.shields.io/github/license/veylo-3DS/Tunez-3DS.svg" alt="License"/>
+</div>
 
-A feature-rich, open-source MP3 player for the Nintendo 3DS, designed for a modern and intuitive music listening experience.
+---
 
-![Tunez3DS Logo](icon.png)
-
-## Notice
-I'm not the best C dev in the world so if there is bugs, please make a github issue — and i will get it as fast as i can. Sometimes i will resopond fast, other times i wont, this is becuase this was mostly a side project for myself. But i decided to share it with other people if they wanted a proper Music Player for their 3DS!1!!
-
-## Overview
-
+## ✨ Overview
 Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music library. Built with `citro2d` and `citro3d` for hardware-accelerated graphics and `ndsp` for high-quality audio, it offers a smooth, responsive browsing and playback experience.
 
-## Features
+## 🚀 Key Features
+- **Intuitive Touch Interface**: Navigate folders and play songs with a responsive, modern tap-to-act browser.
+- **Hardware-Accelerated UI**: Fluid animations and depth effects powered by `citro2d`.
+- **Customization**: Choose from 7 unique, system-inspired color themes.
+- **Playback Control**: Adjust speed (0.25x - 4x) and modes (Shuffle, Repeat, etc.) on the fly.
+- **Safety First**: Customizable lid-protection to prevent accidental track skips while in your pocket.
+- **Easy Updates**: Check for the latest release directly within the settings menu.
 
-- **Intuitive Browser**: Overhauled touch controls with immediate selection and tap-to-open.
-- **ID3 Tag Support**: Automatically displays song titles, artists, and embedded album art.
-- **Playback Versatility**: Supports Normal, Repeat All, Repeat One, and Shuffle modes.
-- **Customization**: 7 unique system-inspired color themes.
-- **Playback Speed**: Adjust audio speed from 0.25x to 4x in the **Settings menu** (SELECT).
-- **Lid Protection**: Customizable safety setting to disable L/R skipping when the console is closed.
-- **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
+## 📱 Quick Install
+1. **[Download the latest CIA or 3DSX](https://github.com/veylo-3DS/Tunez-3DS/releases/latest)**.
+2. Scan this QR code with [FBI](https://github.com/Steveice10/FBI):
+   <br><br>
+   <img src="Tunez3DS_qr.png" alt="Tunez3DS QR Code" width="200"/>
 
-## Latest Release (v3.1.7)
+---
 
-- **Touch Interaction Fix**: Verified and finalized the fix for touch-to-open/play actions, ensuring reliable responsiveness across all folders and songs.
-
-## Installation
-
-### Method 1: Universal Updater (Recommended)
-Install directly via the [Universal Updater](https://github.com/Universal-Team/Universal-Updater) app on your 3DS.
-
-### Method 2: Manual Installation
-1. Download the latest `.cia` file from our [Releases page](https://github.com/veylo-3DS/Tunez-3DS/releases/latest).
-2. Scan the QR code below using [FBI](https://github.com/Steveice10/FBI) to install:
-
-![Install via QR code](Tunez3DS_qr.png)
-
-## Controls
+## 🎮 Controls
 
 | Button | Action |
 | :--- | :--- |
+| **Touch** | Tap to Select/Open/Play |
 | **D-Pad Up/Down** | Navigate file list / Adjust settings |
-| **D-Pad L/R** | Cycle playback modes / Adjust speed (Settings) |
+| **D-Pad L/R** | Cycle playback modes / Adjust speed |
 | **L / R Shoulder** | Skip tracks / Switch settings pages |
-| **A** | Open folder / Play track / Apply settings |
-| **X** | Pause / Resume / Reset speed (Settings) |
+| **A** | Play/Open / Apply settings |
+| **X** | Pause/Resume / Reset speed |
 | **Y** | Stop playback |
-| **B** | Go up one folder / Back to browser |
-| **START** | Quit application |
+| **B / START** | Exit to browser / Quit application |
 | **SELECT** | Open Settings |
 
-## Setup
+---
 
+## 🛠 Setup
 Place your MP3 files on your SD card under `sdmc:/Music`. Subfolders are fully supported and can be navigated via the in-app file browser.
 
-## Building from Source
-
-### Requirements
-- [devkitPro](https://devkitpro.org/) with `devkitARM`
-- `libmpg123`, `libid3tag`, `libjpeg`, `libpng`
-- `citro2d` / `citro3d`
-
-### Build Commands
+## 💻 Development
+Requires [devkitPro](https://devkitpro.org/) with `devkitARM`.
 - **Build 3DSX**: `make`
 - **Build CIA**: `make cia NO_SMDH=1`
-- **Clean**: `make clean`
+
+---
+*Built for the 3DS community. Report issues via GitHub Issues.*
