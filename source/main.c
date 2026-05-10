@@ -64,7 +64,7 @@ int main(void) {
             if (down & KEY_DLEFT) {
                 setPlaybackSpeed(playbackSpeed - 0.1f);
             }
-            if (down & KEY_X || down & KEY_B) {
+            if (down & KEY_B) {
                 currentScreen = SCREEN_SETTINGS;
             }
         } else {
