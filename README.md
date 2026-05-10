@@ -4,6 +4,9 @@ A feature-rich, open-source MP3 player for the Nintendo 3DS, designed for a mode
 
 ![Tunez3DS Logo](icon.png)
 
+## Notice
+I'm not the best C dev in the world so if there is bugs, please make a github issue — and i will get it as fast as i can. Sometimes i will resopond fast, other times i wont, this is becuase this was mostly a side project for myself. But i decided to share it with other people if they wanted a proper Music Player for their 3DS!1!!
+
 ## Overview
 
 Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music library. Built with `citro2d` and `citro3d` for hardware-accelerated graphics and `ndsp` for high-quality audio, it offers a smooth, responsive browsing and playback experience.
