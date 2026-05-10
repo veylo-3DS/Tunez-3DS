@@ -114,7 +114,9 @@ int main(void) {
             } else if (touching) {
                 // Touch release - handle action if didn't scroll much
                 touching = false;
-                if (abs(touch.py - touchStartY) < 10) {
+                
+                // If it was a tap (little movement), trigger action
+                if (abs(touch.py - touchStartY) < 15) {
                     int listY = 40, rowH = 16;
                     if (touch.py >= listY && touch.py < listY + PAGE_SIZE * rowH) {
                         int idx = scrollOffset + (touch.py - listY) / rowH;
