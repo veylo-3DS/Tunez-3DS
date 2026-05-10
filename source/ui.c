@@ -346,11 +346,11 @@ void drawSettingsScreen(void) {
     char speedBuf[32];
     snprintf(speedBuf, 32, "%.2fx", playbackSpeed);
     drawText(speedBuf, 18, speedY + 22, 0, 0.48f, CLR_TEXT);
-    drawText("< L/R to adjust >", 18, speedY + 44, 0, 0.40f, CLR_SUBTEXT);
+    drawText("X / Y Adjust Speed", 18, speedY + 66, 0, 0.40f, CLR_HILIGHT);
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 28, CLR_PANEL);
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 2, CLR_ACCENT);
-    drawText("Up/Down Select   A Apply   B Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+    drawText("Up/Down Theme   A/Select Apply   B Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
 
     C2D_TargetClear(botTarget, CLR_BG);
     C2D_SceneBegin(botTarget);

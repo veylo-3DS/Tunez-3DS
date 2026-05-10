@@ -10109,117 +10109,117 @@ Linker script and memory map
  *(.roda)
  *(.rodata.*)
  .rodata.str1.4
-                0x001af470     0x7270 browser.o
+                0x001af470     0x7274 browser.o
                                  0x1e (size before relaxing)
  .rodata.str1.4
-                0x001b66e0        0x0 ui.o
-                                0x27b (size before relaxing)
+                0x001b66e4        0x0 ui.o
+                                0x27f (size before relaxing)
  .rodata.decode_the_frame.str1.4
-                0x001b66e0        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
+                0x001b66e4        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
                                  0x3e (size before relaxing)
  .rodata.frame_buffercheck.part.0.constprop.0.str1.4
-                0x001b66e0        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
+                0x001b66e4        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
                                  0xae (size before relaxing)
  .rodata.mpg123_par
-                0x001b66e0       0x14 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
+                0x001b66e4       0x14 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
  .rodata.INT123_decode_update.str1.4
-                0x001b66f4        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
+                0x001b66f8        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
                                  0x91 (size before relaxing)
  .rodata.__func__.0
-                0x001b66f4       0x15 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
+                0x001b66f8       0x15 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-libmpg123.o)
  .rodata.INT123_synth_ntom_set_step.str1.4
-                0x001b6709        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-ntom.o)
+                0x001b670d        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-ntom.o)
                                  0xbe (size before relaxing)
- *fill*         0x001b6709        0x3 
+ *fill*         0x001b670d        0x3 
  .rodata.__func__.0
-                0x001b670c       0x1b /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-ntom.o)
+                0x001b6710       0x1b /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-ntom.o)
  .rodata.decode_header.str1.4
-                0x001b6727        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+                0x001b672b        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
                                 0x25f (size before relaxing)
  .rodata.getbits.constprop.0.str1.4
-                0x001b6727        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+                0x001b672b        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
                                  0x54 (size before relaxing)
  .rodata.INT123_read_frame.str1.4
-                0x001b6727        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+                0x001b672b        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
                                 0x797 (size before relaxing)
  .rodata.INT123_read_frame
-                0x001b6727        0x9 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+                0x001b672b        0x9 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
  .rodata.__func__.1
-                0x001b6730        0x8 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+                0x001b6734        0x8 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
  .rodata.__func__.2
-                0x001b6738        0xd /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
- *fill*         0x001b6745        0x3 
+                0x001b673c        0xd /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+ *fill*         0x001b6749        0x3 
  .rodata.__func__.3
-                0x001b6748        0xe /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
- *fill*         0x001b6756        0x2 
+                0x001b674c        0xe /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+ *fill*         0x001b675a        0x2 
  .rodata.__func__.4
-                0x001b6758        0x8 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+                0x001b675c        0x8 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
  .rodata.__func__.5
-                0x001b6760       0x1b /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
- *fill*         0x001b677b        0x1 
+                0x001b6764       0x1b /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+ *fill*         0x001b677f        0x1 
  .rodata.__func__.6
-                0x001b677c        0xe /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
- *fill*         0x001b678a        0x2 
+                0x001b6780        0xe /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+ *fill*         0x001b678e        0x2 
  .rodata.__func__.7
-                0x001b678c        0xa /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
- *fill*         0x001b6796        0x2 
- .rodata.freqs  0x001b6798       0x24 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+                0x001b6790        0xa /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+ *fill*         0x001b679a        0x2 
+ .rodata.freqs  0x001b679c       0x24 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
  .rodata.tabsel_123
-                0x001b67bc      0x180 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
+                0x001b67c0      0x180 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-parse.o)
  .rodata.INT123_frame_outbuffer.str1.4
-                0x001b693c        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+                0x001b6940        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
                                  0x53 (size before relaxing)
  .rodata.INT123_frame_index_setup.str1.4
-                0x001b693c        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+                0x001b6940        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
                                  0x56 (size before relaxing)
  .rodata.INT123_frame_ins2outs.str1.4
-                0x001b693c        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+                0x001b6940        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
                                  0x5a (size before relaxing)
  .rodata.INT123_frame_offset.str1.4
-                0x001b693c        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+                0x001b6940        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
                                  0x2d (size before relaxing)
  .rodata.INT123_do_rva.str1.4
-                0x001b693c        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+                0x001b6940        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
                                  0x9a (size before relaxing)
  .rodata.__func__.0
-                0x001b693c        0xe /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
- *fill*         0x001b694a        0x2 
+                0x001b6940        0xe /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+ *fill*         0x001b694e        0x2 
  .rodata.__func__.2
-                0x001b694c       0x14 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+                0x001b6950       0x14 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
  .rodata.__func__.3
-                0x001b6960       0x1f /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
- *fill*         0x001b697f        0x1 
+                0x001b6964       0x1f /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+ *fill*         0x001b6983        0x1 
  .rodata.__func__.4
-                0x001b6980       0x12 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
- *fill*         0x001b6992        0x2 
+                0x001b6984       0x12 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+ *fill*         0x001b6996        0x2 
  .rodata.__func__.5
-                0x001b6994       0x16 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
- *fill*         0x001b69aa        0x2 
+                0x001b6998       0x16 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+ *fill*         0x001b69ae        0x2 
  .rodata.__func__.6
-                0x001b69ac       0x19 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
- *fill*         0x001b69c5        0x3 
+                0x001b69b0       0x19 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+ *fill*         0x001b69c9        0x3 
  .rodata.__func__.7
-                0x001b69c8       0x17 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
- *fill*         0x001b69df        0x1 
+                0x001b69cc       0x17 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-frame.o)
+ *fill*         0x001b69e3        0x1 
  .rodata.swap_bytes
-                0x001b69e0        0xe /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
+                0x001b69e4        0xe /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
  .rodata.conv_s16_to_s32.str1.4
-                0x001b69ee        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
+                0x001b69f2        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
                                  0x58 (size before relaxing)
  .rodata.INT123_frame_output_format.str1.4
-                0x001b69ee        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
+                0x001b69f2        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
                                 0x143 (size before relaxing)
  .rodata.mpg123_fmt_all.str1.4
-                0x001b69ee        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
+                0x001b69f2        0x0 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
                                  0x1d (size before relaxing)
- *fill*         0x001b69ee        0x2 
+ *fill*         0x001b69f2        0x2 
  .rodata.__func__.0
-                0x001b69f0       0x10 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
+                0x001b69f4       0x10 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
  .rodata.__func__.1
-                0x001b6a00       0x10 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
+                0x001b6a04       0x10 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
  .rodata.__func__.2
-                0x001b6a10       0x1b /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
- *fill*         0x001b6a2b        0x5 
+                0x001b6a14       0x1b /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
+ *fill*         0x001b6a2f        0x1 
  .rodata.my_encodings
                 0x001b6a30       0x30 /opt/devkitpro/portlibs/3ds/lib/libmpg123.a(libmpg123_la-format.o)
  .rodata.my_rates

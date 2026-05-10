@@ -51,10 +51,10 @@ int main(void) {
             if (down & KEY_UP) {
                 if (currentTheme > 0) currentTheme--;
             }
-            if (down & KEY_DRIGHT) {
+            if (down & KEY_X) {
                 setPlaybackSpeed(playbackSpeed + 0.1f);
             }
-            if (down & KEY_DLEFT) {
+            if (down & KEY_Y) {
                 setPlaybackSpeed(playbackSpeed - 0.1f);
             }
             if (down & KEY_B || down & KEY_SELECT) {
