@@ -14,6 +14,7 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 ## Features
 
 - **Intuitive Browser**: Overhauled touch controls with immediate selection and tap-to-open.
+- **Software Updates**: Check for the latest version directly from the Settings menu.
 - **ID3 Tag Support**: Automatically displays song titles, artists, and embedded album art.
 - **Playback Versatility**: Supports Normal, Repeat All, Repeat One, and Shuffle modes.
 - **Customization**: 7 unique system-inspired color themes.
@@ -21,12 +22,12 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 - **Lid Protection**: Customizable safety setting to disable L/R skipping when the console is closed.
 - **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
 
-## Latest Release (v3.0.0)
+## Latest Release (v3.1.0)
 
 - **Touch Interaction Overhaul**: The browser now feels much more responsive. Tapping an item immediately selects it, and releasing the tap opens the folder or plays the song.
+- **Software Update Check**: Added a new settings page to check for newer versions on GitHub (requires Wi-Fi).
 - **LED Feature Removal**: Removed the notification LED visualizer to focus on core performance and a cleaner settings menu.
-- **Streamlined Settings**: Settings menu has been refined to 3 pages (Theme, Speed, Safety).
-- **Navigation Polish**: Consistent "Back" behavior across all settings pages using B, SELECT, or START.
+- **Streamlined Settings**: Settings menu has been refined to 4 pages (Theme, Speed, Safety, Update).
 
 ## Installation
 

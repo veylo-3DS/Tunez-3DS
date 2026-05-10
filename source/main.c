@@ -23,6 +23,7 @@ int main(void) {
     audioBuf = (u8 *)linearAlloc(1024 * 1024); // Allocate enough for BUF_SIZE * 2
     mpg123_init();
     ptmuInit();
+    httpcInit(0x1000);
 
     aptSetSleepAllowed(false);
 
@@ -51,10 +52,10 @@ int main(void) {
 
         if (currentScreen == SCREEN_SETTINGS) {
             if (down & KEY_L) {
-                settingsPage = (settingsPage + 2) % 3;
+                settingsPage = (settingsPage + 3) % 4;
             }
             if (down & KEY_R) {
-                settingsPage = (settingsPage + 1) % 3;
+                settingsPage = (settingsPage + 1) % 4;
             }
 
             if (settingsPage == 0) {
@@ -76,12 +77,17 @@ int main(void) {
                 }
             } else if (settingsPage == 2) {
                 if (down & KEY_A) disableLRSkipClosed = !disableLRSkipClosed;
+            } else if (settingsPage == 3) {
+                if (down & KEY_A) {
+                    checkForUpdates();
+                }
             }
 
             if (down & KEY_START || down & KEY_B || down & KEY_SELECT) {
                 saveTheme();
                 currentScreen = SCREEN_BROWSER;
                 settingsPage = 0;
+                updateStatus = UPDATE_IDLE;
             }
         } else {
             // Browser touch logic
@@ -224,6 +230,7 @@ int main(void) {
     }
 
     stopPlayback();
+    httpcExit();
     ptmuExit();
     if (hasArt) {
         if (artImage.subtex) free((void*)artImage.subtex);
