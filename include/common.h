@@ -12,7 +12,6 @@
 #define MAX_PATH     512
 #define PAGE_SIZE    10
 #define ART_SIZE     128
-#define APP_VERSION  "v3.0.0"
 
 #define MKCOL(r,g,b,a) ((u32)(r) | ((u32)(g)<<8) | ((u32)(b)<<16) | ((u32)(a)<<24))
 #define red(c)   ((u8)((c) >> 0))
@@ -42,17 +41,6 @@ void setPlaybackSpeed(float speed);
 
 // Input Safety Settings
 extern bool disableLRSkipClosed;
-
-// Update Status
-typedef enum {
-    UPDATE_IDLE,
-    UPDATE_CHECKING,
-    UPDATE_AVAILABLE,
-    UPDATE_UP_TO_DATE,
-    UPDATE_ERROR
-} UpdateStatus;
-extern UpdateStatus updateStatus;
-extern char remoteVersion[32];
 
 // Global state declarations
 extern Theme themes[];
@@ -107,8 +95,6 @@ void autoAdvance(void);
 
 void loadID3Tags(const char *mp3path);
 void loadCoverArt(const char *mp3path);
-
-void checkForUpdates(void);
 
 void drawTopScreen(void);
 void drawBotScreen(void);

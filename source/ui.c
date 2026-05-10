@@ -320,7 +320,7 @@ void drawSettingsScreen(void) {
     C2D_DrawRectSolid(0, 30, 0, TOP_WIDTH, 2, CLR_HILIGHT);
     
     char titleBuf[64];
-    snprintf(titleBuf, 64, "Settings (Page %d/4)", settingsPage + 1);
+    snprintf(titleBuf, 64, "Settings (Page %d/3)", settingsPage + 1);
     
     {
         C2D_Text txt;
@@ -381,39 +381,6 @@ void drawSettingsScreen(void) {
         
         drawText("This setting helps prevent accidental", 18, 170, 0, 0.42f, CLR_SUBTEXT);
         drawText("skips while the console is in your pocket.", 18, 185, 0, 0.42f, CLR_SUBTEXT);
-    } else if (settingsPage == 3) {
-        drawText("Software Update", 12, 44, 0, 0.55f, CLR_SUBTEXT);
-        
-        char curBuf[64];
-        snprintf(curBuf, 64, "Current Version: %s", APP_VERSION);
-        drawText(curBuf, 18, 75, 0, 0.48f, CLR_TEXT);
-
-        drawText("Update Status:", 18, 110, 0, 0.48f, CLR_SUBTEXT);
-        
-        const char *statusText = "Idle";
-        u32 statusColor = CLR_TEXT;
-
-        if (updateStatus == UPDATE_CHECKING) {
-            statusText = "Checking...";
-            statusColor = CLR_ACCENT;
-        } else if (updateStatus == UPDATE_UP_TO_DATE) {
-            statusText = "Your software is up to date!";
-            statusColor = CLR_HILIGHT;
-        } else if (updateStatus == UPDATE_AVAILABLE) {
-            static char availBuf[64];
-            snprintf(availBuf, 64, "New version available: %s", remoteVersion);
-            statusText = availBuf;
-            statusColor = CLR_ACCENT;
-        } else if (updateStatus == UPDATE_ERROR) {
-            statusText = "Error checking for updates.";
-            statusColor = MKCOL(255, 50, 50, 255);
-        }
-
-        drawText(statusText, 18, 130, 0, 0.45f, statusColor);
-        
-        if (updateStatus == UPDATE_IDLE || updateStatus == UPDATE_ERROR || updateStatus == UPDATE_UP_TO_DATE) {
-            drawText("Press A to check for updates", 18, 170, 0, 0.42f, CLR_ACCENT);
-        }
     }
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 28, CLR_PANEL);
@@ -467,15 +434,6 @@ void drawSettingsScreen(void) {
         drawText("When 'Protected', the app", 40, 120, 0, 0.40f, CLR_TEXT);
         drawText("ignores L/R buttons while", 40, 135, 0, 0.40f, CLR_TEXT);
         drawText("the system is closed.", 40, 150, 0, 0.40f, CLR_TEXT);
-    } else if (settingsPage == 3) {
-        drawRoundedRect(20, 40, BOT_WIDTH - 40, 160, 12, CLR_PANEL);
-        drawText("Software Update", 40, 60, 0, 0.45f, CLR_TEXT);
-        drawText("Check for newer versions", 40, 90, 0, 0.40f, CLR_HILIGHT);
-        
-        drawText("This requires an active Wi-Fi", 40, 120, 0, 0.40f, CLR_TEXT);
-        drawText("connection. The app will", 40, 135, 0, 0.40f, CLR_TEXT);
-        drawText("compare your version with", 40, 150, 0, 0.40f, CLR_TEXT);
-        drawText("the latest on GitHub.", 40, 165, 0, 0.40f, CLR_TEXT);
     }
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 28, CLR_PANEL);
