@@ -21,10 +21,9 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 - **Lid Protection**: Customizable safety setting to disable L/R skipping when the console is closed.
 - **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
 
-## Latest Release (v3.1.6)
+## Latest Release (v3.1.7)
 
-- **Touch Logic Fix**: Corrected the touch event handling so that actions trigger reliably upon touch release, regardless of the coordinate polling state.
-- **Reliable Interaction**: Playback and folder navigation now reliably respond to touch events.
+- **Touch Interaction Fix**: Verified and finalized the fix for touch-to-open/play actions, ensuring reliable responsiveness across all folders and songs.
 
 ## Installation
 

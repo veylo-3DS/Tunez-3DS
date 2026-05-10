@@ -32,19 +32,19 @@ int main(void) {
     touchPosition touch;
     bool touching = false;
     int touchStartY = 0;
+    int lastTouchY = 0;
     int scrollOffsetAtTouchStart = 0;
 
     srand(osGetTime());
 
     while (aptMainLoop()) {
         hidScanInput();
+        hidTouchRead(&touch);
         u32 down = hidKeysDown();
         u32 held = hidKeysHeld();
 
         if (down & KEY_START) break;
 
-        hidTouchRead(&touch);
-        
         u8 shellState = 1;
         PTMU_GetShellState(&shellState);
         bool lidClosed = (shellState == 0);
@@ -88,6 +88,7 @@ int main(void) {
             if (down & KEY_TOUCH) {
                 touching = true;
                 touchStartY = touch.py;
+                lastTouchY = touch.py;
                 scrollOffsetAtTouchStart = scrollOffset;
 
                 // Immediate selection update on touch down
@@ -101,13 +102,9 @@ int main(void) {
             } else if (touching && !(held & KEY_TOUCH)) {
                 // Touch release - handle action if didn't scroll much
                 touching = false;
-                
-                // Use the last known coordinate or a fresh read
-                touchPosition releaseTouch;
-                hidTouchRead(&releaseTouch);
-                
+
                 // If it was a tap (little movement), trigger action
-                if (abs(releaseTouch.py - touchStartY) < 20) {
+                if (abs(lastTouchY - touchStartY) < 20) {
                     if (selected < entryCount) {
                         Entry *e = &entries[selected];
                         if (e->type == ENTRY_DIR) {
@@ -120,6 +117,7 @@ int main(void) {
                     }
                 }
             } else if (held & KEY_TOUCH) {
+                lastTouchY = touch.py;
                 int diffY = touchStartY - touch.py;
                 if (abs(diffY) > 5) { // Threshold to distinguish scroll from static touch
                     int rowH = 15;
