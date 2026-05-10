@@ -14,12 +14,13 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 - **ID3 Tag Support**: Automatically displays song titles, artists, and embedded album art.
 - **Playback Versatility**: Supports Normal, Repeat All, Repeat One, and Shuffle modes.
 - **Customization**: 7 unique system-inspired color themes.
-- **Playback Speed**: Adjust audio speed from 0.25x to 4x in the **Settings menu** (SELECT).
+- **Playback Speed**: Adjust audio speed from 0.25x to 4x in the **Settings menu** (SELECT). Use **X** to increase and **Y** to decrease speed.
 - **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
 
-## Latest Release (v2.6.5)
+## Latest Release (v2.6.6)
 
 - **UI Improvements**: Relocated playback speed controls to the Settings menu.
+- **Improved Controls**: Use **X** and **Y** to adjust speed in Settings.
 - **Navigation**: Restored original D-Pad navigation functionality.
 
 ## Installation
