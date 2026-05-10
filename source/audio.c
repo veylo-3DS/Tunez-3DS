@@ -66,16 +66,27 @@ void updateVisualizer(void) {
 
     int activeBuf = (waveBuf[0].status == NDSP_WBUF_PLAYING) ? 0 : 1;
     s16 *samples = (s16*)(audioBuf + activeBuf * BUF_SIZE);
-    int samplesPerBar = (BUF_SIZE / sizeof(s16)) / 32; // 512, not 256
+    
+    // Use nsamples to avoid dead space at the end of the song
+    int totalSamples = waveBuf[activeBuf].nsamples; 
+    if (totalSamples <= 0) {
+        for (int i = 0; i < 16; i++) visualizerAmplitude[i] *= 0.9f;
+        return;
+    }
+
+    int samplesPerBar = totalSamples / 16;
+    if (samplesPerBar <= 0) samplesPerBar = 1;
 
     for (int i = 0; i < 16; i++) {
         float max = 0;
         for (int j = 0; j < samplesPerBar; j++) {
-            s16 sample = samples[(i * samplesPerBar + j) * 2];
+            int idx = (i * samplesPerBar + j) * 2;
+            if (idx >= totalSamples * 2) break;
+            s16 sample = samples[idx];
             float amp = abs(sample) / 32768.0f;
             if (amp > max) max = amp;
         }
-        visualizerAmplitude[i] = visualizerAmplitude[i] * 0.6f + max * 0.4f;
+        visualizerAmplitude[i] = visualizerAmplitude[i] * 0.4f + max * 0.6f;
     }
 }
 

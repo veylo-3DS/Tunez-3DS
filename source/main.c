@@ -6,6 +6,7 @@
 int scrollTick = 0;
 int lastSelected = -1;
 AppScreen currentScreen = SCREEN_BROWSER;
+int settingsPage = 0;
 
 int main(void) {
     gfxInitDefault();
@@ -21,6 +22,7 @@ int main(void) {
     ndspSetOutputMode(NDSP_OUTPUT_STEREO);
     audioBuf = (u8 *)linearAlloc(1024 * 1024); // Allocate enough for BUF_SIZE * 2
     mpg123_init();
+    ptmuInit();
 
     aptSetSleepAllowed(false);
 
@@ -42,30 +44,42 @@ int main(void) {
         if (down & KEY_START) break;
 
         hidTouchRead(&touch);
+        
+        u8 shellState = 1;
+        PTMU_GetShellState(&shellState);
+        bool lidClosed = (shellState == 0);
 
         if (currentScreen == SCREEN_SETTINGS) {
-            if (down & KEY_DOWN) {
-                if (currentTheme < THEME_COUNT - 1) currentTheme++;
+            if (down & KEY_L) {
+                settingsPage = (settingsPage + 1) % 2;
             }
-            if (down & KEY_UP) {
-                if (currentTheme > 0) currentTheme--;
+            if (down & KEY_R) {
+                settingsPage = (settingsPage + 1) % 2;
             }
-            if (down & KEY_X) {
-                currentScreen = SCREEN_SPEED;
+
+            if (settingsPage == 0) {
+                if (down & KEY_DOWN) {
+                    if (currentTheme < THEME_COUNT - 1) currentTheme++;
+                }
+                if (down & KEY_UP) {
+                    if (currentTheme > 0) currentTheme--;
+                }
+            } else {
+                if (down & KEY_DRIGHT) {
+                    setPlaybackSpeed(playbackSpeed + 0.1f);
+                }
+                if (down & KEY_DLEFT) {
+                    setPlaybackSpeed(playbackSpeed - 0.1f);
+                }
+                if (down & KEY_X) {
+                    setPlaybackSpeed(1.0f);
+                }
             }
-            if (down & KEY_B || down & KEY_SELECT) {
+
+            if (down & KEY_A || down & KEY_B || down & KEY_SELECT) {
                 saveTheme();
                 currentScreen = SCREEN_BROWSER;
-            }
-        } else if (currentScreen == SCREEN_SPEED) {
-            if (down & KEY_DRIGHT) {
-                setPlaybackSpeed(playbackSpeed + 0.1f);
-            }
-            if (down & KEY_DLEFT) {
-                setPlaybackSpeed(playbackSpeed - 0.1f);
-            }
-            if (down & KEY_B) {
-                currentScreen = SCREEN_SETTINGS;
+                settingsPage = 0;
             }
         } else {
             // Browser touch logic
@@ -107,6 +121,12 @@ int main(void) {
 
             if (down & KEY_SELECT) {
                 currentScreen = SCREEN_SETTINGS;
+                settingsPage = 0;
+            }
+
+            if (!lidClosed) {
+                if (down & KEY_L) playPrevious();
+                if (down & KEY_R) playNext();
             }
 
             if (down & KEY_DRIGHT) {
@@ -186,6 +206,7 @@ int main(void) {
     }
 
     stopPlayback();
+    ptmuExit();
     if (hasArt) {
         if (artImage.subtex) free((void*)artImage.subtex);
         C3D_TexDelete(&artTex);

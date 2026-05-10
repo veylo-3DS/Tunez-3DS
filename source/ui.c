@@ -320,73 +320,113 @@ void drawSettingsScreen(void) {
     C2D_SceneBegin(topTarget);
     C2D_DrawRectSolid(0, 0, 0, TOP_WIDTH, 32, CLR_PANEL);
     C2D_DrawRectSolid(0, 30, 0, TOP_WIDTH, 2, CLR_HILIGHT);
+    
+    char titleBuf[64];
+    snprintf(titleBuf, 64, "Settings (Page %d/2)", settingsPage + 1);
+    
     {
         C2D_Text txt;
         C2D_TextBufClear(dynBuf);
-        C2D_TextParse(&txt, dynBuf, "Tunez3DS - Settings");
+        C2D_TextParse(&txt, dynBuf, titleBuf);
         C2D_TextOptimize(&txt);
         float tw, th;
         C2D_TextGetDimensions(&txt, 0.65f, 0.65f, &tw, &th);
         C2D_DrawText(&txt, C2D_WithColor, (TOP_WIDTH - tw) / 2.0f, (32 - th) / 2.0f, 0, 0.65f, 0.65f, CLR_TEXT);
     }
 
-    drawText("Color Theme", 12, 44, 0, 0.55f, CLR_SUBTEXT);
-    for (int i = 0; i < THEME_COUNT; i++) {
-        int y = 66 + i * 22;
-        if (i == currentTheme) {
-            C2D_DrawRectSolid(8, y - 2, 0, TOP_WIDTH - 16, 20, CLR_ACCENT);
-            C2D_DrawRectSolid(8, y - 2, 0, 3, 20, CLR_HILIGHT);
-        }
-        drawText(themes[i].name, 18, y, 0, 0.48f,
-                 i == currentTheme ? CLR_TEXT : CLR_SUBTEXT);
-    }
+    // L/R Page Indicators
+    drawText("< L", 10, 6, 0, 0.5f, CLR_HILIGHT);
+    drawText("R >", TOP_WIDTH - 35, 6, 0, 0.5f, CLR_HILIGHT);
 
-    int speedY = 66 + THEME_COUNT * 22 + 20;
-    drawText("Playback Speed", 12, speedY, 0, 0.55f, CLR_SUBTEXT);
-    char speedBuf[32];
-    snprintf(speedBuf, 32, "%.2fx", playbackSpeed);
-    drawText(speedBuf, 18, speedY + 22, 0, 0.48f, CLR_ACCENT);
-    drawText("X / Y Adjust Speed", 18, speedY + 44, 0, 0.40f, CLR_SUBTEXT);
+    if (settingsPage == 0) {
+        drawText("Color Theme", 12, 44, 0, 0.55f, CLR_SUBTEXT);
+        for (int i = 0; i < THEME_COUNT; i++) {
+            int y = 66 + i * 22;
+            if (i == currentTheme) {
+                C2D_DrawRectSolid(8, y - 2, 0, TOP_WIDTH - 16, 20, CLR_ACCENT);
+                C2D_DrawRectSolid(8, y - 2, 0, 3, 20, CLR_HILIGHT);
+            }
+            drawText(themes[i].name, 18, y, 0, 0.48f,
+                     i == currentTheme ? CLR_TEXT : CLR_SUBTEXT);
+        }
+
+        int optY = 66 + THEME_COUNT * 22 + 10;
+        drawText("Other Options", 12, optY, 0, 0.55f, CLR_SUBTEXT);
+        
+        // L/R Skip info (now hardcoded to disabled when closed, so maybe just a notice?)
+        drawText("L/R Skip is now disabled when lid is closed.", 18, optY + 22, 0, 0.42f, CLR_ACCENT);
+        drawText("This prevents accidental skips in your pocket.", 18, optY + 36, 0, 0.35f, CLR_SUBTEXT);
+    } else {
+        // Speed Page (formerly drawSpeedScreen)
+        drawText("Playback Speed", 12, 44, 0, 0.55f, CLR_SUBTEXT);
+        
+        drawRoundedRect(40, 70, TOP_WIDTH - 80, 80, 12, CLR_PANEL);
+        char speedBuf[32];
+        snprintf(speedBuf, 32, "%.2fx", playbackSpeed);
+        
+        C2D_Text txt;
+        C2D_TextBufClear(dynBuf);
+        C2D_TextParse(&txt, dynBuf, speedBuf);
+        C2D_TextOptimize(&txt);
+        float tw, th;
+        C2D_TextGetDimensions(&txt, 1.2f, 1.2f, &tw, &th);
+        drawText(speedBuf, (TOP_WIDTH - tw) / 2.0f, 90, 0, 1.2f, CLR_ACCENT);
+
+        drawText("D-Pad Left/Right: -/+ 0.1x", 45, 160, 0, 0.42f, CLR_TEXT);
+        drawText("X Button: Reset to 1.0x", 45, 180, 0, 0.42f, CLR_TEXT);
+    }
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 28, CLR_PANEL);
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 2, CLR_ACCENT);
-    drawText("Up/Down Theme   A/Select Apply   B Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+    if (settingsPage == 0)
+        drawText("Up/Down Theme   A Apply   B Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+    else
+        drawText("D-Pad L/R Adjust   X Reset   B Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
 
     C2D_TargetClear(botTarget, CLR_BG);
     C2D_SceneBegin(botTarget);
-    C2D_DrawRectSolid(0, 0, 0, BOT_WIDTH, 28, CLR_PANEL);
-    C2D_DrawRectSolid(0, 26, 0, BOT_WIDTH, 2, CLR_ACCENT);
-    drawText("Preview", 8, 6, 0, 0.50f, CLR_TEXT);
+    
+    if (settingsPage == 0) {
+        C2D_DrawRectSolid(0, 0, 0, BOT_WIDTH, 28, CLR_PANEL);
+        C2D_DrawRectSolid(0, 26, 0, BOT_WIDTH, 2, CLR_ACCENT);
+        drawText("Theme Preview", 8, 6, 0, 0.50f, CLR_TEXT);
 
-    int swY = 40, swSize = 28, swGap = 8;
-    int totalW = THEME_COUNT * (swSize + swGap) - swGap;
-    int swStartX = (BOT_WIDTH - totalW) / 2;
-    for (int i = 0; i < THEME_COUNT; i++) {
-        int x = swStartX + i * (swSize + swGap);
-        C2D_DrawRectSolid(x, swY, 0, swSize, swSize, themes[i].bg);
-        C2D_DrawRectSolid(x, swY, 0, swSize, 2, themes[i].hilight);
-        C2D_DrawRectSolid(x, swY + swSize - 2, 0, swSize, 2, themes[i].hilight);
-        C2D_DrawRectSolid(x, swY, 0, 2, swSize, themes[i].hilight);
-        C2D_DrawRectSolid(x + swSize - 2, swY, 0, 2, swSize, themes[i].hilight);
-        C2D_DrawRectSolid(x + swSize/2 - 4, swY + swSize/2 - 4, 0, 8, 8, themes[i].accent);
-        if (i == currentTheme) {
-            C2D_DrawRectSolid(x, swY + swSize + 3, 0, swSize, 4, themes[i].hilight);
+        int swY = 40, swSize = 28, swGap = 8;
+        int totalW = THEME_COUNT * (swSize + swGap) - swGap;
+        int swStartX = (BOT_WIDTH - totalW) / 2;
+        for (int i = 0; i < THEME_COUNT; i++) {
+            int x = swStartX + i * (swSize + swGap);
+            C2D_DrawRectSolid(x, swY, 0, swSize, swSize, themes[i].bg);
+            C2D_DrawRectSolid(x, swY, 0, swSize, 2, themes[i].hilight);
+            C2D_DrawRectSolid(x, swY + swSize - 2, 0, swSize, 2, themes[i].hilight);
+            C2D_DrawRectSolid(x, swY, 0, 2, swSize, themes[i].hilight);
+            C2D_DrawRectSolid(x + swSize - 2, swY, 0, 2, swSize, themes[i].hilight);
+            C2D_DrawRectSolid(x + swSize/2 - 4, swY + swSize/2 - 4, 0, 8, 8, themes[i].accent);
+            if (i == currentTheme) {
+                C2D_DrawRectSolid(x, swY + swSize + 3, 0, swSize, 4, themes[i].hilight);
+            }
         }
-    }
 
-    int pY = 90;
-    C2D_DrawRectSolid(8, pY, 0, BOT_WIDTH - 16, 80, CLR_PANEL);
-    C2D_DrawRectSolid(8, pY, 0, BOT_WIDTH - 16, 2, CLR_ACCENT);
-    C2D_DrawRectSolid(8, pY + 78, 0, BOT_WIDTH - 16, 2, CLR_ACCENT);
-    drawText("Sample Track", 16, pY + 8, 0, 0.45f, CLR_TEXT);
-    drawText("Sample Artist", 16, pY + 24, 0, 0.40f, CLR_SUBTEXT);
-    C2D_DrawRectSolid(16, pY + 44, 0, BOT_WIDTH - 32, 6, CLR_BAR_BG);
-    C2D_DrawRectSolid(16, pY + 44, 0, (BOT_WIDTH - 32) / 2, 6, CLR_BAR_FG);
-    drawText("> PLAYING", 16, pY + 58, 0, 0.42f, CLR_HILIGHT);
+        int pY = 90;
+        C2D_DrawRectSolid(8, pY, 0, BOT_WIDTH - 16, 80, CLR_PANEL);
+        C2D_DrawRectSolid(8, pY, 0, BOT_WIDTH - 16, 2, CLR_ACCENT);
+        C2D_DrawRectSolid(8, pY + 78, 0, BOT_WIDTH - 16, 2, CLR_ACCENT);
+        drawText("Sample Track", 16, pY + 8, 0, 0.45f, CLR_TEXT);
+        drawText("Sample Artist", 16, pY + 24, 0, 0.40f, CLR_SUBTEXT);
+        C2D_DrawRectSolid(16, pY + 44, 0, BOT_WIDTH - 32, 6, CLR_BAR_BG);
+        C2D_DrawRectSolid(16, pY + 44, 0, (BOT_WIDTH - 32) / 2, 6, CLR_BAR_FG);
+        drawText("> PLAYING", 16, pY + 58, 0, 0.42f, CLR_HILIGHT);
+    } else {
+        drawRoundedRect(20, 40, BOT_WIDTH - 40, 160, 12, CLR_PANEL);
+        drawText("Playback speed adjusts the", 40, 60, 0, 0.45f, CLR_TEXT);
+        drawText("pitch and rate of the audio.", 40, 80, 0, 0.45f, CLR_TEXT);
+        drawText("Higher speed = High pitch", 40, 110, 0, 0.45f, CLR_SUBTEXT);
+        drawText("Lower speed = Low pitch", 40, 130, 0, 0.45f, CLR_SUBTEXT);
+    }
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 28, CLR_PANEL);
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 2, CLR_ACCENT);
-    drawText("Theme preview", 8, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+    drawText("Settings page preview", 8, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
 }
 
 void drawTopScreen(void) {

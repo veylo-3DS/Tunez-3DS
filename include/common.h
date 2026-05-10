@@ -20,7 +20,7 @@
 #define alpha(c) ((u8)((c) >> 24))
 
 typedef enum { ENTRY_DIR, ENTRY_MP3 } EntryType;
-typedef enum { SCREEN_BROWSER, SCREEN_SETTINGS, SCREEN_SPEED } AppScreen;
+typedef enum { SCREEN_BROWSER, SCREEN_SETTINGS } AppScreen;
 
 typedef struct {
     char      name[256];
@@ -36,6 +36,7 @@ typedef struct {
 typedef enum { MODE_NORMAL, MODE_REPEAT_ALL, MODE_REPEAT_ONE, MODE_SHUFFLE } PlaybackMode;
 extern PlaybackMode playbackMode;
 extern float playbackSpeed;
+extern int settingsPage;
 void setPlaybackSpeed(float speed);
 
 // Global state declarations

@@ -17,14 +17,15 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 - **ID3 Tag Support**: Automatically displays song titles, artists, and embedded album art.
 - **Playback Versatility**: Supports Normal, Repeat All, Repeat One, and Shuffle modes.
 - **Customization**: 7 unique system-inspired color themes.
-- **Playback Speed**: Adjust audio speed from 0.25x to 4x in the **Settings menu** (SELECT). Use **X** to increase and **Y** to decrease speed.
+- **Playback Speed**: Adjust audio speed from 0.25x to 4x in the **Settings menu** (SELECT).
+- **Lid Protection**: Automatically disables L/R skipping when the console is closed to prevent accidental input.
 - **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
 
-## Latest Release (v2.6.6)
+## Latest Release (v2.7.0)
 
-- **UI Improvements**: Relocated playback speed controls to the Settings menu.
-- **Improved Controls**: Use **X** and **Y** to adjust speed in Settings.
-- **Navigation**: Restored original D-Pad navigation functionality.
+- **Paged Settings**: Settings is now split into multiple pages accessible via **L** and **R**.
+- **Integrated Speed Controls**: Playback speed has been moved to its own page within the Settings menu.
+- **Safety Fix**: L/R track skipping is now automatically disabled when the console lid is closed.
 
 ## Installation
 
@@ -41,14 +42,15 @@ Install directly via the [Universal Updater](https://github.com/Universal-Team/U
 
 | Button | Action |
 | :--- | :--- |
-| **D-Pad Up/Down** | Navigate file list |
-| **D-Pad L/R** | Cycle playback modes |
-| **L / R Shoulder** | Skip tracks |
-| **A** | Open folder / Play track |
-| **X** | Pause / Resume |
+| **D-Pad Up/Down** | Navigate file list / Adjust settings |
+| **D-Pad L/R** | Cycle playback modes / Adjust speed (Settings) |
+| **L / R Shoulder** | Skip tracks / Switch settings pages |
+| **A** | Open folder / Play track / Apply settings |
+| **X** | Pause / Resume / Reset speed (Settings) |
 | **Y** | Stop playback |
-| **B** | Go up one folder |
+| **B** | Go up one folder / Back to browser |
 | **START** | Quit application |
+| **SELECT** | Open Settings |
 
 ## Setup
 
