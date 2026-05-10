@@ -21,7 +21,7 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 - **Lid Protection**: Automatically disables L/R skipping when the console is closed to prevent accidental input.
 - **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
 
-## Latest Release (v2.7.0)
+## Latest Release (v2.8.0)
 
 - **Paged Settings**: Settings is now split into multiple pages accessible via **L** and **R**.
 - **Integrated Speed Controls**: Playback speed has been moved to its own page within the Settings menu.
