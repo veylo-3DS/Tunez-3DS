@@ -103,18 +103,25 @@ void updateVisualizer(void) {
 }
 
 static u32 rainbow_timer = 0;
+static bool led_was_on = false;
+static int led_frame_skip = 0;
+
 void updateLED(void) {
     if (!ledEnabled || !playing || paused) {
-        static bool last_on = false;
-        if (last_on) {
+        if (led_was_on) {
             InfoLedPattern off;
             memset(&off, 0, sizeof(off));
             MCUHWC_SetInfoLedPattern(&off);
-            last_on = false;
+            led_was_on = false;
         }
         return;
     }
 
+    // Only update LED every 3 frames (~20Hz) to avoid overwhelming the MCU
+    led_frame_skip++;
+    if (led_frame_skip % 3 != 0) return;
+
+    led_was_on = true;
     InfoLedPattern pat;
     memset(&pat, 0, sizeof(pat));
     pat.delay = 0;
@@ -122,15 +129,18 @@ void updateLED(void) {
     pat.loopDelay = 0;
 
     u8 r = 0, g = 0, b = 0;
-    float intensity = globalAmplitude * 2.5f; // Boost slightly for LED visibility
+    // Use a more reactive scaling: squared amplitude for more "pop" on beats
+    float intensity = powf(globalAmplitude, 1.2f) * 4.0f; 
     if (intensity > 1.0f) intensity = 1.0f;
+    if (intensity < 0.1f) intensity = 0; // Noise gate
+    
     u8 val = (u8)(intensity * 255);
 
     if (ledMode == LED_MODE_RAINBOW) {
-        rainbow_timer += 2;
+        rainbow_timer += 4; // Faster color cycling
         int h = (rainbow_timer) % 360;
-        float s = 1.0f, v = intensity;
-        float c = v * s;
+        float v = intensity;
+        float c = v; 
         float x = c * (1.0f - fabs(fmod(h / 60.0f, 2) - 1.0f));
         float m = v - c;
         float fr = 0, fg = 0, fb = 0;

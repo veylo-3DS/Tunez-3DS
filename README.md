@@ -22,12 +22,11 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 - **Lid Protection**: Customizable safety setting to disable L/R skipping when the console is closed.
 - **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
 
-## Latest Release (v2.9.0)
+## Latest Release (v2.9.1)
 
-- **Reactive LED Visualizer**: Added a new settings page to enable a rainbow/color-reactive notification LED.
-- **Expanded Settings**: Settings menu now features 4 distinct pages (Theme, Speed, LED, Safety).
-- **Customizable Lid Protection**: Toggle the L/R skip safety feature in the new Safety settings page.
-- **Navigation Polish**: START, B, and SELECT now all return to the browser and save settings.
+- **Enhanced LED Pulse**: Refined the LED visualizer's intensity logic for much more responsive and visible pulsing.
+- **Performance Fix**: Optimized LED update frequency to ensure smooth system performance while the light show is active.
+- **Bug Fix**: Fixed a state issue where the notification LED would sometimes stay on after pausing.
 
 ## Installation
 
