@@ -93,6 +93,10 @@ void saveTheme(void) {
     FILE *f = fopen(SETTINGS_PATH, "wb");
     if (!f) return;
     fwrite(&currentTheme, sizeof(int), 1, f);
+    fwrite(&ledEnabled, sizeof(bool), 1, f);
+    int m = (int)ledMode;
+    fwrite(&m, sizeof(int), 1, f);
+    fwrite(&disableLRSkipClosed, sizeof(bool), 1, f);
     fclose(f);
 }
 
@@ -102,6 +106,11 @@ void loadTheme(void) {
     int t = 0;
     if (fread(&t, sizeof(int), 1, f) == 1)
         if (t >= 0 && t < THEME_COUNT) currentTheme = t;
+    fread(&ledEnabled, sizeof(bool), 1, f);
+    int m = 0;
+    if (fread(&m, sizeof(int), 1, f) == 1)
+        ledMode = (LedMode)m;
+    fread(&disableLRSkipClosed, sizeof(bool), 1, f);
     fclose(f);
 }
 
@@ -322,7 +331,7 @@ void drawSettingsScreen(void) {
     C2D_DrawRectSolid(0, 30, 0, TOP_WIDTH, 2, CLR_HILIGHT);
     
     char titleBuf[64];
-    snprintf(titleBuf, 64, "Settings (Page %d/2)", settingsPage + 1);
+    snprintf(titleBuf, 64, "Settings (Page %d/4)", settingsPage + 1);
     
     {
         C2D_Text txt;
@@ -349,15 +358,7 @@ void drawSettingsScreen(void) {
             drawText(themes[i].name, 18, y, 0, 0.48f,
                      i == currentTheme ? CLR_TEXT : CLR_SUBTEXT);
         }
-
-        int optY = 66 + THEME_COUNT * 22 + 10;
-        drawText("Other Options", 12, optY, 0, 0.55f, CLR_SUBTEXT);
-        
-        // L/R Skip info (now hardcoded to disabled when closed, so maybe just a notice?)
-        drawText("L/R Skip is now disabled when lid is closed.", 18, optY + 22, 0, 0.42f, CLR_ACCENT);
-        drawText("This prevents accidental skips in your pocket.", 18, optY + 36, 0, 0.35f, CLR_SUBTEXT);
-    } else {
-        // Speed Page (formerly drawSpeedScreen)
+    } else if (settingsPage == 1) {
         drawText("Playback Speed", 12, 44, 0, 0.55f, CLR_SUBTEXT);
         
         drawRoundedRect(40, 70, TOP_WIDTH - 80, 80, 12, CLR_PANEL);
@@ -374,14 +375,42 @@ void drawSettingsScreen(void) {
 
         drawText("D-Pad Left/Right: -/+ 0.1x", 45, 160, 0, 0.42f, CLR_TEXT);
         drawText("X Button: Reset to 1.0x", 45, 180, 0, 0.42f, CLR_TEXT);
+    } else if (settingsPage == 2) {
+        drawText("LED Visualizer", 12, 44, 0, 0.55f, CLR_SUBTEXT);
+        
+        drawText("Visualizer Status:", 18, 70, 0, 0.48f, CLR_TEXT);
+        drawText(ledEnabled ? "ENABLED" : "DISABLED", 180, 70, 0, 0.48f, ledEnabled ? CLR_HILIGHT : CLR_SUBTEXT);
+        drawText("(Press A to toggle)", 18, 85, 0, 0.35f, CLR_SUBTEXT);
+
+        const char *modeNames[] = {"Rainbow", "Red", "Green", "Blue", "White"};
+        drawText("LED Mode:", 18, 110, 0, 0.48f, CLR_TEXT);
+        drawText(modeNames[ledMode], 180, 110, 0, 0.48f, CLR_ACCENT);
+        drawText("(D-Pad Left/Right to change)", 18, 125, 0, 0.35f, CLR_SUBTEXT);
+
+        drawText("The notification LED will pulse and", 18, 155, 0, 0.42f, CLR_TEXT);
+        drawText("change colors based on the music.", 18, 175, 0, 0.42f, CLR_TEXT);
+    } else if (settingsPage == 3) {
+        drawText("Input Safety", 12, 44, 0, 0.55f, CLR_SUBTEXT);
+        
+        drawText("L/R Skip (Lid Closed):", 18, 70, 0, 0.48f, CLR_TEXT);
+        drawText(disableLRSkipClosed ? "PROTECTED" : "UNPROTECTED", 200, 70, 0, 0.48f, disableLRSkipClosed ? CLR_HILIGHT : CLR_ACCENT);
+        drawText("(Press A to toggle)", 18, 85, 0, 0.35f, CLR_SUBTEXT);
+
+        if (disableLRSkipClosed) {
+            drawText("Track skipping via L/R is DISABLED", 18, 120, 0, 0.45f, CLR_HILIGHT);
+            drawText("while the 3DS lid is closed.", 18, 138, 0, 0.45f, CLR_HILIGHT);
+        } else {
+            drawText("Track skipping via L/R is ENABLED", 18, 120, 0, 0.45f, CLR_ACCENT);
+            drawText("even while the 3DS lid is closed.", 18, 138, 0, 0.45f, CLR_ACCENT);
+        }
+        
+        drawText("This setting helps prevent accidental", 18, 170, 0, 0.42f, CLR_SUBTEXT);
+        drawText("skips while the console is in your pocket.", 18, 185, 0, 0.42f, CLR_SUBTEXT);
     }
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 28, CLR_PANEL);
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 2, CLR_ACCENT);
-    if (settingsPage == 0)
-        drawText("Up/Down Theme   A Apply   B Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
-    else
-        drawText("D-Pad L/R Adjust   X Reset   B Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
+    drawText("L/R Switch Pages   B/SELECT/START Back", 12, SCR_HEIGHT - 20, 0, 0.38f, CLR_SUBTEXT);
 
     C2D_TargetClear(botTarget, CLR_BG);
     C2D_SceneBegin(botTarget);
@@ -416,12 +445,28 @@ void drawSettingsScreen(void) {
         C2D_DrawRectSolid(16, pY + 44, 0, BOT_WIDTH - 32, 6, CLR_BAR_BG);
         C2D_DrawRectSolid(16, pY + 44, 0, (BOT_WIDTH - 32) / 2, 6, CLR_BAR_FG);
         drawText("> PLAYING", 16, pY + 58, 0, 0.42f, CLR_HILIGHT);
-    } else {
+    } else if (settingsPage == 1) {
         drawRoundedRect(20, 40, BOT_WIDTH - 40, 160, 12, CLR_PANEL);
         drawText("Playback speed adjusts the", 40, 60, 0, 0.45f, CLR_TEXT);
         drawText("pitch and rate of the audio.", 40, 80, 0, 0.45f, CLR_TEXT);
         drawText("Higher speed = High pitch", 40, 110, 0, 0.45f, CLR_SUBTEXT);
         drawText("Lower speed = Low pitch", 40, 130, 0, 0.45f, CLR_SUBTEXT);
+    } else if (settingsPage == 2) {
+        drawRoundedRect(20, 40, BOT_WIDTH - 40, 160, 12, CLR_PANEL);
+        drawText("Visualizer Options", 40, 60, 0, 0.45f, CLR_TEXT);
+        drawText("The Notification LED is located", 40, 90, 0, 0.40f, CLR_SUBTEXT);
+        drawText("at the top right of the console.", 40, 105, 0, 0.40f, CLR_SUBTEXT);
+        
+        drawText("Rainbow mode cycles through", 40, 135, 0, 0.40f, CLR_TEXT);
+        drawText("the full color spectrum.", 40, 150, 0, 0.40f, CLR_TEXT);
+    } else if (settingsPage == 3) {
+        drawRoundedRect(20, 40, BOT_WIDTH - 40, 160, 12, CLR_PANEL);
+        drawText("Safety Options", 40, 60, 0, 0.45f, CLR_TEXT);
+        drawText("Lid sensor detection", 40, 90, 0, 0.40f, CLR_HILIGHT);
+        
+        drawText("When 'Protected', the app", 40, 120, 0, 0.40f, CLR_TEXT);
+        drawText("ignores L/R buttons while", 40, 135, 0, 0.40f, CLR_TEXT);
+        drawText("the system is closed.", 40, 150, 0, 0.40f, CLR_TEXT);
     }
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, BOT_WIDTH, 28, CLR_PANEL);

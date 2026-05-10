@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <3ds/services/mcuhwc.h>
 
 mpg123_handle *mh = NULL;
 ndspWaveBuf waveBuf[2];
@@ -16,6 +18,10 @@ off_t trackLen = 0;
 PlaybackMode playbackMode = MODE_NORMAL;
 float playbackSpeed = 1.0f;
 float sampleRate = 44100.0f;
+
+bool ledEnabled = true;
+LedMode ledMode = LED_MODE_RAINBOW;
+bool disableLRSkipClosed = true;
 
 #define CHANNEL 0
 
@@ -57,10 +63,12 @@ void stopPlayback(void) {
 }
 
 float visualizerAmplitude[16] = {0};
+float globalAmplitude = 0.0f;
 
 void updateVisualizer(void) {
     if (!playing || paused || !audioBuf) {
         for (int i = 0; i < 16; i++) visualizerAmplitude[i] *= 0.9f;
+        globalAmplitude *= 0.9f;
         return;
     }
 
@@ -71,12 +79,14 @@ void updateVisualizer(void) {
     int totalSamples = waveBuf[activeBuf].nsamples; 
     if (totalSamples <= 0) {
         for (int i = 0; i < 16; i++) visualizerAmplitude[i] *= 0.9f;
+        globalAmplitude *= 0.9f;
         return;
     }
 
     int samplesPerBar = totalSamples / 16;
     if (samplesPerBar <= 0) samplesPerBar = 1;
 
+    float avgSum = 0;
     for (int i = 0; i < 16; i++) {
         float max = 0;
         for (int j = 0; j < samplesPerBar; j++) {
@@ -87,12 +97,66 @@ void updateVisualizer(void) {
             if (amp > max) max = amp;
         }
         visualizerAmplitude[i] = visualizerAmplitude[i] * 0.4f + max * 0.6f;
+        avgSum += visualizerAmplitude[i];
     }
+    globalAmplitude = avgSum / 16.0f;
+}
+
+static u32 rainbow_timer = 0;
+void updateLED(void) {
+    if (!ledEnabled || !playing || paused) {
+        static bool last_on = false;
+        if (last_on) {
+            InfoLedPattern off;
+            memset(&off, 0, sizeof(off));
+            MCUHWC_SetInfoLedPattern(&off);
+            last_on = false;
+        }
+        return;
+    }
+
+    InfoLedPattern pat;
+    memset(&pat, 0, sizeof(pat));
+    pat.delay = 0;
+    pat.smoothing = 0xFF;
+    pat.loopDelay = 0;
+
+    u8 r = 0, g = 0, b = 0;
+    float intensity = globalAmplitude * 2.5f; // Boost slightly for LED visibility
+    if (intensity > 1.0f) intensity = 1.0f;
+    u8 val = (u8)(intensity * 255);
+
+    if (ledMode == LED_MODE_RAINBOW) {
+        rainbow_timer += 2;
+        int h = (rainbow_timer) % 360;
+        float s = 1.0f, v = intensity;
+        float c = v * s;
+        float x = c * (1.0f - fabs(fmod(h / 60.0f, 2) - 1.0f));
+        float m = v - c;
+        float fr = 0, fg = 0, fb = 0;
+        if (h < 60) { fr = c; fg = x; }
+        else if (h < 120) { fr = x; fg = c; }
+        else if (h < 180) { fg = c; fb = x; }
+        else if (h < 240) { fg = x; fb = c; }
+        else if (h < 300) { fr = x; fb = c; }
+        else { fr = c; fb = x; }
+        r = (u8)((fr + m) * 255);
+        g = (u8)((fg + m) * 255);
+        b = (u8)((fb + m) * 255);
+    } else if (ledMode == LED_MODE_RED)   { r = val; }
+    else if (ledMode == LED_MODE_GREEN) { g = val; }
+    else if (ledMode == LED_MODE_BLUE)  { b = val; }
+    else if (ledMode == LED_MODE_WHITE) { r = g = b = val; }
+
+    for (int i = 0; i < 32; i++) {
+        pat.redPattern[i] = r;
+        pat.greenPattern[i] = g;
+        pat.bluePattern[i] = b;
+    }
+    MCUHWC_SetInfoLedPattern(&pat);
 }
 
 void startPlayback(const char *path) {
-    // If we're starting a new folder, update the playlist queue
-    // This is part of the auto-advance fix
     bool newFolder = false;
     char newDirPath[MAX_PATH];
     strncpy(newDirPath, path, MAX_PATH-1);

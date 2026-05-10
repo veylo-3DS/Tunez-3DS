@@ -18,14 +18,16 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 - **Playback Versatility**: Supports Normal, Repeat All, Repeat One, and Shuffle modes.
 - **Customization**: 7 unique system-inspired color themes.
 - **Playback Speed**: Adjust audio speed from 0.25x to 4x in the **Settings menu** (SELECT).
-- **Lid Protection**: Automatically disables L/R skipping when the console is closed to prevent accidental input.
+- **LED Visualizer**: The notification LED reacts to your music with pulsing colors and a Rainbow mode.
+- **Lid Protection**: Customizable safety setting to disable L/R skipping when the console is closed.
 - **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
 
-## Latest Release (v2.8.0)
+## Latest Release (v2.9.0)
 
-- **Paged Settings**: Settings is now split into multiple pages accessible via **L** and **R**.
-- **Integrated Speed Controls**: Playback speed has been moved to its own page within the Settings menu.
-- **Safety Fix**: L/R track skipping is now automatically disabled when the console lid is closed.
+- **Reactive LED Visualizer**: Added a new settings page to enable a rainbow/color-reactive notification LED.
+- **Expanded Settings**: Settings menu now features 4 distinct pages (Theme, Speed, LED, Safety).
+- **Customizable Lid Protection**: Toggle the L/R skip safety feature in the new Safety settings page.
+- **Navigation Polish**: START, B, and SELECT now all return to the browser and save settings.
 
 ## Installation
 

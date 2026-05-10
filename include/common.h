@@ -39,6 +39,14 @@ extern float playbackSpeed;
 extern int settingsPage;
 void setPlaybackSpeed(float speed);
 
+// LED Visualizer Settings
+typedef enum { LED_MODE_RAINBOW, LED_MODE_RED, LED_MODE_GREEN, LED_MODE_BLUE, LED_MODE_WHITE } LedMode;
+extern bool ledEnabled;
+extern LedMode ledMode;
+
+// Input Safety Settings
+extern bool disableLRSkipClosed;
+
 // Global state declarations
 extern Theme themes[];
 extern const int THEME_COUNT;
@@ -97,7 +105,8 @@ void drawTopScreen(void);
 void drawBotScreen(void);
 void drawSettingsScreen(void);
 extern float visualizerAmplitude[16];
-extern void updateVisualizer(void);
+void updateVisualizer(void);
+void updateLED(void);
 
 // Theme macros
 #define CLR_BG      themes[currentTheme].bg

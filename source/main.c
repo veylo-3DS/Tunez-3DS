@@ -23,6 +23,7 @@ int main(void) {
     audioBuf = (u8 *)linearAlloc(1024 * 1024); // Allocate enough for BUF_SIZE * 2
     mpg123_init();
     ptmuInit();
+    mcuHwcInit();
 
     aptSetSleepAllowed(false);
 
@@ -51,10 +52,10 @@ int main(void) {
 
         if (currentScreen == SCREEN_SETTINGS) {
             if (down & KEY_L) {
-                settingsPage = (settingsPage + 1) % 2;
+                settingsPage = (settingsPage + 3) % 4;
             }
             if (down & KEY_R) {
-                settingsPage = (settingsPage + 1) % 2;
+                settingsPage = (settingsPage + 1) % 4;
             }
 
             if (settingsPage == 0) {
@@ -64,7 +65,7 @@ int main(void) {
                 if (down & KEY_UP) {
                     if (currentTheme > 0) currentTheme--;
                 }
-            } else {
+            } else if (settingsPage == 1) {
                 if (down & KEY_DRIGHT) {
                     setPlaybackSpeed(playbackSpeed + 0.1f);
                 }
@@ -74,9 +75,15 @@ int main(void) {
                 if (down & KEY_X) {
                     setPlaybackSpeed(1.0f);
                 }
+            } else if (settingsPage == 2) {
+                if (down & KEY_A) ledEnabled = !ledEnabled;
+                if (down & KEY_DRIGHT) ledMode = (ledMode + 1) % 5;
+                if (down & KEY_DLEFT) ledMode = (ledMode + 4) % 5;
+            } else if (settingsPage == 3) {
+                if (down & KEY_A) disableLRSkipClosed = !disableLRSkipClosed;
             }
 
-            if (down & KEY_A || down & KEY_B || down & KEY_SELECT) {
+            if (down & KEY_START || down & KEY_B || down & KEY_SELECT) {
                 saveTheme();
                 currentScreen = SCREEN_BROWSER;
                 settingsPage = 0;
@@ -124,7 +131,12 @@ int main(void) {
                 settingsPage = 0;
             }
 
-            if (!lidClosed) {
+            if (disableLRSkipClosed) {
+                if (!lidClosed) {
+                    if (down & KEY_L) playPrevious();
+                    if (down & KEY_R) playNext();
+                }
+            } else {
                 if (down & KEY_L) playPrevious();
                 if (down & KEY_R) playNext();
             }
@@ -194,6 +206,7 @@ int main(void) {
 
         fillAudio();
         updateVisualizer();
+        updateLED();
 
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
         if (currentScreen == SCREEN_SETTINGS) {
@@ -206,6 +219,7 @@ int main(void) {
     }
 
     stopPlayback();
+    mcuHwcExit();
     ptmuExit();
     if (hasArt) {
         if (artImage.subtex) free((void*)artImage.subtex);
