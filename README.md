@@ -1,58 +1,31 @@
-<div align="center">
-  <img src="icon.png" alt="Tunez3DS Logo" width="128"/>
-  <h1>Tunez3DS</h1>
-  <p><strong>A modern, glass-aesthetic MP3 player for the Nintendo 3DS.</strong></p>
-  
-  <a href="https://github.com/veylo-3DS/Tunez-3DS/releases/latest">
-    <img src="https://img.shields.io/github/release/veylo-3DS/Tunez-3DS.svg" alt="Latest Release"/>
-  </a>
-  <img src="https://img.shields.io/github/license/veylo-3DS/Tunez-3DS.svg" alt="License"/>
-</div>
+# Tunez3DS
+A simple, glass-themed MP3 player for your 3DS. 
 
----
+This project started as a side thing for myself because I wanted a music player that actually looked good on the 3DS, but I figured I'd share it in case anyone else was looking for the same. It's built with `citro2d` and `citro3d` so it’s fast and smooth.
 
-## ✨ Overview
-Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music library. Built with `citro2d` and `citro3d` for hardware-accelerated graphics and `ndsp` for high-quality audio, it offers a smooth, responsive browsing and playback experience.
+## What it does
+- **Browsing**: Just tap to pick your folders or songs. It's built to feel responsive.
+- **Visuals**: 7 themes (I'm particularly proud of the "Everforest" one).
+- **Speed**: Need to listen to a podcast faster? You can adjust the playback speed (0.25x - 4x) in the settings.
+- **Pocket-Safe**: Toggle "Lid Protection" if you don't want to accidentally skip tracks when the 3DS is in your pocket.
+- **Updates**: You can check for new versions right inside the app settings.
 
-## 🚀 Key Features
-- **Intuitive Touch Interface**: Navigate folders and play songs with a responsive, modern tap-to-act browser.
-- **Hardware-Accelerated UI**: Fluid animations and depth effects powered by `citro2d`.
-- **Customization**: Choose from 7 unique, system-inspired color themes.
-- **Playback Control**: Adjust speed (0.25x - 4x) and modes (Shuffle, Repeat, etc.) on the fly.
-- **Safety First**: Customizable lid-protection to prevent accidental track skips while in your pocket.
-- **Easy Updates**: Check for the latest release directly within the settings menu.
+## How to get it
+1. Download the `.cia` (for installation) or `.3dsx` (for homebrew launcher) from the [Releases page](https://github.com/veylo-3DS/Tunez-3DS/releases/latest).
+2. Scan this QR code with **FBI** if you're using the CIA file:
+   <br>
+   <img src="Tunez3DS_qr.png" alt="Scan me with FBI!" width="200"/>
 
-## 📱 Quick Install
-1. **[Download the latest CIA or 3DSX](https://github.com/veylo-3DS/Tunez-3DS/releases/latest)**.
-2. Scan this QR code with [FBI](https://github.com/Steveice10/FBI):
-   <br><br>
-   <img src="Tunez3DS_qr.png" alt="Tunez3DS QR Code" width="200"/>
+## How to use it
+- **Touch**: Tap an item to select it, tap again to open or play.
+- **D-Pad**: Up/Down to move, L/R to change playback mode or adjust speed in settings.
+- **Buttons**: L/R to skip tracks, A/X/Y for standard playback controls. 
+- **SELECT**: Opens the settings menu.
 
----
+## Setup
+Just put your MP3s in an `sdmc:/Music` folder on your SD card. Everything else should "just work."
 
-## 🎮 Controls
+## A note on bugs
+I'm not exactly a C pro, so if it breaks, please open a GitHub issue. I'll get to it when I can. This is a passion project, so thanks for being patient!
 
-| Button | Action |
-| :--- | :--- |
-| **Touch** | Tap to Select/Open/Play |
-| **D-Pad Up/Down** | Navigate file list / Adjust settings |
-| **D-Pad L/R** | Cycle playback modes / Adjust speed |
-| **L / R Shoulder** | Skip tracks / Switch settings pages |
-| **A** | Play/Open / Apply settings |
-| **X** | Pause/Resume / Reset speed |
-| **Y** | Stop playback |
-| **B / START** | Exit to browser / Quit application |
-| **SELECT** | Open Settings |
-
----
-
-## 🛠 Setup
-Place your MP3 files on your SD card under `sdmc:/Music`. Subfolders are fully supported and can be navigated via the in-app file browser.
-
-## 💻 Development
-Requires [devkitPro](https://devkitpro.org/) with `devkitARM`.
-- **Build 3DSX**: `make`
-- **Build CIA**: `make cia NO_SMDH=1`
-
----
-*Built for the 3DS community. Report issues via GitHub Issues.*
+*Built for the 3DS community. Thanks for using it!*
