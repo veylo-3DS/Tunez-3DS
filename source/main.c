@@ -51,6 +51,12 @@ int main(void) {
             if (down & KEY_UP) {
                 if (currentTheme > 0) currentTheme--;
             }
+            if (down & KEY_DRIGHT) {
+                setPlaybackSpeed(playbackSpeed + 0.1f);
+            }
+            if (down & KEY_DLEFT) {
+                setPlaybackSpeed(playbackSpeed - 0.1f);
+            }
             if (down & KEY_B || down & KEY_SELECT) {
                 saveTheme();
                 currentScreen = SCREEN_BROWSER;
@@ -107,15 +113,6 @@ int main(void) {
             if (down & KEY_DLEFT) {
                 playbackMode = (playbackMode + 3) % 4;
             }
-            if (down & KEY_DUP) {
-                setPlaybackSpeed(playbackSpeed + 0.1f);
-            }
-            if (down & KEY_DDOWN) {
-                setPlaybackSpeed(playbackSpeed - 0.1f);
-            }
-            if (down & KEY_R) playNext();
-            if (down & KEY_L) playPrevious();
-
             if (down & KEY_DOWN) {
                 if (selected < entryCount - 1) {
                     selected++;
