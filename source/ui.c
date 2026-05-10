@@ -345,8 +345,8 @@ void drawSettingsScreen(void) {
     drawText("Playback Speed", 12, speedY, 0, 0.55f, CLR_SUBTEXT);
     char speedBuf[32];
     snprintf(speedBuf, 32, "%.2fx", playbackSpeed);
-    drawText(speedBuf, 18, speedY + 22, 0, 0.48f, CLR_TEXT);
-    drawText("X / Y Adjust Speed", 18, speedY + 66, 0, 0.40f, CLR_HILIGHT);
+    drawText(speedBuf, 18, speedY + 22, 0, 0.48f, CLR_ACCENT);
+    drawText("X / Y Adjust Speed", 18, speedY + 44, 0, 0.40f, CLR_SUBTEXT);
 
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 28, CLR_PANEL);
     C2D_DrawRectSolid(0, SCR_HEIGHT - 28, 0, TOP_WIDTH, 2, CLR_ACCENT);
