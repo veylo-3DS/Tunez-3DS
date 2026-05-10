@@ -459,7 +459,11 @@ void drawTopScreen(void) {
                 displayMeta = wrappedMeta + cycle;
             }
         }
-        drawText(displayMeta, infoX, 110, 0, 0.45f, CLR_SUBTEXT);
+        drawText(displayMeta, infoX, 100, 0, 0.45f, CLR_SUBTEXT);
+
+        char speedBuf[16];
+        snprintf(speedBuf, 16, "Speed: %.2fx", playbackSpeed);
+        drawText(speedBuf, infoX, 120, 0, 0.40f, CLR_HILIGHT);
 
         float progress = 0.0f;
         if (trackLen > 0 && mh) {

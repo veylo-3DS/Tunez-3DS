@@ -14,8 +14,19 @@ char nowPlayingTitle[256] = "";
 char nowPlayingAlbum[256] = "";
 off_t trackLen = 0;
 PlaybackMode playbackMode = MODE_NORMAL;
+float playbackSpeed = 1.0f;
+float sampleRate = 44100.0f;
 
 #define CHANNEL 0
+
+void setPlaybackSpeed(float speed) {
+    if (speed < 0.25f) speed = 0.25f;
+    if (speed > 4.0f) speed = 4.0f;
+    playbackSpeed = speed;
+    if (playing) {
+        ndspChnSetRate(CHANNEL, sampleRate * playbackSpeed);
+    }
+}
 #define BUF_SAMPLES 4096
 #define BUF_SIZE (BUF_SAMPLES * 2 * 2)
 
@@ -103,10 +114,11 @@ void startPlayback(const char *path) {
     if (mpg123_open(mh, path) != MPG123_OK) { mpg123_delete(mh); mh = NULL; return; }
     long rate; int ch, enc;
     mpg123_getformat(mh, &rate, &ch, &enc);
+    sampleRate = (float)rate;
     trackLen = mpg123_length(mh);
     ndspChnReset(CHANNEL);
     ndspChnSetInterp(CHANNEL, NDSP_INTERP_LINEAR);
-    ndspChnSetRate(CHANNEL, (float)rate);
+    ndspChnSetRate(CHANNEL, sampleRate * playbackSpeed);
     ndspChnSetFormat(CHANNEL, NDSP_FORMAT_STEREO_PCM16);
     memset(waveBuf, 0, sizeof(waveBuf));
     for (int i = 0; i < 2; i++) {

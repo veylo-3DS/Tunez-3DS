@@ -35,6 +35,8 @@ typedef struct {
 
 typedef enum { MODE_NORMAL, MODE_REPEAT_ALL, MODE_REPEAT_ONE, MODE_SHUFFLE } PlaybackMode;
 extern PlaybackMode playbackMode;
+extern float playbackSpeed;
+void setPlaybackSpeed(float speed);
 
 // Global state declarations
 extern Theme themes[];

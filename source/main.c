@@ -107,6 +107,12 @@ int main(void) {
             if (down & KEY_DLEFT) {
                 playbackMode = (playbackMode + 3) % 4;
             }
+            if (down & KEY_DUP) {
+                setPlaybackSpeed(playbackSpeed + 0.1f);
+            }
+            if (down & KEY_DDOWN) {
+                setPlaybackSpeed(playbackSpeed - 0.1f);
+            }
             if (down & KEY_R) playNext();
             if (down & KEY_L) playPrevious();
 
