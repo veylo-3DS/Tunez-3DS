@@ -114,21 +114,20 @@ int main(void) {
             } else if (touching) {
                 // Touch release - handle action if didn't scroll much
                 touching = false;
+                touchPosition releaseTouch;
+                hidTouchRead(&releaseTouch);
                 
-                // Use the release coordinate for tap detection
-                int listY = 40, rowH = 16;
-                if (abs(touch.py - touchStartY) < 15) {
-                    if (touch.py >= listY && touch.py < listY + PAGE_SIZE * rowH) {
-                        int idx = scrollOffset + (touch.py - listY) / rowH;
-                        if (idx < entryCount) {
-                            selected = idx;
-                            Entry *e = &entries[selected];
-                            if (e->type == ENTRY_DIR) {
-                                strncpy(currentDir, e->fullPath, MAX_PATH - 1);
-                                scanDir(currentDir);
-                            } else {
-                                startPlayback(e->fullPath);
-                            }
+                // If it was a tap (little movement), trigger action
+                if (abs(releaseTouch.py - touchStartY) < 20) {
+                    // Action is already set based on 'selected' during touch down
+                    if (selected < entryCount) {
+                        Entry *e = &entries[selected];
+                        if (e->type == ENTRY_DIR) {
+                            strncpy(currentDir, e->fullPath, MAX_PATH - 1);
+                            scanDir(currentDir);
+                            selected = 0; // Reset cursor for new directory
+                        } else {
+                            startPlayback(e->fullPath);
                         }
                     }
                 }
