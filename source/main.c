@@ -23,7 +23,6 @@ int main(void) {
     audioBuf = (u8 *)linearAlloc(1024 * 1024); // Allocate enough for BUF_SIZE * 2
     mpg123_init();
     ptmuInit();
-    mcuHwcInit();
 
     aptSetSleepAllowed(false);
 
@@ -52,10 +51,10 @@ int main(void) {
 
         if (currentScreen == SCREEN_SETTINGS) {
             if (down & KEY_L) {
-                settingsPage = (settingsPage + 3) % 4;
+                settingsPage = (settingsPage + 2) % 3;
             }
             if (down & KEY_R) {
-                settingsPage = (settingsPage + 1) % 4;
+                settingsPage = (settingsPage + 1) % 3;
             }
 
             if (settingsPage == 0) {
@@ -76,10 +75,6 @@ int main(void) {
                     setPlaybackSpeed(1.0f);
                 }
             } else if (settingsPage == 2) {
-                if (down & KEY_A) ledEnabled = !ledEnabled;
-                if (down & KEY_DRIGHT) ledMode = (ledMode + 1) % 5;
-                if (down & KEY_DLEFT) ledMode = (ledMode + 4) % 5;
-            } else if (settingsPage == 3) {
                 if (down & KEY_A) disableLRSkipClosed = !disableLRSkipClosed;
             }
 
@@ -94,19 +89,30 @@ int main(void) {
                 touching = true;
                 touchStartY = touch.py;
                 scrollOffsetAtTouchStart = scrollOffset;
+
+                // Immediate selection update on touch down
+                int listY = 40, rowH = 16;
+                if (touch.py >= listY && touch.py < listY + PAGE_SIZE * rowH) {
+                    int idx = scrollOffset + (touch.py - listY) / rowH;
+                    if (idx < entryCount) {
+                        selected = idx;
+                    }
+                }
             }
             
             if (held & KEY_TOUCH) {
                 int diffY = touchStartY - touch.py;
-                int rowH = 15;
-                int scrollDiff = diffY / rowH;
-                int newOffset = scrollOffsetAtTouchStart + scrollDiff;
-                if (newOffset < 0) newOffset = 0;
-                if (newOffset > entryCount - PAGE_SIZE) newOffset = entryCount - PAGE_SIZE;
-                if (entryCount <= PAGE_SIZE) newOffset = 0;
-                scrollOffset = newOffset;
+                if (abs(diffY) > 5) { // Threshold to distinguish scroll from static touch
+                    int rowH = 15;
+                    int scrollDiff = diffY / rowH;
+                    int newOffset = scrollOffsetAtTouchStart + scrollDiff;
+                    if (newOffset < 0) newOffset = 0;
+                    if (newOffset > entryCount - PAGE_SIZE) newOffset = entryCount - PAGE_SIZE;
+                    if (entryCount <= PAGE_SIZE) newOffset = 0;
+                    scrollOffset = newOffset;
+                }
             } else if (touching) {
-                // Touch release - handle selection if didn't move much
+                // Touch release - handle action if didn't scroll much
                 touching = false;
                 if (abs(touch.py - touchStartY) < 10) {
                     int listY = 40, rowH = 16;
@@ -206,7 +212,6 @@ int main(void) {
 
         fillAudio();
         updateVisualizer();
-        updateLED();
 
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
         if (currentScreen == SCREEN_SETTINGS) {
@@ -219,7 +224,6 @@ int main(void) {
     }
 
     stopPlayback();
-    mcuHwcExit();
     ptmuExit();
     if (hasArt) {
         if (artImage.subtex) free((void*)artImage.subtex);

@@ -13,20 +13,20 @@ Tunez3DS brings a refined, "Glass & Geometry" aesthetic to your 3DS music librar
 
 ## Features
 
-- **Intuitive Browser**: Card-based interface with depth effects and smooth scrolling.
+- **Intuitive Browser**: Overhauled touch controls with immediate selection and tap-to-open.
 - **ID3 Tag Support**: Automatically displays song titles, artists, and embedded album art.
 - **Playback Versatility**: Supports Normal, Repeat All, Repeat One, and Shuffle modes.
 - **Customization**: 7 unique system-inspired color themes.
 - **Playback Speed**: Adjust audio speed from 0.25x to 4x in the **Settings menu** (SELECT).
-- **LED Visualizer**: The notification LED reacts to your music with pulsing colors and a Rainbow mode.
 - **Lid Protection**: Customizable safety setting to disable L/R skipping when the console is closed.
 - **Smart Navigation**: Remembers folder state and supports intuitive B-button back navigation.
 
-## Latest Release (v2.9.1)
+## Latest Release (v3.0.0)
 
-- **Enhanced LED Pulse**: Refined the LED visualizer's intensity logic for much more responsive and visible pulsing.
-- **Performance Fix**: Optimized LED update frequency to ensure smooth system performance while the light show is active.
-- **Bug Fix**: Fixed a state issue where the notification LED would sometimes stay on after pausing.
+- **Touch Interaction Overhaul**: The browser now feels much more responsive. Tapping an item immediately selects it, and releasing the tap opens the folder or plays the song.
+- **LED Feature Removal**: Removed the notification LED visualizer to focus on core performance and a cleaner settings menu.
+- **Streamlined Settings**: Settings menu has been refined to 3 pages (Theme, Speed, Safety).
+- **Navigation Polish**: Consistent "Back" behavior across all settings pages using B, SELECT, or START.
 
 ## Installation
 

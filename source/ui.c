@@ -93,9 +93,6 @@ void saveTheme(void) {
     FILE *f = fopen(SETTINGS_PATH, "wb");
     if (!f) return;
     fwrite(&currentTheme, sizeof(int), 1, f);
-    fwrite(&ledEnabled, sizeof(bool), 1, f);
-    int m = (int)ledMode;
-    fwrite(&m, sizeof(int), 1, f);
     fwrite(&disableLRSkipClosed, sizeof(bool), 1, f);
     fclose(f);
 }
@@ -106,10 +103,6 @@ void loadTheme(void) {
     int t = 0;
     if (fread(&t, sizeof(int), 1, f) == 1)
         if (t >= 0 && t < THEME_COUNT) currentTheme = t;
-    fread(&ledEnabled, sizeof(bool), 1, f);
-    int m = 0;
-    if (fread(&m, sizeof(int), 1, f) == 1)
-        ledMode = (LedMode)m;
     fread(&disableLRSkipClosed, sizeof(bool), 1, f);
     fclose(f);
 }
@@ -331,7 +324,7 @@ void drawSettingsScreen(void) {
     C2D_DrawRectSolid(0, 30, 0, TOP_WIDTH, 2, CLR_HILIGHT);
     
     char titleBuf[64];
-    snprintf(titleBuf, 64, "Settings (Page %d/4)", settingsPage + 1);
+    snprintf(titleBuf, 64, "Settings (Page %d/3)", settingsPage + 1);
     
     {
         C2D_Text txt;
@@ -376,20 +369,6 @@ void drawSettingsScreen(void) {
         drawText("D-Pad Left/Right: -/+ 0.1x", 45, 160, 0, 0.42f, CLR_TEXT);
         drawText("X Button: Reset to 1.0x", 45, 180, 0, 0.42f, CLR_TEXT);
     } else if (settingsPage == 2) {
-        drawText("LED Visualizer", 12, 44, 0, 0.55f, CLR_SUBTEXT);
-        
-        drawText("Visualizer Status:", 18, 70, 0, 0.48f, CLR_TEXT);
-        drawText(ledEnabled ? "ENABLED" : "DISABLED", 180, 70, 0, 0.48f, ledEnabled ? CLR_HILIGHT : CLR_SUBTEXT);
-        drawText("(Press A to toggle)", 18, 85, 0, 0.35f, CLR_SUBTEXT);
-
-        const char *modeNames[] = {"Rainbow", "Red", "Green", "Blue", "White"};
-        drawText("LED Mode:", 18, 110, 0, 0.48f, CLR_TEXT);
-        drawText(modeNames[ledMode], 180, 110, 0, 0.48f, CLR_ACCENT);
-        drawText("(D-Pad Left/Right to change)", 18, 125, 0, 0.35f, CLR_SUBTEXT);
-
-        drawText("The notification LED will pulse and", 18, 155, 0, 0.42f, CLR_TEXT);
-        drawText("change colors based on the music.", 18, 175, 0, 0.42f, CLR_TEXT);
-    } else if (settingsPage == 3) {
         drawText("Input Safety", 12, 44, 0, 0.55f, CLR_SUBTEXT);
         
         drawText("L/R Skip (Lid Closed):", 18, 70, 0, 0.48f, CLR_TEXT);
@@ -452,14 +431,6 @@ void drawSettingsScreen(void) {
         drawText("Higher speed = High pitch", 40, 110, 0, 0.45f, CLR_SUBTEXT);
         drawText("Lower speed = Low pitch", 40, 130, 0, 0.45f, CLR_SUBTEXT);
     } else if (settingsPage == 2) {
-        drawRoundedRect(20, 40, BOT_WIDTH - 40, 160, 12, CLR_PANEL);
-        drawText("Visualizer Options", 40, 60, 0, 0.45f, CLR_TEXT);
-        drawText("The Notification LED is located", 40, 90, 0, 0.40f, CLR_SUBTEXT);
-        drawText("at the top right of the console.", 40, 105, 0, 0.40f, CLR_SUBTEXT);
-        
-        drawText("Rainbow mode cycles through", 40, 135, 0, 0.40f, CLR_TEXT);
-        drawText("the full color spectrum.", 40, 150, 0, 0.40f, CLR_TEXT);
-    } else if (settingsPage == 3) {
         drawRoundedRect(20, 40, BOT_WIDTH - 40, 160, 12, CLR_PANEL);
         drawText("Safety Options", 40, 60, 0, 0.45f, CLR_TEXT);
         drawText("Lid sensor detection", 40, 90, 0, 0.40f, CLR_HILIGHT);

@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <3ds/services/mcuhwc.h>
 
 mpg123_handle *mh = NULL;
 ndspWaveBuf waveBuf[2];
@@ -19,8 +18,6 @@ PlaybackMode playbackMode = MODE_NORMAL;
 float playbackSpeed = 1.0f;
 float sampleRate = 44100.0f;
 
-bool ledEnabled = true;
-LedMode ledMode = LED_MODE_RAINBOW;
 bool disableLRSkipClosed = true;
 
 #define CHANNEL 0
@@ -100,70 +97,6 @@ void updateVisualizer(void) {
         avgSum += visualizerAmplitude[i];
     }
     globalAmplitude = avgSum / 16.0f;
-}
-
-static u32 rainbow_timer = 0;
-static bool led_was_on = false;
-static int led_frame_skip = 0;
-
-void updateLED(void) {
-    if (!ledEnabled || !playing || paused) {
-        if (led_was_on) {
-            InfoLedPattern off;
-            memset(&off, 0, sizeof(off));
-            MCUHWC_SetInfoLedPattern(&off);
-            led_was_on = false;
-        }
-        return;
-    }
-
-    // Only update LED every 3 frames (~20Hz) to avoid overwhelming the MCU
-    led_frame_skip++;
-    if (led_frame_skip % 3 != 0) return;
-
-    led_was_on = true;
-    InfoLedPattern pat;
-    memset(&pat, 0, sizeof(pat));
-    pat.delay = 0;
-    pat.smoothing = 0xFF;
-    pat.loopDelay = 0;
-
-    u8 r = 0, g = 0, b = 0;
-    // Use a more reactive scaling: squared amplitude for more "pop" on beats
-    float intensity = powf(globalAmplitude, 1.2f) * 4.0f; 
-    if (intensity > 1.0f) intensity = 1.0f;
-    if (intensity < 0.1f) intensity = 0; // Noise gate
-    
-    u8 val = (u8)(intensity * 255);
-
-    if (ledMode == LED_MODE_RAINBOW) {
-        rainbow_timer += 4; // Faster color cycling
-        int h = (rainbow_timer) % 360;
-        float v = intensity;
-        float c = v; 
-        float x = c * (1.0f - fabs(fmod(h / 60.0f, 2) - 1.0f));
-        float m = v - c;
-        float fr = 0, fg = 0, fb = 0;
-        if (h < 60) { fr = c; fg = x; }
-        else if (h < 120) { fr = x; fg = c; }
-        else if (h < 180) { fg = c; fb = x; }
-        else if (h < 240) { fg = x; fb = c; }
-        else if (h < 300) { fr = x; fb = c; }
-        else { fr = c; fb = x; }
-        r = (u8)((fr + m) * 255);
-        g = (u8)((fg + m) * 255);
-        b = (u8)((fb + m) * 255);
-    } else if (ledMode == LED_MODE_RED)   { r = val; }
-    else if (ledMode == LED_MODE_GREEN) { g = val; }
-    else if (ledMode == LED_MODE_BLUE)  { b = val; }
-    else if (ledMode == LED_MODE_WHITE) { r = g = b = val; }
-
-    for (int i = 0; i < 32; i++) {
-        pat.redPattern[i] = r;
-        pat.greenPattern[i] = g;
-        pat.bluePattern[i] = b;
-    }
-    MCUHWC_SetInfoLedPattern(&pat);
 }
 
 void startPlayback(const char *path) {
