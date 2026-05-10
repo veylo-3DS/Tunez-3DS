@@ -44,7 +44,6 @@ int main(void) {
         hidTouchRead(&touch);
 
         if (currentScreen == SCREEN_SETTINGS) {
-            // ... (keep settings input as is or add touch later)
             if (down & KEY_DOWN) {
                 if (currentTheme < THEME_COUNT - 1) currentTheme++;
             }
@@ -52,18 +51,21 @@ int main(void) {
                 if (currentTheme > 0) currentTheme--;
             }
             if (down & KEY_X) {
-                setPlaybackSpeed(playbackSpeed + 0.1f);
-            }
-            if (down & KEY_Y) {
-                setPlaybackSpeed(playbackSpeed - 0.1f);
+                currentScreen = SCREEN_SPEED;
             }
             if (down & KEY_B || down & KEY_SELECT) {
                 saveTheme();
                 currentScreen = SCREEN_BROWSER;
             }
-            if (down & KEY_A) {
-                saveTheme();
-                currentScreen = SCREEN_BROWSER;
+        } else if (currentScreen == SCREEN_SPEED) {
+            if (down & KEY_DRIGHT) {
+                setPlaybackSpeed(playbackSpeed + 0.1f);
+            }
+            if (down & KEY_DLEFT) {
+                setPlaybackSpeed(playbackSpeed - 0.1f);
+            }
+            if (down & KEY_X) {
+                currentScreen = SCREEN_SETTINGS;
             }
         } else {
             // Browser touch logic

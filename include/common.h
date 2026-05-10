@@ -20,7 +20,7 @@
 #define alpha(c) ((u8)((c) >> 24))
 
 typedef enum { ENTRY_DIR, ENTRY_MP3 } EntryType;
-typedef enum { SCREEN_BROWSER, SCREEN_SETTINGS } AppScreen;
+typedef enum { SCREEN_BROWSER, SCREEN_SETTINGS, SCREEN_SPEED } AppScreen;
 
 typedef struct {
     char      name[256];
